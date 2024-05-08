@@ -113,7 +113,7 @@ void DataHandler::displayAllRidesCLI() {
 }
 
 
-std::vector<Stage*> DataHandler::stages;
+std::vector<Stage> DataHandler::stages;
 
 //// until the files are finished
 void  DataHandler::stageTemporaryData() {
@@ -121,8 +121,8 @@ void  DataHandler::stageTemporaryData() {
     stages[1] = new Stage(8, 10, 16);
     stages[2] = new Stage(12, 17, 23);
     stages[3] = new Stage(15, 24, 9);*/
-    stages.push_back(new Stage(6, 1, 9));
-    stages.push_back(new Stage(8, 10, 16));
-    stages.push_back(new Stage(12, 17, 23));
-    stages.push_back(new Stage(15, 24, 9));
+    stages.push_back(Stage(6, 1, 9));
+    stages.push_back(Stage(8, 10, 16));
+    stages.push_back(Stage(12, 17, 23));
+    stages.push_back(Stage(15, 24, 9));
 }                    

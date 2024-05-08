@@ -12,7 +12,7 @@ public:
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
     stack<User*> undoStackUser;
-    static std::vector<Stage*>stages;
+    static std::vector<Stage>stages;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
