@@ -6,6 +6,7 @@ class Ride
 {
 private:
     int id;
+    static int idCount;
     Station startingStation;
     Station endingStation;
     time_t startingTime;

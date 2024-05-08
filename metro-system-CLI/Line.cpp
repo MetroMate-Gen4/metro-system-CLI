@@ -2,7 +2,10 @@
 #include <vector>
 #include <algorithm>
 
-Line::Line() {}
+int Line::idCount = 0;
+Line::Line() {
+    id = ++idCount;
+}
 
 int Line::getId() {
     return id;
