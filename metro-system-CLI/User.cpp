@@ -34,3 +34,17 @@ stack<Ride> User::getRides()
 {
     return rides;
 }
+
+void User::manageSubscription()
+{
+
+}
+
+void User::displaySubscription()
+{
+    cout << "\t\t\t" << this->getSubscription().getType() << endl;
+    cout << "\t\t\t" << this->getSubscription().getStartingStation().getName() << endl;
+    cout << "\t\t\t" << this->getSubscription().getLastStation().getName() << endl;
+    cout << "\t\t\t" << this->getSubscription().getPrice() << endl;
+    cout << "\t\t\t" << this->getSubscription().getValid() << endl;
+}
