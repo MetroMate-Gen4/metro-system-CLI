@@ -4,12 +4,15 @@
 #include <stack>
 #include "User.h"
 #include "Line.h"
+#include "Stage.h"
+
 class DataHandler
 {
 public:
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
     stack<User*> undoStackUser;
+    static std::vector<Stage*>stages;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
@@ -30,5 +33,7 @@ public:
     void signUp(std::string email, std::string password, std::string name, int nationalId, int age);
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
+
+    static void stageTemporaryData();
 };
 
