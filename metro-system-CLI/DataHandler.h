@@ -13,6 +13,7 @@ public:
     static std::stack<Ride> rides;
     stack<User*> undoStackUser;
     static std::vector<Stage>stages;
+    static std::vector<SubscriptionPlan>subscriptionPlans;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
@@ -35,5 +36,7 @@ public:
     void displayAllRidesCLI();
 
     static void stageTemporaryData();
+    static void SubscriptionPlansTemporaryData();
+
 };
 

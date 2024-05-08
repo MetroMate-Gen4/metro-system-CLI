@@ -9,6 +9,7 @@ private:
     int maxNumberOfStation;
 
 public:
+    Stage();
     Stage(float price, int minNumberOfStation, int maxNumberOfStation);
     int getMinNumberOfStation() const;
     void setMinNumberOfStation(int newMinNumberOfStation);
