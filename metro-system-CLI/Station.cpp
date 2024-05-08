@@ -1,12 +1,5 @@
 #include "Station.h"
 
-int Station::idCount = 0;
-
-Station::Station()
-{
-    id = ++idCount;
-}
-
 int Station::getId() {
     return id;
 }

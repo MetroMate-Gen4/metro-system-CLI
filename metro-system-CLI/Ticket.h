@@ -1,9 +1,9 @@
 #pragma once
 
+#include"station.h"
 #include<vector>
 #include<string>
-#include"station.h"
-#include"Stage.h"
+
 enum class ticketType
 {
     short_dis,
@@ -14,14 +14,13 @@ enum class ticketType
 
 class Ticket
 {
-    
-    Stage *stageType;
-    //float price;
-    //Station station;
+    ticketType type;
+    float price;
+    Station station;
     std::vector<Station> availableStations;
 
 public:
-    Ticket(Stage &stageType);
+    Ticket(ticketType type, Station startingStation);
     std::vector<Station> getAvailableStations();
     float getPrice();
     std::string getType();

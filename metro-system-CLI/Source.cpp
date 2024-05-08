@@ -3,12 +3,10 @@
 #include "DataHandler.h"
 #include "Station.h"
 #include "Ride.h"
-#include "Ticket.h"
-
 using namespace std;
 
 int main() {
-	/*User* u = new User("aa", "123");
+	User* u = new User("aa", "123");
 	u->setName("Cellz");
 	Station* s1 = new Station();
 	s1->setName("TEST1");
@@ -22,15 +20,6 @@ int main() {
 	u->addRide(*r);
 	DataHandler d;
 	d.displayRidesCLI(u);
-	d.displayAllRidesCLI();*/
-
-
-	//test stage and ticket
-	DataHandler d;
-	d.stageTemporaryData();
-	Ticket k(d.stages[0]);
-	cout << k.getPrice()<<"  s"<<d.stages[0].toString();
-	d.stages[0].setPrice(60);
-	cout << k.getPrice() << "  s" << d.stages[0].toString();
-
+	d.displayAllRidesCLI();
+	d.stationStatisticsInput();
 }

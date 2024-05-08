@@ -2,15 +2,9 @@
 #include "Station.h"
 #include<sstream>
 
-int Ride::idCount = 0;
-
-Ride::Ride() {
-    id = ++idCount;
-}
+Ride::Ride() {}
 Ride::Ride(const Station& startingStation, time_t startingTime) :startingStation(startingStation), startingTime(startingTime)
-{
-    id = ++idCount;
-}
+{}
 // Getters
 int Ride::getId() const {
     return id;

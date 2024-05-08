@@ -15,12 +15,10 @@ class Station
 {
 private:
     int id;
-    static int idCount;
     std::string name;
     std::vector<int> linesIds;
     std::map<std::string, dayData>stationData;
 public:
-    Station();
     int getId();
     std::string getName();
     void setId(int id);

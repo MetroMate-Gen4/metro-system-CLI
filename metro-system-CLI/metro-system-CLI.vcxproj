@@ -132,10 +132,7 @@
     <ClCompile Include="DataHandler.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Ride.cpp" />
-
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Stage.cpp" />
-
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="Subscription.cpp" />
     <ClCompile Include="Ticket.cpp" />
@@ -148,7 +145,6 @@
     <ClInclude Include="DataHandler.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Ride.h" />
-    <ClInclude Include="Stage.h" />
     <ClInclude Include="Station.h" />
     <ClInclude Include="Subscription.h" />
     <ClInclude Include="Ticket.h" />
