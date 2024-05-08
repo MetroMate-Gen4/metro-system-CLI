@@ -65,3 +65,14 @@ Subscription::Subscription(string type, float price, Station startingStation, St
     //should insert available stations here
     //insertAvailableStations();
 }
+
+
+time_t Subscription::getStartingTime()
+{
+    return startingTime;
+}
+
+void Subscription::setStartingtime(time_t newStartingDate)
+{
+    this->startingTime = newStartingDate;
+}

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <set>
 #include "Station.h"
+#include<ctime>
 
 using namespace std;
 class Subscription
@@ -10,6 +11,7 @@ class Subscription
     string type;
     float price;
     Station startingStation, lastStation;
+    time_t startingTime;
     //if subscription is still vaild its value should be true
     bool valid;
     set<Station> availableStations;
@@ -30,4 +32,7 @@ public:
     void setLastStation(const Station& newLastStation);
     bool getValid() const;
     void setValid(bool newValid);
+    time_t getStartingTime();
+    void setStartingtime(time_t );
+   
 };
