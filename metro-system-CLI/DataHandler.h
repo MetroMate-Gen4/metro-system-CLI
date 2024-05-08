@@ -2,13 +2,14 @@
 
 #include <unordered_map>
 #include <stack>
-#include "user.h"
-#include "line.h"
+#include "User.h"
+#include "Line.h"
 class DataHandler
 {
-    static std::unordered_map<int, User*>users;
-    stack<User*> undoStackUser;
 public:
+    static std::unordered_map<int, User*>users;
+    static std::stack<Ride> rides;
+    stack<User*> undoStackUser;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
@@ -27,6 +28,7 @@ public:
     void mainCLI();
     User* logIn(std::string email, std::string pass);
     void signUp(std::string email, std::string password, std::string name, int nationalId, int age);
-
+    void displayRidesCLI(User* user);
+    void displayAllRidesCLI();
 };
 

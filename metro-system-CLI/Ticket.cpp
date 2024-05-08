@@ -1,6 +1,5 @@
 #include "Ticket.h"
-#include "ticket.h"
-#include "station.h"
+#include "Station.h"
 #include <string>
 #include <vector>
 

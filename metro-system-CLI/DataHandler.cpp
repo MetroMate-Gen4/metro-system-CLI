@@ -1,5 +1,6 @@
-#include "datahandler.h"
+#include "DataHandler.h"
 std::unordered_map<int, User*> DataHandler::users;
+std::stack<Ride> DataHandler::rides;
 DataHandler::DataHandler() {}
 
 DataHandler::~DataHandler()
@@ -81,11 +82,32 @@ void DataHandler::mainCLI() {
 }
 
 User* DataHandler::logIn(std::string email, std::string pass) {
-
+    User* u = new User("a", "a");
+    return u;
 }
 
 void DataHandler::signUp(std::string email, std::string password, std::string name, int nationalId, int age) {
     
     User* newUser=new User(email, password, name, nationalId, age);
     users[newUser->getId()] = newUser;
+}
+
+void DataHandler::displayRidesCLI(User* user) {
+    stack<Ride> tempRides = user->getRides();
+    std::cout << "\t\t\t" << user->getName() << "'s ride history: \n";
+    while (!tempRides.empty()) {
+        std::cout << tempRides.top().toString();
+        tempRides.pop();
+    }
+    std::cout << "\n\n";
+}
+
+void DataHandler::displayAllRidesCLI() {
+    stack<Ride>tempRides = rides;
+    std::cout << "\t\t\t" << "Ride Logs : \n";
+    while (!tempRides.empty()) {
+        std::cout << tempRides.top().toString();
+        tempRides.pop();
+    }
+    std::cout << "\n\n";
 }

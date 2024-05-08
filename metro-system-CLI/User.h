@@ -1,9 +1,9 @@
 #pragma once
 #include<string>
 #include<stack>
-#include "account.h"
-#include "subscription.h"
-#include "ride.h"
+#include "Account.h"
+#include "Subscription.h"
+#include "Ride.h"
 
 class User :public Account
 {
@@ -16,5 +16,5 @@ public:
     Subscription getSubscription();
     void setSubscription(Subscription sub);
     void addRide(Ride ride);
-    void displayRides();
+    stack<Ride> getRides();
 };

@@ -1,4 +1,4 @@
-#include "train.h"
+#include "Train.h"
 
 Train::Train(Line line) {
     this->line = line;

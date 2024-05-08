@@ -1,6 +1,7 @@
-#include "account.h"
-#include "user.h"
-#include "subscription.h"
+#include "Account.h"
+#include "User.h"
+#include "Subscription.h"
+#include "DataHandler.h"
 #include <string>
 using namespace std;
 
@@ -26,13 +27,10 @@ void User::setSubscription(Subscription sub)
 void User::addRide(Ride ride)
 {
     rides.push(ride);
+    DataHandler::rides.push(ride);
 }
 
-void User::displayRides()
+stack<Ride> User::getRides()
 {
-    stack<Ride>tempRides = rides;
-    while (!tempRides.empty()) {
-        std::cout << tempRides.top().toString();
-        tempRides.pop();
-    }
+    return rides;
 }

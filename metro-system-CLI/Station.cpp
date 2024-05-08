@@ -1,4 +1,4 @@
-#include "station.h"
+#include "Station.h"
 
 int Station::getId() {
     return id;

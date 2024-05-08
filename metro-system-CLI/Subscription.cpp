@@ -1,4 +1,4 @@
-#include "subscription.h"
+#include "Subscription.h"
 
 Subscription::Subscription() : type(""), price(0.0), valid(false)
 {

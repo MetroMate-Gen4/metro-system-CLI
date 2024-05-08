@@ -1,6 +1,6 @@
 #pragma once
 #include<ctime>
-#include "station.h"
+#include "Station.h"
 
 class Ride
 {

@@ -1,6 +1,7 @@
-#include "ride.h"
-#include <station.h>
+#include "Ride.h"
+#include "Station.h"
 #include<sstream>
+
 Ride::Ride() {}
 Ride::Ride(const Station& startingStation, time_t startingTime) :startingStation(startingStation), startingTime(startingTime)
 {}
@@ -56,10 +57,10 @@ void Ride::setCost(float newCost)
 
 std::string Ride::toString() {
     std::stringstream ss;
-    ss << "ID: " << id << ", "
-        << "Starting Station: " << startingStation.getName() << ", "
-        << "Ending Station: " << endingStation.getName() << ", "
-        << "Starting Time: " << std::asctime(std::localtime(&startingTime)) << ", "
-        << "Ending Time: " << std::asctime(std::localtime(&endingTime));
+    ss << "\t\t\t" << "ID: " << id << ",\n\t\t\t"
+        << "Starting Station: " << startingStation.getName() << ",\n\t\t\t"
+        << "Ending Station: " << endingStation.getName() << ",\n\t\t\t"
+        << "Starting Time: " << std::asctime(std::localtime(&startingTime)) << "\t\t\t"
+        << "Ending Time: " << std::asctime(std::localtime(&endingTime)) << "\n";
     return ss.str();
 }

@@ -4,7 +4,7 @@
 class Account
 {
 protected:
-    static int id;
+    int id;
 
     std::string email;
     std::string password;
