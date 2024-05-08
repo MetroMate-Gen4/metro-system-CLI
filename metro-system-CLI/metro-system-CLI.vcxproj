@@ -132,8 +132,10 @@
     <ClCompile Include="DataHandler.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Ride.cpp" />
-    <ClCompile Include="Source.cpp" />
+
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Stage.cpp" />
+
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="Subscription.cpp" />
     <ClCompile Include="Ticket.cpp" />

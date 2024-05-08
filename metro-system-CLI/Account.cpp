@@ -1,8 +1,15 @@
 #include "Account.h"
+
+int Account::idCount = 0;
+
 Account::Account(std::string email, std::string password)
 {
     this->email = email;
     this->password = password;
+    /*this->name = "";
+    this->nationalId = -1;
+    this->age = -1;*/
+    id = ++idCount;
 }
 
 Account::Account(std::string email, std::string password, std::string name, int nationalId, int age) {
@@ -11,7 +18,7 @@ Account::Account(std::string email, std::string password, std::string name, int 
     this->name = name;
     this->nationalId = nationalId;
     this->age = age;
-    //id static
+    id = ++idCount;
 }
 
 int Account::getId() const

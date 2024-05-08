@@ -6,6 +6,7 @@ class Line
 {
 private:
     int id, lineNumber;
+    static int idCount;
     Station startStation, endStation;
     std::vector<Station> stations;
 public:
