@@ -3,6 +3,7 @@
 #include "DataHandler.h"
 #include "Station.h"
 #include "Ride.h"
+#include "Ticket.h"
 using namespace std;
 
 int main() {
@@ -27,6 +28,13 @@ int main() {
 	//d.displayRidesCLI(u);
 	//d.displayRidesCLI(u2);
 	//d.displayAllRidesCLI();
+	//test stage and ticket
+	/*DataHandler d;
+	d.stageTemporaryData();
+	Ticket k(d.stages[0]);
+	cout << k.getPrice() << "  s" << d.stages[0].toString();
+	d.stages[0].setPrice(60);
+	cout << k.getPrice() << "  s" << d.stages[0].toString();*/
 	DataHandler d;
 	d.mainCLI();
 }
