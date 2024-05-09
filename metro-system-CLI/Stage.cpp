@@ -1,4 +1,7 @@
 #include "Stage.h"
+Stage::Stage()
+{
+}
 Stage::Stage(float price, int minNumberOfStation, int maxNumberOfStation)
     : price(price), minNumberOfStation(minNumberOfStation),
     maxNumberOfStation(maxNumberOfStation) {}

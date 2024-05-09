@@ -10,6 +10,8 @@ public:
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
     stack<User*> undoStackUser;
+    static std::vector<Stage>stages;
+    static std::vector<SubscriptionPlan>subscriptionPlans;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
@@ -33,5 +35,9 @@ public:
     void stationStatisticsInput();
     void displayStationStatisticsCLI(std::string stationName, int days);
     void displayStationStatisticsCLI(std::string stationName, std::string day);
+
+    static void stageTemporaryData();
+    static void SubscriptionPlansTemporaryData();
+
 };
 
