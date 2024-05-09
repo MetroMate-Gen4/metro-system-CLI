@@ -136,6 +136,7 @@
     <ClCompile Include="Station.cpp" />
     <ClCompile Include="SubscriptionPlan.cpp" />
     <ClCompile Include="Subscription.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Ticket.cpp" />
     <ClCompile Include="Train.cpp" />
     <ClCompile Include="User.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Station.h" />
     <ClInclude Include="SubscriptionPlan.h" />
     <ClInclude Include="Subscription.h" />
+    <ClInclude Include="Stage.h" />
     <ClInclude Include="Ticket.h" />
     <ClInclude Include="Train.h" />
     <ClInclude Include="User.h" />
