@@ -1,6 +1,9 @@
 #include "DataHandler.h"
 std::unordered_map<int, User*> DataHandler::users;
 std::stack<Ride> DataHandler::rides;
+std::vector<Stage> DataHandler::stages;
+std::vector<SubscriptionPlan>DataHandler::subscriptionPlans;
+
 DataHandler::DataHandler() {}
 
 DataHandler::~DataHandler()
@@ -176,4 +179,26 @@ void DataHandler::displayStationStatisticsCLI(std::string stationName, std::stri
         << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
         << "\n\t\t\tTotal income: " << data.totalIncome
         << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+}
+//// until the files are finished
+void  DataHandler::stageTemporaryData() {
+    /*stages[0] = new Stage(6, 1, 9);
+    stages[1] = new Stage(8, 10, 16);
+    stages[2] = new Stage(12, 17, 23);
+    stages[3] = new Stage(15, 24, 9);*/
+    stages.push_back(Stage(6, 1, 9));
+    stages.push_back(Stage(8, 10, 16));
+    stages.push_back(Stage(12, 17, 23));
+    stages.push_back(Stage(15, 24, 1000));
+}
+
+void DataHandler::SubscriptionPlansTemporaryData()
+{
+    subscriptionPlans.push_back(SubscriptionPlan("Students"));
+     subscriptionPlans[0].AddPlan(3, 180, 33, 41, 50, 65);
+    subscriptionPlans[0].AddPlan(12, 730, 1500, 2500, 3500, 4500);
+
+    subscriptionPlans.push_back(SubscriptionPlan("Public"));
+    subscriptionPlans[1].AddPlan(1, 60, 230, 290, 340, 450);
+    subscriptionPlans[1].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 }

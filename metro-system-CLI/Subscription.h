@@ -2,32 +2,40 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include<ctime>
 #include "Station.h"
-
+#include "SubscriptionPlan.h"
 using namespace std;
 class Subscription
 {
+
     string type;
     float price;
+    int numberOfMonth, numberOfTrip,originalNumberOfTrip;
     Station startingStation, lastStation;
-    //if subscription is still vaild its value should be true
-    bool valid;
     set<Station> availableStations;
+    time_t startTime,endTime;
     //
     //should put start date and period for subscription
     //
 public:
-    Subscription(string type, float price, Station startingStation, Station lastStation);
+    Subscription(SubscriptionPlan& subscriptionPlan, int planIndex, int stageIndex);
     Subscription();
-
-    string getType() const;
-    void setType(const string& newType);
-    float getPrice() const;
-    void setPrice(float newPrice);
+    void checkIn();
+    void UpgradePlans(SubscriptionPlan& subscriptionPlan, int planIndex, int stageIndex);
+    void Renew();
+    //getter
+    string  getType() const;
+    float   getPrice() const;
     Station getStartingStation() const;
-    void setStartingStation(const Station& newStartingStation);
     Station getLastStation() const;
+    int getNumberOfMonth()const;
+    int getNumberOfTrip()const;
+
+    //setter
+    void setType(const string& newType);
+    void setPrice(float newPrice);
+    void setStartingStation(const Station& newStartingStation);
     void setLastStation(const Station& newLastStation);
-    bool getValid() const;
-    void setValid(bool newValid);
+    bool isValid();
 };

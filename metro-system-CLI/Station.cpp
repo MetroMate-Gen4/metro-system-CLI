@@ -62,7 +62,7 @@ void Station::checkInStation(float ticketPrice)
 std::string Station::convertCtimeToString(time_t time)
 {
     tm* localTime2 = std::localtime(&time);
-    std::string stringTime = std::to_string(localTime2->tm_year + 1900) + "-" + std::to_string(localTime2->tm_mon) + "-" + std::to_string(localTime2->tm_mday);
+    std::string stringTime = std::to_string(localTime2->tm_year + 1900) + "-" + std::to_string(localTime2->tm_mon+1) + "-" + std::to_string(localTime2->tm_mday);
     return stringTime;
 }
 
