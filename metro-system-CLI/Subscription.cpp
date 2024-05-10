@@ -1,6 +1,6 @@
 #include "Subscription.h"
 
-Subscription::Subscription() : type(""), price(0.0)
+Subscription::Subscription(): type(""), price(0.0f), numberOfMonth(0), numberOfTrip(0), originalNumberOfTrip(0), startTime(0), endTime(0)
 {
 
 }
