@@ -32,13 +32,13 @@ public:
     void deleteLine(int lineId);
     void undoEditUser();
     void mainCLI();
-   std::string choice();
+    std::string choice();
     void displayMainMenu_SignIn_SignUp();
     Account* displaySignIn();
     void displaySignUp();
     void displayHomeUser(User* u);
     void displayHomeAdmin(Admin* a);
-    void displayAdminDashboard(Admin* a);
+    void displayMyProfile();
     User* logIn(std::string email, std::string pass);
     bool signUp(std::string email, std::string password, std::string name, int nationalId, int age);
     void displayRidesCLI(User* user);
