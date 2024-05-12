@@ -1,7 +1,10 @@
 #include "Train.h"
 
+int Train::idCount = 0;
+
 Train::Train(Line line) {
     this->line = line;
+    id = ++idCount;
 }
 
 int Train::getId() {

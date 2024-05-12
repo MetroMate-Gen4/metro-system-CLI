@@ -4,8 +4,8 @@
 class Account
 {
 protected:
-    int id;
-
+    int  id;
+    static int  idCount;
     std::string email;
     std::string password;
     std::string name;
@@ -27,5 +27,6 @@ public:
     void setNationalId(int newNationalId);
     int getAge() const;
     void setAge(int newAge);
+    virtual ~Account() {}
 };
 

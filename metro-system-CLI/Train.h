@@ -4,6 +4,7 @@
 class Train
 {
     int id;
+    static int idCount;
     Line line;
 
 public:
