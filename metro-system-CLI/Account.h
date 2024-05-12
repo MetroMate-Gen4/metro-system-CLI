@@ -27,5 +27,6 @@ public:
     void setNationalId(int newNationalId);
     int getAge() const;
     void setAge(int newAge);
+    virtual ~Account() {}
 };
 
