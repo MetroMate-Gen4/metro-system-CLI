@@ -1,10 +1,44 @@
 #include "Subscription.h"
 
-Subscription::Subscription() : type(""), price(0.0), valid(false)
+Subscription::Subscription(): type(""), price(0.0f), numberOfMonth(0), numberOfTrip(0), originalNumberOfTrip(0), startTime(0), endTime(0)
 {
 
 }
 
+void Subscription::checkIn()
+{
+    numberOfTrip--;
+}
+
+void Subscription::UpgradePlans(SubscriptionPlan& subscriptionPlan, int planIndex, int stageIndex)
+{
+    this->type = subscriptionPlan.getname();
+    this->price = subscriptionPlan.getPlanPrice(planIndex, stageIndex);
+    this->numberOfMonth = subscriptionPlan.getPlanDuration(planIndex);
+    this->numberOfTrip = subscriptionPlan.getPlantrip(planIndex);
+    startTime = time(nullptr);
+    endTime = startTime + (numberOfMonth * (30 * 24 * 3600));
+    originalNumberOfTrip = numberOfTrip;
+}
+
+void Subscription::Renew()
+{
+    numberOfTrip = originalNumberOfTrip;
+    startTime = time(nullptr);
+    endTime = startTime + (numberOfMonth * (30 * 24 * 3600));
+}
+
+Subscription::Subscription(SubscriptionPlan& subscriptionPlan, int planIndex, int stageIndex) {
+    this->type = subscriptionPlan.getname();
+    this->price = subscriptionPlan.getPlanPrice(planIndex,stageIndex);
+    this->numberOfMonth = subscriptionPlan.getPlanDuration(planIndex);
+    this->numberOfTrip = subscriptionPlan.getPlantrip(planIndex);
+    startTime = time(nullptr);
+    endTime = startTime+ (numberOfMonth * (30 * 24 * 3600));
+    originalNumberOfTrip = numberOfTrip;
+    //should insert available stations here
+    //insertAvailableStations();
+}
 
 string Subscription::getType() const
 {
@@ -41,27 +75,22 @@ Station Subscription::getLastStation() const
     return lastStation;
 }
 
+int Subscription::getNumberOfMonth() const
+{
+    return this->numberOfMonth;
+}
+
+int Subscription::getNumberOfTrip() const
+{
+    return this->numberOfTrip;
+}
+
 void Subscription::setLastStation(const Station& newLastStation)
 {
     lastStation = newLastStation;
 }
 
-bool Subscription::getValid() const
+bool Subscription:: isValid()
 {
-    return valid;
-}
-
-void Subscription::setValid(bool newValid)
-{
-    valid = newValid;
-}
-
-Subscription::Subscription(string type, float price, Station startingStation, Station lastStation) {
-    this->type = type;
-    this->price = price;
-    this->startingStation = startingStation;
-    this->lastStation = lastStation;
-
-    //should insert available stations here
-    //insertAvailableStations();
+    return time(nullptr) < endTime && numberOfTrip;
 }

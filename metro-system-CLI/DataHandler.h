@@ -13,6 +13,8 @@ public:
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
     stack<User*> undoStackUser;
+    static std::vector<Stage>stages;
+    static std::vector<SubscriptionPlan>subscriptionPlans;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
@@ -30,7 +32,7 @@ public:
     void deleteLine(int lineId);
     void undoEditUser();
     void mainCLI();
-    std::string choice();
+   std::string choice();
     void displayMainMenu_SignIn_SignUp();
     Account* displaySignIn();
     void displaySignUp();
@@ -41,5 +43,12 @@ public:
     bool signUp(std::string email, std::string password, std::string name, int nationalId, int age);
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
+    void stationStatisticsInput();
+    void displayStationStatisticsCLI(std::string stationName, int days);
+    void displayStationStatisticsCLI(std::string stationName, std::string day);
+
+    static void stageTemporaryData();
+    static void SubscriptionPlansTemporaryData();
+
 };
 
