@@ -101,16 +101,65 @@ void DataHandler::mainCLI() {
             account= displaySignIn();
             system("cls");//to clear.
             if (account == NULL) {
-                cout << "\n\n\n  # The username or password is incorrect\n";
+                std::cout << "\n\n\n  # The username or password is incorrect\n";
                 continue;
             }
             if (User* user = dynamic_cast<User*>(account)) {
                 while (true){
                     displayHomeUser(user);
                     choice = this->choice();
-                    if (choice == "1") {
-                        system("cls");//to clear.
+                    if (choice == "1") {//1)    Purchase Subscription
+                        system("cls");
+                        
+                    }
+                    else if (choice == "2") {//2)    View Ride History 
+                        system("cls");
 
+                    }
+                    else if (choice == "3") {//3)    Check (In/Out) for Ride 
+                        system("cls");
+
+                    }
+                    else if (choice == "4") { //4)    My profile 
+                        system("cls");
+                        while (true) {
+                            displayMyProfile();
+                            choice = this->choice();
+                            if (choice == "1") { //1)   Account information
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "2") {// 2)   Edit my information
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "3") {//3)   Manage my subscriptions
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "4") {//4)   Subscription renewal date
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "5") {// 5)  back
+                                system("cls");//to clear.
+                                break;
+                            }
+                            else {
+                                system("cls");
+                                std::cout << "Sorry, this option is not supported\nplease try again\n";
+                            }
+                        }
+                    }
+                    else if (choice == "5") {//5)    Log out
+                        system("cls");//to clear.
+                        break;
+                    }
+                    else if (choice == "6")// 6)    Exit
+                        exit(0);
+                    else {
+                        system("cls");
+                        std::cout << "Sorry, this option is not supported\nplease try again\n";
                     }
 
                 }
@@ -119,8 +168,71 @@ void DataHandler::mainCLI() {
                 while (true){
                     displayHomeAdmin(admin);
                     choice = this->choice();
-                    if (choice == "1") {
-                        system("cls");//to clear.
+                    if (choice == "1") { //1)    User Management
+                        system("cls");
+
+                    }
+                    else if (choice == "2") {//2)    Metro Management
+                        system("cls");
+
+                    }
+                    else if (choice == "3") {//3)    Subscription Plan Management
+                        system("cls");
+
+                    }
+                    else if (choice == "4") {//4)    View All Ride Logs
+                        system("cls");
+
+                    }
+                    else if (choice == "5") {//5)    Station Management
+                        system("cls");
+
+                    }
+                    else if (choice == "6") {//6)    Fare Management
+                        system("cls");
+
+                    }
+                    else if (choice == "7") {//7)    My profile
+                        system("cls");
+                        while (true) {
+                            displayMyProfile();
+                            choice = this->choice();
+                            if (choice == "1") { //1)   Account information
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "2") {// 2)   Edit my information
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "3") {//3)   Manage my subscriptions
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "4") {//4)   Subscription renewal date
+                                system("cls");//to clear.
+
+                            }
+                            else if (choice == "5") {// 5)  back
+                                system("cls");//to clear.
+                                break;
+                            }
+                            else {
+                                system("cls");
+                                std::cout << "Sorry, this option is not supported\nplease try again\n";
+                            }
+                        }
+
+                    }
+                    else if (choice == "8") {//8)    Log out
+                        system("cls");
+                        break;
+                    }
+                    else if (choice == "9") //9)    Exit
+                        exit(0);
+                    else {
+                        system("cls");
+                        std::cout << "Sorry, this option is not supported\nplease try again\n";
                     }
                 }
             }
@@ -132,10 +244,9 @@ void DataHandler::mainCLI() {
         }
         else if (choice == "3")
             exit(0);
-        //system("Exite");
         else {
             system("cls");
-            cout << "Sorry, this option is not supported\nplease try again\n";
+            std::cout << "Sorry, this option is not supported\nplease try again\n";
         }
     }
     
@@ -143,30 +254,30 @@ void DataHandler::mainCLI() {
 
 string DataHandler::choice() {
     string choice;
-    cout << "\n\n          Please Enter your Choice: ";
-    cin >> choice;
+    std::cout << "\n\n          Please Enter your Choice: ";
+    std::cin >> choice;
     return choice;
 }
 
 void DataHandler::displayMainMenu_SignIn_SignUp() {
-    cout << "\n\n\n                                     Welcome to MetroMate\n";
+    std::cout << "\n\n\n                                     Welcome to MetroMate\n";
 
 
 
-    cout << "                       " << "    _____\n";
-    cout << "                       " << "   /     \\   ____   ____    __ __\n";
-    cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
-    cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+    std::cout << "                       " << "    _____\n";
+    std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
+    std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
+    std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
 
 
-    cout << "\n\t\t\t+ ----------------------------- +" << endl;
-    cout << "\n\t\t\t| ----------------------------- |" << endl;
-    cout << "\n\t\t\t| 1)    sign in                 |" << endl;
-    cout << "\t\t\t| 2)    sign up                 |" << endl;
-    cout << "\t\t\t| 3)    Exit                    |" << endl;
-    cout << "\n\t\t\t| ----------------------------- |" << endl;
-    cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+    std::cout << "\n\t\t\t+ ----------------------------- +" << endl;
+    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t| 1)    sign in                 |" << endl;
+    std::cout << "\t\t\t| 2)    sign up                 |" << endl;
+    std::cout << "\t\t\t| 3)    Exit                    |" << endl;
+    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
 
 }
 
@@ -175,17 +286,17 @@ Account* DataHandler::displaySignIn() {
     std::string pass = "";
     Account* account;
     char ch;
-    cout << "\n\n";
-    cout << "      	                   -------------------------\n";
-    cout << "  		     - - - - - - - - - - - - -  \n";
-    cout << "			      	   SIGN IN ";
-    cout << "  				  	                             - - - - - - - - - - - - -  \n";
-    cout << "  	      	         -------------------------\n";
+    std::cout << "\n\n";
+    std::cout << "      	                   -------------------------\n";
+    std::cout << "  		     - - - - - - - - - - - - -  \n";
+    std::cout << "			      	   SIGN IN ";
+    std::cout << "  				  	                             - - - - - - - - - - - - -  \n";
+    std::cout << "  	      	         -------------------------\n";
 
 
-    cout << "\n\n                               Email: ";
-    cin >> email;
-    cout << "\n\n                               Password: ";
+    std::cout << "\n\n                               Email: ";
+    std::cin >> email;
+    std::cout << "\n\n                               Password: ";
     ch = _getch();
     int c = 0, k = 0;
     while (ch != '\r')//(\r)=Enter
@@ -197,17 +308,17 @@ Account* DataHandler::displaySignIn() {
             else {
                 c--;
                 k++;
-                cout << "\b";
+                std::cout << "\b";
                 for (int i = 0; i < k; i++) {
-                    cout << " ";
-                    cout << "\b";
+                    std::cout << " ";
+                    std::cout << "\b";
                 }
                 pass = pass + "\b";
             }
         }
         else {
             pass = pass + ch;
-            cout << '*';
+            std::cout << '*';
             c++;
         }
         ch = _getch();
@@ -229,119 +340,118 @@ Account* DataHandler::displaySignIn() {
 void DataHandler::displaySignUp() {
     std::string pass1, pass2, name, email;
     int age, nationalId;
-    cout << "\n\n";
-    cout << "      	                   -------------------------\n";
-    cout << "  		     - - - - - - - - - - - - -  \n";
-    cout << "			      	   SIGN UP ";
-    cout << "  				  	                             - - - - - - - - - - - - -  \n";
-    cout << "  	      	         -------------------------\n";
+    std::cout << "\n\n";
+    std::cout << "      	                   -------------------------\n";
+    std::cout << "  		     - - - - - - - - - - - - -  \n";
+    std::cout << "			      	   SIGN UP ";
+    std::cout << "  				  	                             - - - - - - - - - - - - -  \n";
+    std::cout << "  	      	         -------------------------\n";
 
     while (true)
     {
-        cout << "\n\n                               Enter Username: ";
-        cin >> name;
+        std::cout << "\n\n                               Enter Username: ";
+        std::cin >> name;
         while (true) {
-            cout << "\n\n                               Enter Password: ";
-            cin >> pass1;
-            cout << "\n\n                               Confirm Password: ";
-            cin >> pass2;
+            std::cout << "\n\n                               Enter Password: ";
+            std::cin >> pass1;
+            std::cout << "\n\n                               Confirm Password: ";
+            std::cin >> pass2;
             if (pass1 == pass2) {
                 break;
             }
             else {
-                cout << "\n\n # verify is not the same as Password !!!\n";
+                std::cout << "\n\n # verify is not the same as Password !!!\n";
                 continue;
             }
         }
-        cout << "\n\n                               Enter Email: ";
-        cin >> email;
-        cout << "\n\n                               Enter National ID: ";
-        cin >> nationalId;
-        cout << "\n\n                               Enter Age: ";
-        cin >> age;
+        std::cout << "\n\n                               Enter Email: ";
+        std::cin >> email;
+        std::cout << "\n\n                               Enter National ID: ";
+        std::cin >> nationalId;
+        std::cout << "\n\n                               Enter Age: ";
+        std::cin >> age;
         bool isExist = signUp(email, pass1, name, nationalId, age);
         system("cls");
         if (isExist) {
-            cout << "\n\n # this email is exist before \ntry again\n";
+            std::cout << "\n\n # this email is exist before \ntry again\n";
         }
         else {
-            cout << "\n\n # your account has been registered\n";
+            std::cout << "\n\n # your account has been registered\n";
             break;
         }
     }
     
 }
 void DataHandler::displayHomeUser(User* u) {
-    cout << "\n\n\n                                     Welcome " << u->getName() << " ^_~ \n";
+    std::cout << "\n\n\n                                     Welcome " << u->getName() << " ^_~ \n";
 
 
 
-    cout << "                       " << "    _____\n";
-    cout << "                       " << "   /     \\   ____   ____    __ __\n";
-    cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
-    cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+    std::cout << "                       " << "    _____\n";
+    std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
+    std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
+    std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
 
 
-    cout << "\n\t\t\t+ ----------------------------- +" << endl;
-    cout << "\n\t\t\t| ----------------------------- |" << endl;
-    cout << "\n\t\t\t| 1)    Purchase Subscription   |" << endl;
-    cout << "\t\t\t| 2)    View Ride History       |" << endl;
-    cout << "\t\t\t| 3)    Check (In/Out) for Ride |" << endl;
-    cout << "\t\t\t| 4)    My profile              |" << endl;
-    cout << "\t\t\t| 5)    Log out                 |" << endl;
-    cout << "\t\t\t| 6)    Exit                    |" << endl;
-    cout << "\n\t\t\t| ----------------------------- |" << endl;
-    cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+    std::cout << "\n\t\t\t+ ----------------------------- +" << endl;
+    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t| 1)    Purchase Subscription   |" << endl;
+    std::cout << "\t\t\t| 2)    View Ride History       |" << endl;
+    std::cout << "\t\t\t| 3)    Check (In/Out) for Ride |" << endl;
+    std::cout << "\t\t\t| 4)    My profile              |" << endl;
+    std::cout << "\t\t\t| 5)    Log out                 |" << endl;
+    std::cout << "\t\t\t| 6)    Exit                    |" << endl;
+    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
 }
 
 void DataHandler::displayHomeAdmin(Admin* a) {
-    cout << "\n\n\n                                     Welcome " << a->getName() << " ^_~ \n";
+    std::cout << "\n\n\n                                     Welcome " << a->getName() << " ^_~ \n";
 
 
+    std::cout << "                       " << "    _____\n";
+    std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
+    std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
+    std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
 
-    cout << "                       " << "    _____\n";
-    cout << "                       " << "   /     \\   ____   ____    __ __\n";
-    cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
-    cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
 
-
-    cout << "\n\t\t\t+ ----------------------------- +" << endl;
-    cout << "\n\t\t\t| ----------------------------- |" << endl;
-    cout << "\n\t\t\t| 1)    Purchase Subscription   |" << endl;
-    cout << "\t\t\t| 2)    View Ride History       |" << endl;
-    cout << "\t\t\t| 3)    Check (In/Out) for Ride |" << endl;
-    cout << "\t\t\t| 4)    My profile              |" << endl;
-    cout << "\t\t\t| 5)    Admin dashboard         |" << endl;
-    cout << "\t\t\t| 6)    Log out                 |" << endl;
-    cout << "\t\t\t| 7)    Exit                    |" << endl;
-    cout << "\n\t\t\t| ----------------------------- |" << endl;
-    cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+    std::cout << "\n\t\t\t+ ---------------------------------- +" << endl;
+    std::cout << "\n\t\t\t| ---------------------------------- |" << endl;
+    std::cout << "\n\t\t\t| 1)    User Management              |" << endl;
+    std::cout << "\t\t\t| 2)    Metro Management             |" << endl;
+    std::cout << "\t\t\t| 3)    Subscription Plan Management |" << endl;
+    std::cout << "\t\t\t| 4)    View All Ride Logs           |" << endl;
+    std::cout << "\t\t\t| 5)    Station Management           |" << endl;
+    std::cout << "\t\t\t| 6)    Fare Management              |" << endl;
+    std::cout << "\t\t\t| 7)    My profile                   |" << endl;
+    std::cout << "\t\t\t| 8)    Log out                      |" << endl;
+    std::cout << "\t\t\t| 9)    Exit                         |" << endl;
+    std::cout << "\n\t\t\t| ---------------------------------- |" << endl;
+    std::cout << "\n\t\t\t+ ---------------------------------- +\n\n\n" << endl;
 }
 
-void DataHandler::displayAdminDashboard(Admin* a) {
-    cout << "\n\n\n                                             " << a->getName() << " ^_~ \n";
+void DataHandler::displayMyProfile() {
 
 
-    cout << "                       " << "    _____\n";
-    cout << "                       " << "   /     \\   ____   ____    __ __\n";
-    cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
-    cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+
+    std::cout << "                       " << "    _____\n";
+    std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
+    std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
+    std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
 
 
-    cout << "\n\t\t\t+ ---------------------------------- +" << endl;
-    cout << "\n\t\t\t| ---------------------------------- |" << endl;
-    cout << "\n\t\t\t| 1)    User Management              |" << endl;
-    cout << "\t\t\t| 2)    Metro Management             |" << endl;
-    cout << "\t\t\t| 3)    Subscription Plan Management |" << endl;
-    cout << "\t\t\t| 4)    View All Ride Logs           |" << endl;
-    cout << "\t\t\t| 5)    Station Management           |" << endl;
-    cout << "\t\t\t| 6)    Fare Management              |" << endl;
-    cout << "\t\t\t| 7)    Back                         |" << endl;
-    cout << "\n\t\t\t| ---------------------------------- |" << endl;
-    cout << "\n\t\t\t+ ---------------------------------- +\n\n\n" << endl;
+    std::cout << "\n\t\t\t+ ----------------------------- +" << endl;
+    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t| 1)   Account information      |" << endl;
+    std::cout << "\t\t\t| 2)   Edit my information      |" << endl;
+    std::cout << "\t\t\t| 3)   Manage my subscriptions  |" << endl;
+    std::cout << "\t\t\t| 4)   Subscription renewal date|" << endl;
+    std::cout << "\t\t\t| 5)   Back                     |" << endl;
+    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
 }
 
 User* DataHandler::logIn(std::string email, std::string pass) {
@@ -400,7 +510,7 @@ void DataHandler::stationStatisticsInput() {
     if (option == 1) {
         std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
             << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
-        cin >> option;
+        std::cin >> option;
         switch (option) {
         case 1:
             day = "Sunday";
