@@ -9,7 +9,7 @@
 class DataHandler
 {
 public:
-    Admin* admin = new Admin("admin", "admin");
+    Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
     stack<User*> undoStackUser;
@@ -39,6 +39,8 @@ public:
     void displayHomeUser(User* u);
     void displayHomeAdmin(Admin* a);
     void displayMyProfile();
+    void editUser(User* user);
+    void displayAccountInformation(Account* account);
     User* logIn(std::string email, std::string pass);
     bool signUp(std::string email, std::string password, std::string name, int nationalId, int age);
     void displayRidesCLI(User* user);
