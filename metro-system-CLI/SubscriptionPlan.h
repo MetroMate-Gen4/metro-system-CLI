@@ -18,11 +18,11 @@ struct Plan{
 	}
 	std::string toString() const {
 		std::stringstream ss;
-		ss << "    Number of months: " << numberOfMonths << "\n";
-		ss << "    Number of trips: " << numberOfTrips << "\n";
-		ss << "    Stages:\n";
+		ss << "\t\t|    Number of months: " << numberOfMonths << "\n";
+		ss << "\t\t|    Number of trips: " << numberOfTrips << "\n";
+		ss << "\t\t|    Stages:\n";
 		for (int i = 0; i < 4; ++i) {
-			ss << "      # Stage " << i + 1 << "  Price: " << stages[i].getPrice() << "  from "<<stages[i].getMinNumberOfStation()<<" station to "<<stages[i].getMaxNumberOfStation() << " stations." << "\n";
+			ss << "\t\t|      # Stage " << i + 1 << "  Price: " << stages[i].getPrice() << "  from "<<stages[i].getMinNumberOfStation()<<" station to "<<stages[i].getMaxNumberOfStation() << " stations." << "\n";
 		}
 		return ss.str();
 	}
