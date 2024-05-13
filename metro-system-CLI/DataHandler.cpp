@@ -91,6 +91,7 @@ void DataHandler::undoEditUser() {
 
 
 void DataHandler::mainCLI() {
+    addUser(new User("ib.com", "ib", "IB", 1, 20));
     while (true) {
         std::string choice;
         Account* account;
@@ -127,11 +128,11 @@ void DataHandler::mainCLI() {
                             choice = this->choice();
                             if (choice == "1") { //1)   Account information
                                 system("cls");//to clear.
-
+                                displayAccountInformation(user);
                             }
                             else if (choice == "2") {// 2)   Edit my information
                                 system("cls");//to clear.
-
+                                editUser(user);
                             }
                             else if (choice == "3") {//3)   Manage my subscriptions
                                 system("cls");//to clear.
@@ -199,6 +200,7 @@ void DataHandler::mainCLI() {
                             choice = this->choice();
                             if (choice == "1") { //1)   Account information
                                 system("cls");//to clear.
+                                displayAccountInformation(admin);
 
                             }
                             else if (choice == "2") {// 2)   Edit my information
@@ -452,6 +454,100 @@ void DataHandler::displayMyProfile() {
     std::cout << "\t\t\t| 5)   Back                     |" << endl;
     std::cout << "\n\t\t\t| ----------------------------- |" << endl;
     std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+}
+
+void DataHandler::editUser(User* user) {
+    std::string choice;
+    while (true){
+        displayAccountInformation(user);
+        std::cout << "\t\tWhate do you want to edit ? \n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[1] Name            |\n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[2] Email           |\n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[3] Password        |\n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[4] National ID     |\n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[5] Age             |\n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[6] Undo last edit  |\n";
+        std::cout << "\t\t+--------------------+\n";
+        std::cout << "\t\t|[7] Back            |\n";
+        std::cout << "\t\t+--------------------+\n\n";
+        choice = this->choice();
+        if (choice == "1") {
+            std::cout << "Enter new name : ";
+            std::string name;
+            std::cin >> name;
+            editUserName(user->getId(), name);
+        }
+        else if (choice == "2") {
+            std::cout << "Enter new email : ";
+            std::string email;
+            std::cin >> email;
+            User* checkUser = searchUserEmail(email);
+            if (checkUser == NULL) {
+                editUserEmail(user->getId(), email);
+                system("cls");
+            }
+            else {
+                system("cls");
+                std::cout << "\n\n # this email is exist before \ntry again\n";
+            }
+            
+        }
+        else if (choice == "3") {
+            std::cout << "Enter new password : ";
+            std::string password;
+            std::cin >> password;
+            editUserPassword(user->getId(), password);
+            system("cls");
+        }
+        else if (choice == "4") {
+            std::cout << "Enter new national ID : ";
+            int nationalId;
+            std::cin >> nationalId;
+            editUserNationalId(user->getId(), nationalId);
+            system("cls");
+        }
+        else if (choice == "5") {
+            std::cout << "Enter new age : ";
+            int age;
+            std::cin >> age;
+            editUserAge(user->getId(), age);
+            system("cls");
+        }
+        else if (choice == "6") {
+            system("cls");
+            undoEditUser();
+        }
+        else if (choice == "7") {
+            system("cls");
+            break;
+        }
+        else {
+            system("cls");
+            std::cout << "Sorry, this option is not supported\nplease try again\n";
+        }
+    }
+    
+}
+
+void DataHandler::displayAccountInformation(Account* account)
+{
+    std::cout << "\t\t+ ----------------------------- +\n";
+    std::cout << "\t\t| Name :- \t" << account->getName() << "\t\t|\n";
+    std::cout << "\t\t|                               |\n";
+    std::cout << "\t\t| Email :-\t" << account->getEmail() << "\t\t|\n";
+    std::cout << "\t\t|                               |\n";
+    std::cout << "\t\t| password :-\t" << account->getPassword() << "\t\t|\n";
+    std::cout << "\t\t|                               |\n";
+    std::cout << "\t\t| National ID :-\t" << account->getNationalId() << "\t\t|\n";
+    std::cout << "\t\t|                               |\n";
+    std::cout << "\t\t| Age :- \t" << account->getAge() << "\t\t|\n";
+    std::cout << "\t\t+ ----------------------------- +\n";
 }
 
 User* DataHandler::logIn(std::string email, std::string pass) {
