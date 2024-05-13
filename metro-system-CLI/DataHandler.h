@@ -51,9 +51,9 @@ public:
     void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
     void displaySubscriptionPlans();
-    void purchaseSubscription(User& user);
+    void purchaseSubscription(User* user);
     void subscriptionPlanManagement();
-    void manageSubscription(User& user);
+    void manageSubscription(User* user);
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
 
