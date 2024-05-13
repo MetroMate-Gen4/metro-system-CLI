@@ -15,8 +15,8 @@ public:
     void setMinNumberOfStation(int newMinNumberOfStation);
     int getMaxNumberOfStation() const;
     void setMaxNumberOfStation(int newMaxNumberOfStation);
-    int getPrice();
-    void setPrice(int newPrice);
+    float getPrice()const;
+    void setPrice(float newPrice);
 
     void modifyStage(float newPrice, int newMinNumberOfStation, int newMaxNumberOfStation);
     std::string toString();

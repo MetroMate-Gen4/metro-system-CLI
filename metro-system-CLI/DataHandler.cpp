@@ -111,7 +111,7 @@ void DataHandler::mainCLI() {
                     choice = this->choice();
                     if (choice == "1") {//1)    Purchase Subscription
                         system("cls");
-                        
+                        purchaseSubscription(*user);
                     }
                     else if (choice == "2") {//2)    View Ride History 
                         system("cls");
@@ -136,7 +136,7 @@ void DataHandler::mainCLI() {
                             }
                             else if (choice == "3") {//3)   Manage my subscriptions
                                 system("cls");//to clear.
-
+                                manageSubscription(*user);
                             }
                             else if (choice == "4") {//4)   Subscription renewal date
                                 system("cls");//to clear.
@@ -179,7 +179,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "3") {//3)    Subscription Plan Management
                         system("cls");
-
+                        subscriptionPlanManagement();
                     }
                     else if (choice == "4") {//4)    View All Ride Logs
                         system("cls");
@@ -655,6 +655,132 @@ void DataHandler::displayStationStatisticsCLI(std::string stationName, std::stri
         << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
         << "\n\t\t\tTotal income: " << data.totalIncome
         << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+}
+
+int DataHandler::valid_input(int l, int r)
+{
+    int x;
+    while (true) {
+
+
+        cin >> x;
+        bool ok = cin.fail();
+        if (x >= l && x <= r && !ok)break;
+        else
+        {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "\nInvalid Choice\n";
+
+        }
+        cout << "please enter your choice: ";
+    }
+    return x;
+}
+
+void DataHandler::displaySubscriptionPlans()
+{
+    for (int i = 0; i < subscriptionPlans.size(); i++) {
+        cout << i + 1 << "- " << subscriptionPlans[i].toString();
+    }
+}
+
+void DataHandler::purchaseSubscription(User& user)
+{
+    int subIndex, planIndex, stageIndex;
+    cout << "Avilable subscription plans :\n";
+    displaySubscriptionPlans();
+    cout << "Enter subscription plan number\n";
+    subIndex = valid_input(1, subscriptionPlans.size());
+    cout << "Enter plan number\n";
+    planIndex = valid_input(1, subscriptionPlans[--subIndex].getNumberOfPlans() + 1);
+    cout << "Enter stage number\n";
+    stageIndex = valid_input(1, 4);
+    user.setSubscription(Subscription(subscriptionPlans[--subIndex], --planIndex, --stageIndex));
+}
+
+void DataHandler::subscriptionPlanManagement()
+{
+    while (true) {
+        system("cls");
+        displaySubscriptionPlans();
+        int ch;
+        cout << "1) add new subscription Plan\n";
+        cout << "2) add new Plan\n";
+        cout << "3) EXit\n";
+        ch = valid_input(1, 3);
+        if (ch == 1) {
+            string name;
+            cout << "enter subscription plan name :\n";
+            cin >> name;
+            subscriptionPlans.push_back(SubscriptionPlan(name));
+        }
+        else if (ch == 2) {
+            int subPlanNum, trips, months;
+            float p1, p2, p3, p4;
+            for (int i = 0; i < subscriptionPlans.size(); i++) {
+                cout << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+            }
+            cout << "Enter the subscription plan number: \n";
+            subPlanNum = valid_input(1, subscriptionPlans.size() + 1);
+            system("cls");
+            cout << "You have selected: " << subscriptionPlans[subPlanNum - 1].getname() << "\n";
+            cout << "Enter the duration in months:\n";
+            months = valid_input(0, INT_MAX);
+            cout << "Enter the number of trips per month:\n";
+            trips = valid_input(0, INT_MAX);
+            cout << "Enter price of stage 1: \n";
+            cin >> p1;
+            cout << "Enter price of stage 2: \n";
+            cin >> p2;
+            cout << "Enter price of stage 3: \n";
+            cin >> p3;
+            cout << "Enter price of stage 4: \n";
+            cin >> p4;
+            subscriptionPlans[subPlanNum - 1].AddPlan(months, trips, p1, p2, p3, p4);
+
+        }
+        else if (ch == 3) {
+            break;
+        }
+    }
+}
+void DataHandler::manageSubscription(User& user)
+{
+    int ch;
+    while (true) {
+        system("cls");
+        //user.displaySubscription();
+        cout << "1) Renew subscription\n";
+        cout << "2) upgrade subscription\n";
+        cout << "3) Exit\n";
+
+        ch = valid_input(1, 3);
+        if (ch == 1) {
+            char x;
+            user.getSubscription().Renew();
+            cout << "Successfully Renewed!!\n";
+            cout << "Enter 1 to continue: ";
+            cin >> x;
+        }
+        else if (ch == 2) {
+            system("cls");
+            int subIndex, planIndex, stageIndex;
+            cout << "Avilable subscription plans :\n";
+            displaySubscriptionPlans();
+            cout << "Enter subscription plan number\n";
+            subIndex = valid_input(1, subscriptionPlans.size());
+            cout << "Enter plan number\n";
+            planIndex = valid_input(1, subscriptionPlans[--subIndex].getNumberOfPlans() + 1);
+            cout << "Enter stage number\n";
+            stageIndex = valid_input(1, 4);
+            user.getSubscription().UpgradePlans(subscriptionPlans[--subIndex], --planIndex, --stageIndex);
+        }
+        else if (ch == 3) {
+            break;
+        }
+    }
+    return;
 }
 //// until the files are finished
 void  DataHandler::stageTemporaryData() {

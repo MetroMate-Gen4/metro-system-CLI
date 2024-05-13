@@ -35,6 +35,22 @@ int SubscriptionPlan::getPlanDuration(int planIndex)
 	return plans[planIndex].numberOfMonths;
 }
 
+int SubscriptionPlan::getNumberOfPlans()
+{
+	return plans.size();
+}
+
+std::string SubscriptionPlan::toString() const
+{
+	std::stringstream ss;
+	ss << name << ":" <<"\n";
+	for (int i = 0; i < plans.size(); i++) {
+		ss << "  Plan " << i + 1 <<" : " << "\n";
+		ss<<plans[i].toString() << "\n";
+	}
+	return ss.str();
+}
+
 std::string SubscriptionPlan::getname()
 {
 	return name;

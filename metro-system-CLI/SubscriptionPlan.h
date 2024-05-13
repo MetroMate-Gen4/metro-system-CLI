@@ -16,6 +16,16 @@ struct Plan{
 		stages[2] = Stage(p3, 17, 23);
 		stages[3] = Stage(p4, 24, 1000);
 	}
+	std::string toString() const {
+		std::stringstream ss;
+		ss << "    Number of months: " << numberOfMonths << "\n";
+		ss << "    Number of trips: " << numberOfTrips << "\n";
+		ss << "    Stages:\n";
+		for (int i = 0; i < 4; ++i) {
+			ss << "      # Stage " << i + 1 << "  Price: " << stages[i].getPrice() << "  from "<<stages[i].getMinNumberOfStation()<<" station to "<<stages[i].getMaxNumberOfStation() << " stations." << "\n";
+		}
+		return ss.str();
+	}
 };
 class SubscriptionPlan
 {
@@ -33,5 +43,7 @@ public:
 	float getPlanPrice(int planIndex, int stageIndex);
 	int getPlantrip(int planIndex);
 	int getPlanDuration(int planIndex);
+	int getNumberOfPlans();
+	std::string toString()const;
 	std::string getname();
 };

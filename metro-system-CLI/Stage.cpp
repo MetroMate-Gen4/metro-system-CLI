@@ -26,12 +26,12 @@ void Stage::setMaxNumberOfStation(int newMaxNumberOfStation)
     maxNumberOfStation = newMaxNumberOfStation;
 }
 
-int Stage::getPrice()
+float Stage::getPrice()const
 {
     return price;
 }
 
-void Stage::setPrice(int newPrice)
+void Stage::setPrice(float newPrice)
 {
     this->price = newPrice;
 }
