@@ -1,12 +1,9 @@
 #include "Ticket.h"
-#include "Station.h"
-#include <string>
-#include <vector>
 
-Ticket::Ticket(ticketType type, Station startingStation)
+Ticket::Ticket(Stage& stageType, Station& startingStation)
 {
-    this->type = type;
-    this->station = startingStation;
+    this->stageType = &stageType;
+    this->startingStation = &startingStation;
 }
 
 std::vector<Station> Ticket::getAvailableStations()
@@ -14,27 +11,17 @@ std::vector<Station> Ticket::getAvailableStations()
     return this->availableStations;
 }
 
-float Ticket::getPrice()
+void Ticket::addAvailableStation(Station& avilableStation)
 {
-    return this->price;
+    this->availableStations.push_back(avilableStation);
 }
 
-std::string Ticket::getType()
+float Ticket::getPrice()
 {
-    if (this->type == ticketType::short_dis)
-        return "short_dis";
+    return stageType->getPrice();
+}
 
-    else if (this->type == ticketType::medium_dis)
-        return "medium_dis";
-
-    else if (this->type == ticketType::high_dis)
-        return"high_dis";
-
-    else if (this->type == ticketType::veryHigh_dis)
-        return"veryHigh_dis";
-
-
-    else
-        return"This type doesn't exist \n please try again";
-
+Stage Ticket::getType()
+{
+    return *stageType;
 }
