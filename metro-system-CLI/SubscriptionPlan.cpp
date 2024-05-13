@@ -43,11 +43,12 @@ int SubscriptionPlan::getNumberOfPlans()
 std::string SubscriptionPlan::toString() const
 {
 	std::stringstream ss;
-	ss << name << ":" <<"\n";
+	ss << name << ":" << "\n";
 	for (int i = 0; i < plans.size(); i++) {
-		ss << "  Plan " << i + 1 <<" : " << "\n";
-		ss<<plans[i].toString() << "\n";
+		ss << "\t\t|->Plan " << i + 1 <<" : " << "\n";
+		ss<<plans[i].toString();
 	}
+		ss << "\t\t=========================================================\n\n";
 	return ss.str();
 }
 

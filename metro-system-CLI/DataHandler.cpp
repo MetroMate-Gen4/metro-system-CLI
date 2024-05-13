@@ -692,37 +692,53 @@ int DataHandler::valid_input(int l, int r)
 void DataHandler::displaySubscriptionPlans()
 {
     for (int i = 0; i < subscriptionPlans.size(); i++) {
-        cout << i + 1 << "- " << subscriptionPlans[i].toString();
+        cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].toString();
     }
 }
 
 void DataHandler::purchaseSubscription(User* user)
 {
-    int subIndex, planIndex, stageIndex;
-    cout << "Avilable subscription plans :\n";
+    int ch, subIndex, planIndex, stageIndex;
+    cout << "\n\n\n";
+    cout << "\t\tAvilable subscription plans :\n\n";
     displaySubscriptionPlans();
-    cout << "Enter subscription plan number\n";
-    subIndex = valid_input(1, subscriptionPlans.size());
-    cout << "Enter plan number\n";
-    planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
-    cout << "Enter stage number\n";
-    stageIndex = valid_input(1, 4);
-    user->setSubscription(Subscription(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1));
+    cout << "\t\t1)Continue \n";
+    cout << "\t\t2)Back \n";
+    ch = valid_input(1, 2);
+    if (ch==1) {
+        char x;
+        cout << "\t\tEnter subscription plan number: ";
+        subIndex = valid_input(1, subscriptionPlans.size());
+        cout << "\t\tEnter plan number: ";
+        planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
+        cout << "\t\tEnter stage number: ";
+        stageIndex = valid_input(1, 4);
+        user->setSubscription(Subscription(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1));
+        cout << "\t\t*Your subscription purchase was successful\n";
+        cout << "\t\tEnter 1 to continue: ";
+        cin >> x;
+    }
+    else if (ch==2) {
+        system("cls");
+        return;
+    }
 }
 
 void DataHandler::subscriptionPlanManagement()
 {
     while (true) {
         system("cls");
+        cout << "\n\n\n";
+        cout << "\t\tAvilable subscription plans :\n\n";
         displaySubscriptionPlans();
         int ch;
-        cout << "1) add new subscription Plan\n";
-        cout << "2) add new Plan\n";
-        cout << "3) EXit\n";
+        cout << "\t\t1) Add new subscription Plan\n";
+        cout << "\t\t2) Add new Plan\n";
+        cout << "\t\t3) EXit\n";
         ch = valid_input(1, 3);
         if (ch == 1) {
             string name;
-            cout << "enter subscription plan name :\n";
+            cout << "\t\tEnter subscription plan name : ";
             cin >> name;
             subscriptionPlans.push_back(SubscriptionPlan(name));
         }
@@ -730,23 +746,23 @@ void DataHandler::subscriptionPlanManagement()
             int subPlanNum, trips, months;
             float p1, p2, p3, p4;
             for (int i = 0; i < subscriptionPlans.size(); i++) {
-                cout << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+                cout <<"\t\t"<< i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
             }
-            cout << "Enter the subscription plan number: \n";
+            cout << "\t\tEnter the subscription plan number: ";
             subPlanNum = valid_input(1, subscriptionPlans.size() + 1);
             system("cls");
-            cout << "You have selected: " << subscriptionPlans[subPlanNum - 1].getname() << "\n";
-            cout << "Enter the duration in months:\n";
+            cout << "\t\tYou have selected: " << subscriptionPlans[subPlanNum - 1].getname() << "\n";
+            cout << "\t\tEnter the duration in months: ";
             months = valid_input(0, INT_MAX);
-            cout << "Enter the number of trips per month:\n";
+            cout << "\t\tEnter the number of trips per month:";
             trips = valid_input(0, INT_MAX);
-            cout << "Enter price of stage 1: \n";
+            cout << "\t\tEnter price of stage 1: ";
             cin >> p1;
-            cout << "Enter price of stage 2: \n";
+            cout << "\t\tEnter price of stage 2: ";
             cin >> p2;
-            cout << "Enter price of stage 3: \n";
+            cout << "\t\tEnter price of stage 3: ";
             cin >> p3;
-            cout << "Enter price of stage 4: \n";
+            cout << "\t\tEnter price of stage 4: ";
             cin >> p4;
             subscriptionPlans[subPlanNum - 1].AddPlan(months, trips, p1, p2, p3, p4);
 
@@ -763,32 +779,46 @@ void DataHandler::manageSubscription(User* user)
     while (true) {
         system("cls");
         //user.displaySubscription();
-        cout << "1) Renew subscription\n";
-        cout << "2) upgrade subscription\n";
-        cout << "3) Exit\n";
+        cout << "\t\t1) Renew subscription\n";
+        cout << "\t\t2) upgrade subscription\n";
+        cout << "\t\t3) Exit\n";
 
         ch = valid_input(1, 3);
         if (ch == 1) {
             char x;
             user->getSubscription().Renew();
-            cout << "Successfully Renewed!!\n";
-            cout << "Enter 1 to continue: ";
+            cout << "\t\t*Successfully Renewed!!\n";
+            cout << "\t\tEnter 1 to continue: ";
             cin >> x;
         }
         else if (ch == 2) {
             system("cls");
-            int subIndex, planIndex, stageIndex;
-            cout << "Avilable subscription plans :\n";
+            int ch2, subIndex, planIndex, stageIndex;
+
+            cout << "\t\tAvilable subscription plans :\n\n";
             displaySubscriptionPlans();
-            cout << "Enter subscription plan number\n";
-            subIndex = valid_input(1, subscriptionPlans.size());
-            cout << "Enter plan number\n";
-            planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
-            cout << "Enter stage number\n";
-            stageIndex = valid_input(1, 4);
-            user->getSubscription().UpgradePlans(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1);
+            cout << "\t\t1)Continue \n";
+            cout << "\t\t2)Back \n";
+            ch2 = valid_input(1, 2);
+            if (ch2 == 1) {
+                char x;
+                cout << "\t\tEnter subscription plan number: ";
+                subIndex = valid_input(1, subscriptionPlans.size());
+                cout << "\t\tEnter plan number: ";
+                planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
+                cout << "\t\tEnter stage number: ";
+                stageIndex = valid_input(1, 4);
+                user->getSubscription().UpgradePlans(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1);
+                cout << "\t\t* Your subscription upgrade was successful\n";
+                cout << "\t\tEnter 1 to continue: ";
+                cin >> x;
+            }
+            else if (ch2 == 2) {
+                system("cls");
+            }
         }
         else if (ch == 3) {
+            system("cls");
             break;
         }
     }

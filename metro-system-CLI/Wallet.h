@@ -7,7 +7,7 @@ class Wallet
 private:
 	float money;
 public:
-	Wallet(float chash);
+	Wallet(int chash);
 	void charge(int chash);
 	bool vaidCharge(int chash);
 	void checkIn(Stage &stage);

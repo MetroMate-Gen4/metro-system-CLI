@@ -1,6 +1,6 @@
 #include "Wallet.h"
 
-Wallet::Wallet(float chash):money(0.0)
+Wallet::Wallet(int chash):money(0.0)
 {
     this->charge(chash);
 }
