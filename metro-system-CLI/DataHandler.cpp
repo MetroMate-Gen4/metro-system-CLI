@@ -121,11 +121,11 @@ void DataHandler::mainCLI() {
                     choice = this->choice();
                     if (choice == "1") {//1)    Purchase Subscription
                         system("cls");
-                        purchaseSubscription(*user);
+                        purchaseSubscription(user);
                     }
                     else if (choice == "2") {//2)    View Ride History 
                         system("cls");
-
+                        displayRidesCLI(user);
                     }
                     else if (choice == "3") {//3)    Check (In/Out) for Ride 
                         system("cls");
@@ -146,7 +146,7 @@ void DataHandler::mainCLI() {
                             }
                             else if (choice == "3") {//3)   Manage my subscriptions
                                 system("cls");//to clear.
-                                manageSubscription(*user);
+                                manageSubscription(user);
                             }
                             else if (choice == "4") {//4)   Subscription renewal date
                                 system("cls");//to clear.
@@ -194,7 +194,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "4") {//4)    View All Ride Logs
                         system("cls");
-
+                        displayAllRidesCLI();
                     }
                     else if (choice == "5") {//5)    Station Management
                         system("cls");
@@ -696,7 +696,7 @@ void DataHandler::displaySubscriptionPlans()
     }
 }
 
-void DataHandler::purchaseSubscription(User& user)
+void DataHandler::purchaseSubscription(User* user)
 {
     int subIndex, planIndex, stageIndex;
     cout << "Avilable subscription plans :\n";
@@ -704,10 +704,10 @@ void DataHandler::purchaseSubscription(User& user)
     cout << "Enter subscription plan number\n";
     subIndex = valid_input(1, subscriptionPlans.size());
     cout << "Enter plan number\n";
-    planIndex = valid_input(1, subscriptionPlans[--subIndex].getNumberOfPlans() + 1);
+    planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
     cout << "Enter stage number\n";
     stageIndex = valid_input(1, 4);
-    user.setSubscription(Subscription(subscriptionPlans[--subIndex], --planIndex, --stageIndex));
+    user->setSubscription(Subscription(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1));
 }
 
 void DataHandler::subscriptionPlanManagement()
@@ -752,11 +752,12 @@ void DataHandler::subscriptionPlanManagement()
 
         }
         else if (ch == 3) {
+            system("cls");
             break;
         }
     }
 }
-void DataHandler::manageSubscription(User& user)
+void DataHandler::manageSubscription(User* user)
 {
     int ch;
     while (true) {
@@ -769,7 +770,7 @@ void DataHandler::manageSubscription(User& user)
         ch = valid_input(1, 3);
         if (ch == 1) {
             char x;
-            user.getSubscription().Renew();
+            user->getSubscription().Renew();
             cout << "Successfully Renewed!!\n";
             cout << "Enter 1 to continue: ";
             cin >> x;
@@ -782,10 +783,10 @@ void DataHandler::manageSubscription(User& user)
             cout << "Enter subscription plan number\n";
             subIndex = valid_input(1, subscriptionPlans.size());
             cout << "Enter plan number\n";
-            planIndex = valid_input(1, subscriptionPlans[--subIndex].getNumberOfPlans() + 1);
+            planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
             cout << "Enter stage number\n";
             stageIndex = valid_input(1, 4);
-            user.getSubscription().UpgradePlans(subscriptionPlans[--subIndex], --planIndex, --stageIndex);
+            user->getSubscription().UpgradePlans(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1);
         }
         else if (ch == 3) {
             break;
