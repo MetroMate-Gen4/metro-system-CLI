@@ -5,6 +5,25 @@ std::stack<Ride> DataHandler::rides;
 std::vector<Stage> DataHandler::stages;
 std::vector<SubscriptionPlan>DataHandler::subscriptionPlans;
 
+// ANSI color codes
+#define RESET       "\033[0m"
+#define BLACK       "\033[30m"     
+#define RED         "\033[31m"     
+#define GREEN       "\033[32m"  
+#define YELLOW      "\033[33m"   
+#define BLUE        "\033[34m"   
+#define MAGENTA     "\033[35m"  
+#define CYAN        "\033[36m"   
+#define WHITE       "\033[37m"  
+#define BOLDBLACK   "\033[1m\033[30m"
+#define BOLDRED     "\033[1m\033[31m"
+#define BOLDGREEN   "\033[1m\033[32m"
+#define BOLDYELLOW  "\033[1m\033[33m"
+#define BOLDBLUE    "\033[1m\033[34m"
+#define BOLDMAGENTA "\033[1m\033[35m"
+#define BOLDCYAN    "\033[1m\033[36m"
+#define BOLDWHITE   "\033[1m\033[37m"
+
 DataHandler::DataHandler() {}
 
 DataHandler::~DataHandler()
@@ -112,7 +131,7 @@ void DataHandler::mainCLI() {
             account= displaySignIn();
             system("cls");//to clear.
             if (account == NULL) {
-                std::cout << "\n\n\n  # The username or password is incorrect\n";
+                std::cout << RED << "\n\n\n  # The username or password is incorrect\n" << RESET;
                 continue;
             }
             if (User* user = dynamic_cast<User*>(account)) {
@@ -134,7 +153,7 @@ void DataHandler::mainCLI() {
                     else if (choice == "4") { //4)    My profile 
                         system("cls");
                         while (true) {
-                            displayMyProfile();
+                            displayMyProfile(user);
                             choice = this->choice();
                             if (choice == "1") { //1)   Account information
                                 system("cls");//to clear.
@@ -158,7 +177,7 @@ void DataHandler::mainCLI() {
                             }
                             else {
                                 system("cls");
-                                std::cout << "Sorry, this option is not supported\nplease try again\n";
+                                std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
                             }
                         }
                     }
@@ -168,10 +187,10 @@ void DataHandler::mainCLI() {
                         break;
                     }
                     else if (choice == "6")// 6)    Exit
-                        exit(0);
+                        Exit();
                     else {
                         system("cls");
-                        std::cout << "Sorry, this option is not supported\nplease try again\n";
+                        std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
                     }
 
                 }
@@ -204,48 +223,48 @@ void DataHandler::mainCLI() {
                         system("cls");
 
                     }
-                    else if (choice == "7") {//7)    My profile
-                        system("cls");
-                        while (true) {
-                            displayMyProfile();
-                            choice = this->choice();
-                            if (choice == "1") { //1)   Account information
-                                system("cls");//to clear.
-                                displayAccountInformation(admin);
+                    //else if (choice == "7") {//7)    My profile
+                    //    system("cls");
+                    //    while (true) {
+                    //        displayMyProfile();
+                    //        choice = this->choice();
+                    //        if (choice == "1") { //1)   Account information
+                    //            system("cls");//to clear.
+                    //            displayAccountInformation(admin);
 
-                            }
-                            else if (choice == "2") {// 2)   Edit my information
-                                system("cls");//to clear.
+                    //        }
+                    //        else if (choice == "2") {// 2)   Edit my information
+                    //            system("cls");//to clear.
 
-                            }
-                            else if (choice == "3") {//3)   Manage my subscriptions
-                                system("cls");//to clear.
+                    //        }
+                    //        else if (choice == "3") {//3)   Manage my subscriptions
+                    //            system("cls");//to clear.
 
-                            }
-                            else if (choice == "4") {//4)   Subscription renewal date
-                                system("cls");//to clear.
+                    //        }
+                    //        else if (choice == "4") {//4)   Subscription renewal date
+                    //            system("cls");//to clear.
 
-                            }
-                            else if (choice == "5") {// 5)  back
-                                system("cls");//to clear.
-                                break;
-                            }
-                            else {
-                                system("cls");
-                                std::cout << "Sorry, this option is not supported\nplease try again\n";
-                            }
-                        }
+                    //        }
+                    //        else if (choice == "5") {// 5)  back
+                    //            system("cls");//to clear.
+                    //            break;
+                    //        }
+                    //        else {
+                    //            system("cls");
+                    //            std::cout << "Sorry, this option is not supported\nplease try again\n";
+                    //        }
+                    //    }
 
-                    }
-                    else if (choice == "8") {//8)    Log out
+                    //}
+                    else if (choice == "7") {//7)    Log out
                         system("cls");
                         break;
                     }
-                    else if (choice == "9") //9)    Exit
-                        exit(0);
+                    else if (choice == "8") //8)    Exit
+                        Exit();
                     else {
                         system("cls");
-                        std::cout << "Sorry, this option is not supported\nplease try again\n";
+                        std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
                     }
                 }
             }
@@ -256,10 +275,10 @@ void DataHandler::mainCLI() {
             displaySignUp();
         }
         else if (choice == "3")
-            exit(0);
+            Exit();
         else {
             system("cls");
-            std::cout << "Sorry, this option is not supported\nplease try again\n";
+            std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
         }
     }
     
@@ -267,30 +286,30 @@ void DataHandler::mainCLI() {
 
 string DataHandler::choice() {
     string choice;
-    std::cout << "\n\n          Please Enter your Choice: ";
+    std::cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
     std::cin >> choice;
     return choice;
 }
 
 void DataHandler::displayMainMenu_SignIn_SignUp() {
-    std::cout << "\n\n\n                                     Welcome to MetroMate\n";
+    std::cout << "\n\n\n                                     Welcome to"<< BOLDRED <<" MetroMate\n";
 
 
 
-    std::cout << "                       " << "    _____\n";
+    std::cout << GREEN << "                       " << "    _____\n";
     std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
     std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
     std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n"<< RESET;
 
 
-    std::cout << "\n\t\t\t+ ----------------------------- +" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;
+    std::cout << YELLOW << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t|"<< CYAN <<" 1)    sign in                 "<< YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 2)    sign up                 " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 3)    Exit                    " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t| 1)    sign in                 |" << endl;
-    std::cout << "\t\t\t| 2)    sign up                 |" << endl;
-    std::cout << "\t\t\t| 3)    Exit                    |" << endl;
-    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +\n\n\n" << RESET << endl;
 
 }
 
@@ -300,47 +319,39 @@ Account* DataHandler::displaySignIn() {
     Account* account;
     char ch;
     std::cout << "\n\n";
-    std::cout << "      	                   -------------------------\n";
+    std::cout << CYAN << "      	                   -------------------------\n";
     std::cout << "  		     - - - - - - - - - - - - -  \n";
-    std::cout << "			      	   SIGN IN ";
-    std::cout << "  				  	                             - - - - - - - - - - - - -  \n";
-    std::cout << "  	      	         -------------------------\n";
+    std::cout << YELLOW << "			      	   SIGN IN \n";
+    std::cout << CYAN << "  		                - - - - - - - - - - - - -  \n";
+    std::cout << "  	      	         -------------------------\n"<< RESET;
 
 
-    std::cout << "\n\n                               Email: ";
+    std::cout << GREEN << "\n\n                               Email: "<< RESET;
     std::cin >> email;
-    std::cout << "\n\n                               Password: ";
-    ch = _getch();
-    int c = 0, k = 0;
-    while (ch != '\r')//(\r)=Enter
-    {
-        if (ch == '\b') {
-            if (c == 0) {
+    std::cout << GREEN << "\n\n                               Password: " << RESET;
 
+
+    while (true) {
+        if (_kbhit()) {
+            ch = _getch();
+            if (ch == 13)
+                break;
+            else if (ch == 8) {
+                if (!pass.empty()) {
+                    std::cout << "\b \b";
+                    pass.pop_back(); 
+                }
             }
             else {
-                c--;
-                k++;
-                std::cout << "\b";
-                for (int i = 0; i < k; i++) {
-                    std::cout << " ";
-                    std::cout << "\b";
-                }
-                pass = pass + "\b";
+                std::cout << '*';
+                pass.push_back(ch);
             }
         }
-        else {
-            pass = pass + ch;
-            std::cout << '*';
-            c++;
-        }
-        ch = _getch();
     }
-    pass1 = pass.substr(pass.rfind("\b") + 1, pass.length());
 
-    account = logIn(email, pass1);
+    account = logIn(email, pass);
     if (account == NULL) {
-        if (admin->getEmail() == email && admin->getPassword() == pass1) {
+        if (admin->getEmail() == email && admin->getPassword() == pass) {
             return admin;
         }
         else
@@ -354,148 +365,152 @@ void DataHandler::displaySignUp() {
     std::string pass1, pass2, name, email;
     int age, nationalId;
     std::cout << "\n\n";
-    std::cout << "      	                   -------------------------\n";
+    std::cout << CYAN << "      	                   -------------------------\n";
     std::cout << "  		     - - - - - - - - - - - - -  \n";
-    std::cout << "			      	   SIGN UP ";
-    std::cout << "  				  	                             - - - - - - - - - - - - -  \n";
+    std::cout << YELLOW << "			      	   SIGN UP \n";
+    std::cout << CYAN << "  		                - - - - - - - - - - - - -  \n";
     std::cout << "  	      	         -------------------------\n";
 
     while (true)
     {
-        std::cout << "\n\n                               Enter Username: ";
+        std::cout << GREEN << "\n\n                               Enter Username: " << RESET;
         std::cin >> name;
         while (true) {
-            std::cout << "\n\n                               Enter Password: ";
+            std::cout << GREEN << "\n\n                               Enter Password: " << RESET;
             std::cin >> pass1;
-            std::cout << "\n\n                               Confirm Password: ";
+            std::cout << GREEN << "\n\n                               Confirm Password: " << RESET;
             std::cin >> pass2;
             if (pass1 == pass2) {
                 break;
             }
             else {
-                std::cout << "\n\n # verify is not the same as Password !!!\n";
+                std::cout << RED << "\n\n # verify is not the same as Password !!!\n" << RESET;
                 continue;
             }
         }
-        std::cout << "\n\n                               Enter Email: ";
+        std::cout << GREEN << "\n\n                               Enter Email: " << RESET;
         std::cin >> email;
-        std::cout << "\n\n                               Enter National ID: ";
-        std::cin >> nationalId;
-        std::cout << "\n\n                               Enter Age: ";
-        std::cin >> age;
+        std::cout << GREEN << "\n\n                               Enter National ID: " << RESET;
+        nationalId = valid_input(1, 9999999999999999);
+        //std::cin >> nationalId;
+        std::cout << GREEN << "\n\n                               Enter Age: " << RESET;
+        age = valid_input(1, 200);
+        //std::cin >> age;
         bool isExist = signUp(email, pass1, name, nationalId, age);
         system("cls");
         if (isExist) {
-            std::cout << "\n\n # this email is exist before \ntry again\n";
+            std::cout << RED << "\n\n # this email is exist before \ntry again\n" << RESET;
         }
         else {
-            std::cout << "\n\n # your account has been registered\n";
+            std::cout << GREEN << "\n\n # your account has been registered\n" << RESET;
             break;
         }
     }
     
 }
 void DataHandler::displayHomeUser(User* u) {
-    std::cout << "\n\n\n                                     Welcome " << u->getName() << " ^_~ \n";
+    std::cout << "\n\n\n                                     Welcome " << BOLDRED << u->getName() << " ^_~ \n";
 
 
 
-    std::cout << "                       " << "    _____\n";
+    std::cout << GREEN << "                       " << "    _____\n";
     std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
     std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
     std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
-    std::cout << "\n\t\t\t+ ----------------------------- +" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;    
+    std::cout << YELLOW << "\n\t\t\t| ----------------------------- |" << endl;
+    std::cout << "\n\t\t\t|" << CYAN << " 1)    Purchase Subscription   " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 2)    View Ride History       " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 3)    Check (In/Out) for Ride " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 4)    My profile              " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 5)    Log out                 " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 6)    Exit                    " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t| 1)    Purchase Subscription   |" << endl;
-    std::cout << "\t\t\t| 2)    View Ride History       |" << endl;
-    std::cout << "\t\t\t| 3)    Check (In/Out) for Ride |" << endl;
-    std::cout << "\t\t\t| 4)    My profile              |" << endl;
-    std::cout << "\t\t\t| 5)    Log out                 |" << endl;
-    std::cout << "\t\t\t| 6)    Exit                    |" << endl;
-    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;
 }
 
 void DataHandler::displayHomeAdmin(Admin* a) {
-    std::cout << "\n\n\n                                     Welcome " << a->getName() << " ^_~ \n";
+    std::cout << "\n\n\n                                     Welcome " << BOLDRED << a->getName() << " ^_~ \n";
 
 
-    std::cout << "                       " << "    _____\n";
+
+    std::cout << GREEN << "                       " << "    _____\n";
     std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
     std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
     std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
-    std::cout << "\n\t\t\t+ ---------------------------------- +" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ---------------------------------- +" << RESET << endl;
+    std::cout << YELLOW << "\n\t\t\t| ---------------------------------- |" << endl;
+    std::cout << "\n\t\t\t|" << CYAN << " 1)    User Management              " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 2)    Metro Management             " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 3)    Subscription Plan Management " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 4)    View All Ride Logs           " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 5)    Station Management           " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 6)    Fare Management              " << YELLOW << "|" << endl;
+    //std::cout << "\t\t\t|" << CYAN << " 7)    My profile                   " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 7)    Log out                      " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 8)    Exit                         " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ---------------------------------- |" << endl;
-    std::cout << "\n\t\t\t| 1)    User Management              |" << endl;
-    std::cout << "\t\t\t| 2)    Metro Management             |" << endl;
-    std::cout << "\t\t\t| 3)    Subscription Plan Management |" << endl;
-    std::cout << "\t\t\t| 4)    View All Ride Logs           |" << endl;
-    std::cout << "\t\t\t| 5)    Station Management           |" << endl;
-    std::cout << "\t\t\t| 6)    Fare Management              |" << endl;
-    std::cout << "\t\t\t| 7)    My profile                   |" << endl;
-    std::cout << "\t\t\t| 8)    Log out                      |" << endl;
-    std::cout << "\t\t\t| 9)    Exit                         |" << endl;
-    std::cout << "\n\t\t\t| ---------------------------------- |" << endl;
-    std::cout << "\n\t\t\t+ ---------------------------------- +\n\n\n" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ---------------------------------- +" << RESET << endl;
 }
 
-void DataHandler::displayMyProfile() {
+void DataHandler::displayMyProfile(User* u) {
+    std::cout << "\n\n\n                                     Welcome " << BOLDRED << u->getName() << " ^_~ \n";
 
 
-
-    std::cout << "                       " << "    _____\n";
+    std::cout << GREEN << "                       " << "    _____\n";
     std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
     std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
     std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n";
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
-    std::cout << "\n\t\t\t+ ----------------------------- +" << endl;
-    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t| 1)   Account information      |" << endl;
-    std::cout << "\t\t\t| 2)   Edit my information      |" << endl;
-    std::cout << "\t\t\t| 3)   Manage my subscriptions  |" << endl;
-    std::cout << "\t\t\t| 4)   Subscription renewal date|" << endl;
-    std::cout << "\t\t\t| 5)   Back                     |" << endl;
-    std::cout << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t+ ----------------------------- +\n\n\n" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ------------------------------- +" << RESET << endl;
+    std::cout << YELLOW << "\n\t\t\t| ------------------------------- |" << endl;
+    std::cout << "\n\t\t\t|" << CYAN << " 1)   My account information     " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 2)   Edit in my account         " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 3)   Manage my subscriptions    " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 4)   Subscription renewal date  " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 5)   Back                       " << YELLOW << "|" << endl;
+    std::cout << "\n\t\t\t| ------------------------------- |" << endl;
+    std::cout << CYAN << "\n\t\t\t+ ------------------------------- +" << RESET << endl;
 }
 
 void DataHandler::editUser(User* user) {
     std::string choice;
     while (true){
         displayAccountInformation(user);
-        std::cout << "\t\tWhate do you want to edit ? \n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[1] Name            |\n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[2] Email           |\n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[3] Password        |\n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[4] National ID     |\n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[5] Age             |\n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[6] Undo last edit  |\n";
-        std::cout << "\t\t+--------------------+\n";
-        std::cout << "\t\t|[7] Back            |\n";
-        std::cout << "\t\t+--------------------+\n\n";
+        std::cout << CYAN << "\t\tWhate do you want to edit ? \n\n" << RESET;
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [1] Name             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [2] Email            " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [3] Password         " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [4] National ID      " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [5] Age              " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [6] Undo last edit   " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [7] Back             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n\n\n";
         choice = this->choice();
         if (choice == "1") {
-            std::cout << "Enter new name : ";
+            std::cout << GREEN << "Enter new name : " << RESET;
             std::string name;
             std::cin >> name;
             editUserName(user->getId(), name);
+            system("cls");
         }
         else if (choice == "2") {
-            std::cout << "Enter new email : ";
+            std::cout << GREEN << "Enter new email : " << RESET;
             std::string email;
             std::cin >> email;
             User* checkUser = searchUserEmail(email);
@@ -505,28 +520,30 @@ void DataHandler::editUser(User* user) {
             }
             else {
                 system("cls");
-                std::cout << "\n\n # this email is exist before \ntry again\n";
+                std::cout << RED << "\n\n # this email is exist before \ntry again\n";
             }
             
         }
         else if (choice == "3") {
-            std::cout << "Enter new password : ";
+            std::cout << GREEN << "Enter new password : " << RESET;
             std::string password;
             std::cin >> password;
             editUserPassword(user->getId(), password);
             system("cls");
         }
         else if (choice == "4") {
-            std::cout << "Enter new national ID : ";
+            std::cout << GREEN << "Enter new national ID : " << RESET;
             int nationalId;
-            std::cin >> nationalId;
+            nationalId = valid_input(1, 9999999999999999);
+            //std::cin >> nationalId;
             editUserNationalId(user->getId(), nationalId);
             system("cls");
         }
         else if (choice == "5") {
-            std::cout << "Enter new age : ";
+            std::cout << GREEN << "Enter new age : " << RESET;
             int age;
-            std::cin >> age;
+            age = valid_input(1, 200);
+            //std::cin >> age;
             editUserAge(user->getId(), age);
             system("cls");
         }
@@ -540,7 +557,7 @@ void DataHandler::editUser(User* user) {
         }
         else {
             system("cls");
-            std::cout << "Sorry, this option is not supported\nplease try again\n";
+            std::cout << RED << "Sorry, this option is not supported\nplease try again\n";
         }
     }
     
@@ -548,17 +565,17 @@ void DataHandler::editUser(User* user) {
 
 void DataHandler::displayAccountInformation(Account* account)
 {
-    std::cout << "\t\t+ ----------------------------- +\n";
-    std::cout << "\t\t| Name :- \t" << account->getName() << "\t\t|\n";
+    std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
+    std::cout << "\t\t|" << GREEN << " Name :- \t" << RESET << account->getName() << YELLOW << "\t\t|\n";
     std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t| Email :-\t" << account->getEmail() << "\t\t|\n";
+    std::cout << "\t\t|" << GREEN << " Email :-\t" << RESET << account->getEmail() << YELLOW << "\t\t|\n";
     std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t| password :-\t" << account->getPassword() << "\t\t|\n";
+    std::cout << "\t\t|" << GREEN << " password :-\t" << RESET << account->getPassword() << YELLOW << "\t\t|\n";
     std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t| National ID :-\t" << account->getNationalId() << "\t|\n";
+    std::cout << "\t\t|" << GREEN << " National ID :-\t" << RESET << account->getNationalId() << YELLOW << "\t|\n";
     std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t| Age :- \t" << account->getAge() << "\t\t|\n";
-    std::cout << "\t\t+ ----------------------------- +\n";
+    std::cout << "\t\t|" << GREEN << " Age :- \t" << RESET << account->getAge() << YELLOW << "\t\t|\n";
+    std::cout << "\t\t+ ----------------------------- +\n\n\n"<<RESET;
 }
 
 User* DataHandler::logIn(std::string email, std::string pass) {
@@ -847,3 +864,43 @@ void DataHandler::SubscriptionPlansTemporaryData()
     subscriptionPlans[1].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 }
 
+
+void DataHandler:: Exit() {
+    bool clear = 1;
+    while (true) {
+        string y_or_n;
+        if (clear == 1) {
+            system("cls");//so clear.
+        }
+        cout << YELLOW << "\n\n\t+ ---------------------------------------------------- +\n";
+        cout << "\t|" << CYAN << " Thank you for using our simple program! We are very  " << YELLOW << "|\n";
+        cout << "\t|                                                      |\n";
+        cout << "\t|" << CYAN << " pleased to have served you. If you have any issues   " << YELLOW << "|\n";
+        cout << "\t|                                                      |\n";
+        cout << "\t|" << CYAN << " or suggestions to improve our program,please do not  " << YELLOW << "|\n";
+        cout << "\t|                                                      |\n";
+        cout << "\t|" << CYAN << " hesitate to let us know .                " << YELLOW << "(" << RESET << " A E " << GREEN << "IB" << YELLOW << " )  " << YELLOW << "|\n";
+        cout << "\t+ ---------------------------------------------------- +\n\n\n" << RESET;
+
+
+        cout << RED << "\t\t+ ------------------------------------ +\n\n";
+        cout << "\t\t|" << RESET << " Do you want to exit the program ? :( " << RED << "|\n\n";
+        cout << "\t\t+ --------------[      ]-------------- +" << RESET;
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cin >> y_or_n;
+        if (y_or_n == "yes" || y_or_n == "Yes" || y_or_n == "y" || y_or_n == "Y") {
+            //writeDataFiles();
+            exit(0);//to exit.
+        }
+        else if (y_or_n == "no" || y_or_n == "No" || y_or_n == "n" || y_or_n == "N") {
+            system("cls");//so clear.
+            break;
+        }
+        else {
+            system("cls");//so clear.
+            clear = 0;
+            cout << RED << "Sorry, this choice is not supported\nplease try again\n" << RESET;
+            continue;
+        }
+    }
+}

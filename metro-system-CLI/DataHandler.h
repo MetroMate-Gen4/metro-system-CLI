@@ -39,7 +39,7 @@ public:
     void displaySignUp();
     void displayHomeUser(User* u);
     void displayHomeAdmin(Admin* a);
-    void displayMyProfile();
+    void displayMyProfile(User* u);
     void editUser(User* user);
     void displayAccountInformation(Account* account);
     User* logIn(std::string email, std::string pass);
@@ -56,6 +56,6 @@ public:
     void manageSubscription(User* user);
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
-
+    void Exit();
 };
 
