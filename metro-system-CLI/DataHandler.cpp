@@ -35,32 +35,32 @@ void DataHandler::addUser(User* newUser) {
 }
 
 void DataHandler::editUserEmail(int userId, std::string newEmail) {
-    undoStackUser.push(searchUser(userId));
+    undoStackUser.push(*searchUser(userId));
     searchUser(userId)->setEmail(newEmail);
 }
 
 void DataHandler::editUserPassword(int userId, std::string newPassword) {
-    undoStackUser.push(searchUser(userId));
+    undoStackUser.push(*searchUser(userId));
     searchUser(userId)->setPassword(newPassword);
 }
 
 void DataHandler::editUserName(int userId, std::string newName) {
-    undoStackUser.push(searchUser(userId));
+    undoStackUser.push(*searchUser(userId));
     searchUser(userId)->setName(newName);
 }
 
 void DataHandler::editUserNationalId(int userId, int newNationalId) {
-    undoStackUser.push(searchUser(userId));
+    undoStackUser.push(*searchUser(userId));
     searchUser(userId)->setNationalId(newNationalId);
 }
 
 void DataHandler::editUserAge(int userId, int newAge) {
-    undoStackUser.push(searchUser(userId));
+    undoStackUser.push(*searchUser(userId));
     searchUser(userId)->setAge(newAge);
 }
 
 void DataHandler::deleteUser(int userId) {
-    undoStackUser.push(searchUser(userId));
+    undoStackUser.push(*searchUser(userId));
     users.erase(userId);
 }
 
@@ -84,11 +84,21 @@ void DataHandler::deleteLine(int lineId) {
 
 void DataHandler::undoEditUser() {
     if (!undoStackUser.empty()) {
-        users[undoStackUser.top()->getId()] = undoStackUser.top();
+        searchUser(undoStackUser.top().getId())->setName(undoStackUser.top().getName());
+        searchUser(undoStackUser.top().getId())->setEmail(undoStackUser.top().getEmail());
+        searchUser(undoStackUser.top().getId())->setPassword(undoStackUser.top().getPassword());
+        searchUser(undoStackUser.top().getId())->setNationalId(undoStackUser.top().getNationalId());
+        searchUser(undoStackUser.top().getId())->setAge(undoStackUser.top().getAge());
+        //users[undoStackUser.top().getId()] = &undoStackUser.top();
         undoStackUser.pop();
     }
 }
 
+void DataHandler::clearUndoStackUser() {
+    while (!undoStackUser.empty()) {
+        undoStackUser.pop();
+    }
+}
 
 void DataHandler::mainCLI() {
     addUser(new User("ib.com", "ib", "IB", 1, 20));
@@ -154,6 +164,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "5") {//5)    Log out
                         system("cls");//to clear.
+                        clearUndoStackUser();
                         break;
                     }
                     else if (choice == "6")// 6)    Exit
@@ -544,7 +555,7 @@ void DataHandler::displayAccountInformation(Account* account)
     std::cout << "\t\t|                               |\n";
     std::cout << "\t\t| password :-\t" << account->getPassword() << "\t\t|\n";
     std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t| National ID :-\t" << account->getNationalId() << "\t\t|\n";
+    std::cout << "\t\t| National ID :-\t" << account->getNationalId() << "\t|\n";
     std::cout << "\t\t|                               |\n";
     std::cout << "\t\t| Age :- \t" << account->getAge() << "\t\t|\n";
     std::cout << "\t\t+ ----------------------------- +\n";

@@ -12,7 +12,7 @@ public:
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
-    stack<User*> undoStackUser;
+    stack<User> undoStackUser;
     static std::vector<Stage>stages;
     static std::vector<SubscriptionPlan>subscriptionPlans;
     DataHandler();
@@ -31,6 +31,7 @@ public:
     void addLine(Line newLine);
     void deleteLine(int lineId);
     void undoEditUser();
+    void clearUndoStackUser();
     void mainCLI();
     std::string choice();
     void displayMainMenu_SignIn_SignUp();
