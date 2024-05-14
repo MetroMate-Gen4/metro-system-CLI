@@ -28,5 +28,6 @@ int main() {
 	//d.displayRidesCLI(u2);
 	//d.displayAllRidesCLI();
 	DataHandler d;
+	d.readDataFiles();
 	d.mainCLI();
 }
