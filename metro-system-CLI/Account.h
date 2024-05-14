@@ -12,7 +12,7 @@ protected:
     int nationalId;
     int age;
 public:
-    //Account();
+    Account();
     Account(std::string email, std::string password);
     Account(std::string email, std::string password, std::string name, int nationalId, int age);
     int getId() const;

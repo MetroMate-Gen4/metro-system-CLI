@@ -44,7 +44,7 @@ private:
 public:
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
-    static std::stack<Ride> rides;
+    static std::unordered_map<int, vector<Ride*> > rides;
     stack<User> undoStackUser;
     static std::vector<int> stages;
     static std::vector<SubscriptionPlan>subscriptionPlans;
@@ -57,6 +57,7 @@ public:
     static std::map<std::string, int> usedStationNames;
     DataHandler();
     ~DataHandler();
+    void addData();
     User* searchUser(int id);
     User* searchUserEmail(std::string email);
     void addUser(User* newUser);
@@ -85,8 +86,9 @@ public:
     bool signUp(std::string email, std::string password, std::string name, int nationalId, int age);
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
+    void stationManagement();
     void stationStatisticsInput();
-    void displayStationStatisticsCLI(std::string stationName, int days);
+    void displayStationStatisticsCLI(Station* station, int days);
     void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
     bool is_number(std::string& s);
@@ -96,6 +98,8 @@ public:
     void manageSubscription(User* user);
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
+    void writeDataFiles();
+    void readDataFiles();
     void Exit();
     void enterCheckInOutScene(User* user);
     void initializeGraph();
@@ -181,6 +185,8 @@ public:
 
     /// Get shortest path using `pathCost` structure.
     vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
+    void displayWallet(User* user);
+    void manageWallet(User* user);
     void editStagesPrice(int index, int price);
     void fareManagementCLI();
     void addData();
