@@ -183,5 +183,6 @@ public:
     vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
     void editStagesPrice(int index, int price);
     void fareManagementCLI();
+    void addData();
 };
 
