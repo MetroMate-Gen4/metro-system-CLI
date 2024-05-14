@@ -939,7 +939,7 @@ void DataHandler::usersEmailWindow()
     cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
     for (auto it : users) {
-        cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+        cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
     }
 
 
@@ -980,6 +980,7 @@ void DataHandler::userManagement()
             system("cls");
             while (true)
             {
+                clearUndoStackUser();
                 cout << "\t\t\t" << YELLOW << "--------------------\n";
                 cout << "\t\t\t" << YELLOW << "|" << GREEN << "Edit window       " << YELLOW << "|\n";
                 cout << "\t\t\t" << YELLOW << "--------------------\n";
@@ -1002,7 +1003,7 @@ void DataHandler::userManagement()
                     break;
                 }
 
-                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
                 {
                     system("cls");
                     std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -1010,7 +1011,7 @@ void DataHandler::userManagement()
                 else
                 {
                     system("cls");
-                    editUser(searchUser(stoi(ChooseUser) - 1));
+                    editUser(searchUser(stoi(ChooseUser)));
                 }
             }
         }
@@ -1041,7 +1042,7 @@ void DataHandler::userManagement()
                     break;
                 }
 
-                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
                 {
                     system("cls");
                     std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -1049,7 +1050,7 @@ void DataHandler::userManagement()
                 else
                 {
                     system("cls");
-                    deleteUser(stoi(ChooseUser) - 1);
+                    deleteUser(stoi(ChooseUser));
                 }
 
             }
@@ -1572,20 +1573,20 @@ void DataHandler::fareManagementCLI() {
         std::string choice;
         std::string price;
         std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
-        std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "1. Stage #1\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
         std::cout << "\t\t|" << GREEN << "2. Stage #2\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "3. Stage #3 :-\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "3. Stage #3\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t\n";
-        std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+        std::cout << "\t\t|" << GREEN << "4. Stage #4\t\t\t|\n";
+        std::cout << YELLOW << "\t\t+ ----------------------------- +\n\n\n" << RESET;
         std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
         choice = this->choice();
         while (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
 
             std::cout << "\n\t\tInvalid input\n" << RESET;
-            std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
+            std::cout << YELLOW << "\t\tSelect a stage to edit : " << RESET;
             choice = this->choice();
         }
 
