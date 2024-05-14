@@ -189,6 +189,5 @@ public:
     void manageWallet(User* user);
     void editStagesPrice(int index, int price);
     void fareManagementCLI();
-    void addData();
 };
 

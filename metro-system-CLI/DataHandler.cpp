@@ -1808,14 +1808,14 @@ void DataHandler::editStagesPrice(int index, int price) {
     stages[index] = price;
 }
 
-void DataHandler::addData() {
-    User* newUser = new User("arsany@gmail.com", "123", "arsany", 3030, 20);
-
-    addUser(newUser);
-    Ride newRide;
-    newRide.setStartingStation(*stations[0]);
-    newRide.setEndingStation(*stations[3]);
-    newRide.setStartingTime(3);
-    newRide.setEndingTime(9);
-    users[newUser->getId()]->addRide(newRide);
-}
+//void DataHandler::addData() {
+//    User* newUser = new User("arsany@gmail.com", "123", "arsany", 3030, 20);
+//
+//    addUser(newUser);
+//    Ride newRide;
+//    newRide.setStartingStation(*stations[0]);
+//    newRide.setEndingStation(*stations[3]);
+//    newRide.setStartingTime(3);
+//    newRide.setEndingTime(9);
+//    users[newUser->getId()]->addRide(newRide);
+//}
