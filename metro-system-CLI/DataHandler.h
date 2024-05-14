@@ -101,8 +101,6 @@ public:
     vector<int> getShortestPath(const vector<vector<int>>& paths);
     int getFair(int numOfStations);
     int stationsToStage(int numOfStations);
-    void userManagement();
-    void usersEmailWindow();
 
     /**
      * Get shortest path of two stations.
@@ -180,5 +178,7 @@ public:
 
     /// Get shortest path using `pathCost` structure.
     vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
+    void editStagesPrice(int index, int price);
+    void fareManagementCLI();
 };
 
