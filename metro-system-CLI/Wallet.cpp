@@ -1,14 +1,18 @@
 #include "Wallet.h"
 
-Wallet::Wallet(int chash):money(0.0)
+Wallet::Wallet(int chash):money(chash)
 {
-    this->charge(chash);
+    
 }
 
 void Wallet::charge(int chash) 
 {
     if (!vaidCharge(chash))return;
+    /*std::cout << "chash = " << chash <<"   money"<<money <<"\n";
+    std::cout << "asd"<<getMoney()<<money;*/
     money += chash;
+    //std::cout << "asd" << getMoney() << money;
+
 }
 
 bool Wallet::vaidCharge(int chash)
