@@ -20,8 +20,12 @@ class User :public Account
     /// It's value is -1 in case no ticket is used.
     /// </summary>
     int usedTicket;
-public:
 
+    //to save files
+    void writeString(std::ostream& os, const std::string& str) const;
+    std::string readString(std::istream& is) const;
+public:
+    User();
     User(std::string email, std::string password);
     User(std::string email, std::string password, std::string name, int nationalId, int age);
     Subscription getSubscription();
@@ -34,4 +38,8 @@ public:
     void setCheckedInStationId(int checkedInStationId);
     int getUsedTicket();
     void setUsedTicket(int usedTicket);
+
+    //to save files
+    void serialize(std::ostream& os) const;
+    bool deserialize(std::istream& is);
 };

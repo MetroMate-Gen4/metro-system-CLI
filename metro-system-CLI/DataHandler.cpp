@@ -1,6 +1,8 @@
 #include "DataHandler.h"
 #include <conio.h>//to use getch 
 #include <iomanip>  // For std::setw
+#include <fstream>// for save files
+#include<sstream>//for save files
 
 std::unordered_map<int, User*> DataHandler::users;
 std::stack<Ride> DataHandler::rides;
@@ -95,7 +97,7 @@ void DataHandler::clearUndoStackUser() {
 }
 
 void DataHandler::mainCLI() {
-    addUser(new User("ib.com", "ib", "IB", 1, 20));
+    //addUser(new User("ib.com", "ib", "IB", 1, 20));
     initializeGraph();
     stageTemporaryData();
 
@@ -893,6 +895,38 @@ void DataHandler::SubscriptionPlansTemporaryData()
     subscriptionPlans[1].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 }
 
+void DataHandler::writeDataFiles() {
+    std::ofstream usersFile("data_files\\users_data.bin", std::ios::binary);
+    if (usersFile.is_open()) {
+        for (auto it = users.begin(); it != users.end(); it++) {
+            it->second->serialize(usersFile);
+        }
+        usersFile.close();
+
+        std::cout << "Objects saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open file for writing." << std::endl;
+    }
+}
+
+void DataHandler::readDataFiles() {
+    std::ifstream usersFile("data_files\\users_data.bin", std::ios::binary);
+    if (usersFile.is_open()) {
+        while (!usersFile.eof()) {
+            User* user = new User;
+            if (!user->deserialize(usersFile))
+                break;
+            addUser(user);
+        }
+        usersFile.close();
+    }
+    else {
+        std::cerr << "Failed to open file for reading." << std::endl;
+        return;
+    }
+}
+
 
 void DataHandler:: Exit() {
     bool clear = 1;
@@ -918,7 +952,7 @@ void DataHandler:: Exit() {
         cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
         cin >> y_or_n;
         if (y_or_n == "yes" || y_or_n == "Yes" || y_or_n == "y" || y_or_n == "Y") {
-            //writeDataFiles();
+            writeDataFiles();
             exit(0);//to exit.
         }
         else if (y_or_n == "no" || y_or_n == "No" || y_or_n == "n" || y_or_n == "N") {

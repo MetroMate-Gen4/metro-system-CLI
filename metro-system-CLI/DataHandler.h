@@ -95,6 +95,8 @@ public:
     void manageSubscription(User* user);
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
+    void writeDataFiles();
+    void readDataFiles();
     void Exit();
     void enterCheckInOutScene(User* user);
     void initializeGraph();

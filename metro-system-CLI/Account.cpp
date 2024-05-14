@@ -2,6 +2,11 @@
 
 int Account::idCount = 0;
 
+Account::Account()
+{
+
+}
+
 Account::Account(std::string email, std::string password)
 {
     this->email = email;
