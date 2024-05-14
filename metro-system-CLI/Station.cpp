@@ -142,12 +142,12 @@ void Station::serialize(std::ostream& os) const {
 
     writeString(os, name);
 
-    size_t sizeOfLinesIdsVector = linesIds.size();
+    int sizeOfLinesIdsVector = linesIds.size();
     os.write(reinterpret_cast<const char*>(&sizeOfLinesIdsVector), sizeof(sizeOfLinesIdsVector));
     os.write(reinterpret_cast<const char*>(linesIds.data()), sizeOfLinesIdsVector * sizeof(int));
 
 
-    size_t sizeOflinkedStationIdsVector = linkedStationIds.size();
+    int sizeOflinkedStationIdsVector = linkedStationIds.size();
     os.write(reinterpret_cast<const char*>(&sizeOflinkedStationIdsVector), sizeof(sizeOflinkedStationIdsVector));
     os.write(reinterpret_cast<const char*>(linkedStationIds.data()), sizeOflinkedStationIdsVector * sizeof(int));
 
@@ -170,13 +170,15 @@ bool Station::deserialize(std::istream& is) {
     name = readString(is);
     idCounter = id;
 
-    size_t sizeOfLinesIdsVector;
-    is.read(reinterpret_cast<char*>(&sizeOfLinesIdsVector), sizeof(sizeOfLinesIdsVector));
+    int sizeOfLinesIdsVector;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfLinesIdsVector), sizeof(sizeOfLinesIdsVector)))
+        return false;
     linesIds.resize(sizeOfLinesIdsVector);
     is.read(reinterpret_cast<char*>(linesIds.data()), sizeOfLinesIdsVector * sizeof(int));
 
-    size_t sizeOflinkedStationIdsVector;
-    is.read(reinterpret_cast<char*>(&sizeOflinkedStationIdsVector), sizeof(sizeOflinkedStationIdsVector));
+    int sizeOflinkedStationIdsVector;
+    if (!is.read(reinterpret_cast<char*>(&sizeOflinkedStationIdsVector), sizeof(sizeOflinkedStationIdsVector)))
+        return false;
     linkedStationIds.resize(sizeOflinkedStationIdsVector);
     is.read(reinterpret_cast<char*>(linkedStationIds.data()), sizeOflinkedStationIdsVector * sizeof(int));
 
