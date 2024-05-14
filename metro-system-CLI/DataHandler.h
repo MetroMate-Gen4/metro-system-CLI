@@ -90,6 +90,7 @@ public:
     void displayStationStatisticsCLI(Station* station, int days);
     void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
+    bool is_number(std::string& s);
     void displaySubscriptionPlans();
     void purchaseSubscription(User* user);
     void subscriptionPlanManagement();
@@ -183,5 +184,7 @@ public:
 
     /// Get shortest path using `pathCost` structure.
     vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
+    void editStagesPrice(int index, int price);
+    void fareManagementCLI();
 };
 
