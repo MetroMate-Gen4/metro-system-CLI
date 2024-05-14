@@ -5,25 +5,6 @@ std::stack<Ride> DataHandler::rides;
 std::vector<Stage> DataHandler::stages;
 std::vector<SubscriptionPlan>DataHandler::subscriptionPlans;
 
-// ANSI color codes
-#define RESET       "\033[0m"
-#define BLACK       "\033[30m"     
-#define RED         "\033[31m"     
-#define GREEN       "\033[32m"  
-#define YELLOW      "\033[33m"   
-#define BLUE        "\033[34m"   
-#define MAGENTA     "\033[35m"  
-#define CYAN        "\033[36m"   
-#define WHITE       "\033[37m"  
-#define BOLDBLACK   "\033[1m\033[30m"
-#define BOLDRED     "\033[1m\033[31m"
-#define BOLDGREEN   "\033[1m\033[32m"
-#define BOLDYELLOW  "\033[1m\033[33m"
-#define BOLDBLUE    "\033[1m\033[34m"
-#define BOLDMAGENTA "\033[1m\033[35m"
-#define BOLDCYAN    "\033[1m\033[36m"
-#define BOLDWHITE   "\033[1m\033[37m"
-
 DataHandler::DataHandler() {}
 
 DataHandler::~DataHandler()
@@ -201,7 +182,7 @@ void DataHandler::mainCLI() {
                     choice = this->choice();
                     if (choice == "1") { //1)    User Management
                         system("cls");
-
+                        displayUsers();
                     }
                     else if (choice == "2") {//2)    Metro Management
                         system("cls");
@@ -479,6 +460,16 @@ void DataHandler::displayMyProfile(User* u) {
     std::cout << "\t\t\t|" << CYAN << " 5)   Back                       " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ------------------------------- |" << endl;
     std::cout << CYAN << "\n\t\t\t+ ------------------------------- +" << RESET << endl;
+}
+
+void DataHandler::displayUsers()
+{
+    cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
+    int i = 1;
+    for (auto it : users) {
+        displayAccountInformation(it.second);
+
+    }
 }
 
 void DataHandler::editUser(User* user) {
@@ -795,7 +786,7 @@ void DataHandler::manageSubscription(User* user)
     int ch;
     while (true) {
         system("cls");
-        //user.displaySubscription();
+        user->displaySubscription();
         cout << "\t\t1) Renew subscription\n";
         cout << "\t\t2) upgrade subscription\n";
         cout << "\t\t3) Exit\n";
