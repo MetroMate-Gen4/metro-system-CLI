@@ -149,9 +149,9 @@ void DataHandler::mainCLI() {
                                 system("cls");//to clear.
 
                             }
-                            else if (choice == "5") {// 5)  My whallet
+                            else if (choice == "5") {// 5)  My wallet
                                 system("cls");//to clear.
-                                
+                                manageWallet(user);
                             }
                             else if (choice == "6") {// 6)  back
                                 system("cls");//to clear.
@@ -788,12 +788,26 @@ void DataHandler::manageSubscription(User* user)
     int ch;
     while (true) {
         system("cls");
-        user->displaySubscription();
-        cout << "\t\t1) Renew subscription\n";
-        cout << "\t\t2) upgrade subscription\n";
-        cout << "\t\t3) Exit\n";
+        if (user->getSubscription().getType() == "") {
+            cout << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
+            cout << RED << "\t\t\t" << "|" << "---------------" << RESET << "\n";
 
-        ch = valid_input(1, 3);
+            return; // Exit the function since there's no subscription information
+            cout << "\t\t3) Exit\n";
+            cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+            ch = valid_input(3, 3);
+        }
+        else {
+            user->displaySubscription();
+
+            cout << "\t\t1) Renew subscription\n";
+            cout << "\t\t2) upgrade subscription\n";
+            cout << "\t\t3) Exit\n";
+            cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+
+            ch = valid_input(1, 3);
+        }
+        
         if (ch == 1) {
             char x;
             user->getSubscription().Renew();
@@ -1380,4 +1394,51 @@ vector<int> DataHandler::generateShortestPath(int source, int destination, unord
     reverse(shortestPath.begin(), shortestPath.end());
 
     return shortestPath;
+}
+
+void DataHandler::displayWallet(User* user)
+{
+    cout << YELLOW << "\t\t+ ----------------------------- +\n";
+    cout << "\t\t|" << GREEN << " Current balance :- \t" << RESET << user->getWallet().getMoney()<<"$" << YELLOW << "\t|\n";
+    cout << "\t\t|                               |\n";
+    cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+}
+
+void DataHandler::manageWallet(User* user)
+{
+    int ch=1;
+    while (ch != 2) {
+        displayWallet(user);
+       
+        cout << "\t\t+ --------------------- +\n";
+        cout << "\t\t|" << CYAN << "  [1] Recharge         " << RESET << "|\n";
+        cout << "\t\t+ --------------------- +\n";
+        cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
+        cout << "\t\t+ --------------------- +\n\n\n";
+        cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+        ch = valid_input(1, 2);
+        if (ch == 1) {
+            int ch2 = 1;
+            while (ch2 != 2) {
+                int money;
+                cout << "Enter your money: ";
+                money = valid_input(1, INT_MAX);
+                if (user->getWallet().vaidCharge(money)) {
+                    user->getWallet().charge(money);
+                    break;
+                }
+                else {
+                    cout << "\t\t+ --------------------- +\n";
+                    cout << "\t\t|" << CYAN << "  [1] Recharge             " << RESET << "|\n";
+                    cout << "\t\t+ --------------------- +\n";
+                    cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
+                    cout << "\t\t+ --------------------- +\n\n\n";
+                    cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+                    ch2 = valid_input(1, 2);
+                }
+            }
+
+        }
+        system("cls");
+    }
 }
