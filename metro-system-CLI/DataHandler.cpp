@@ -48,7 +48,7 @@ User* DataHandler::searchUser(int id)
 User* DataHandler::searchUserEmail(std::string email)
 {
     for (auto it = users.begin(); it != users.end(); ++it) {
-        if (it->second->getEmail() == email) 
+        if (it->second->getEmail() == email)
             return users[it->first];
     }
     return nullptr;
@@ -115,11 +115,11 @@ void DataHandler::clearUndoStackUser() {
 }
 
 void DataHandler::mainCLI() {
-    //addUser(new User("ib.com", "ib", "IB", 1, 20));
+    addUser(new User("arsany@gmal.com", "123", "arsany", 3030, 20));
+    addUser(new User("ib.com", "ib", "IB", 1, 20));
     initializeGraph();
     stageTemporaryData();
-    //addData();
-
+    addData();
     while (true) {
         std::string choice;
         Account* account;
@@ -127,14 +127,14 @@ void DataHandler::mainCLI() {
         choice = this->choice();
         if (choice == "1") {
             system("cls");//to clear.
-            account= displaySignIn();
+            account = displaySignIn();
             system("cls");//to clear.
             if (account == NULL) {
                 std::cout << RED << "\n\n\n  # The username or password is incorrect\n" << RESET;
                 continue;
             }
             if (User* user = dynamic_cast<User*>(account)) {
-                while (true){
+                while (true) {
                     displayHomeUser(user);
                     choice = this->choice();
                     if (choice == "1") {//1)    Purchase Subscription
@@ -199,7 +199,7 @@ void DataHandler::mainCLI() {
                 }
             }
             else if (Admin* admin = dynamic_cast<Admin*>(account)) {
-                while (true){
+                while (true) {
                     displayHomeAdmin(admin);
                     choice = this->choice();
                     if (choice == "1") { //1)    User Management
@@ -285,7 +285,7 @@ void DataHandler::mainCLI() {
             std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
         }
     }
-    
+
 }
 
 string DataHandler::choice() {
@@ -296,7 +296,7 @@ string DataHandler::choice() {
 }
 
 void DataHandler::displayMainMenu_SignIn_SignUp() {
-    std::cout << "\n\n\n                                     Welcome to"<< BOLDRED <<" MetroMate\n";
+    std::cout << "\n\n\n                                     Welcome to" << BOLDRED << " MetroMate\n";
 
 
 
@@ -304,12 +304,12 @@ void DataHandler::displayMainMenu_SignIn_SignUp() {
     std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
     std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
     std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n"<< RESET;
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
     std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;
     std::cout << YELLOW << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t|"<< CYAN <<" 1)    sign in                 "<< YELLOW << "|" << endl;
+    std::cout << "\n\t\t\t|" << CYAN << " 1)    sign in                 " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 2)    sign up                 " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 3)    Exit                    " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ----------------------------- |" << endl;
@@ -327,10 +327,10 @@ Account* DataHandler::displaySignIn() {
     std::cout << "  		     - - - - - - - - - - - - -  \n";
     std::cout << YELLOW << "			      	   SIGN IN \n";
     std::cout << CYAN << "  		                - - - - - - - - - - - - -  \n";
-    std::cout << "  	      	         -------------------------\n"<< RESET;
+    std::cout << "  	      	         -------------------------\n" << RESET;
 
 
-    std::cout << GREEN << "\n\n                               Email: "<< RESET;
+    std::cout << GREEN << "\n\n                               Email: " << RESET;
     std::cin >> email;
     std::cout << GREEN << "\n\n                               Password: " << RESET;
 
@@ -343,7 +343,7 @@ Account* DataHandler::displaySignIn() {
             else if (ch == 8) {
                 if (!pass.empty()) {
                     std::cout << "\b \b";
-                    pass.pop_back(); 
+                    pass.pop_back();
                 }
             }
             else {
@@ -410,7 +410,7 @@ void DataHandler::displaySignUp() {
             break;
         }
     }
-    
+
 }
 void DataHandler::displayHomeUser(User* u) {
     std::cout << "\n\n\n                                     Welcome " << BOLDRED << u->getName() << " ^_~ \n";
@@ -424,7 +424,7 @@ void DataHandler::displayHomeUser(User* u) {
     std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
-    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;    
+    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;
     std::cout << YELLOW << "\n\t\t\t| ----------------------------- |" << endl;
     std::cout << "\n\t\t\t|" << CYAN << " 1)    Purchase Subscription   " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 2)    View Ride History       " << YELLOW << "|" << endl;
@@ -497,7 +497,7 @@ void DataHandler::displayUsers()
         cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
         for (auto it : users) {
-            cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+            cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
         }
 
 
@@ -514,14 +514,12 @@ void DataHandler::displayUsers()
                 notChoice = true;
                 break;
             }
-
         if (ChooseUser == "B" || ChooseUser == "b")
         {
             system("cls");
             break;
         }
-
-        else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+        else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
         {
             system("cls");
             std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -529,7 +527,7 @@ void DataHandler::displayUsers()
         else
         {
             system("cls");
-            displayAccountInformation(searchUser(stoi(ChooseUser) - 1));
+            displayAccountInformation(searchUser(stoi(ChooseUser)));
         }
     }
 
@@ -537,7 +535,7 @@ void DataHandler::displayUsers()
 
 void DataHandler::editUser(User* user) {
     std::string choice;
-    while (true){
+    while (true) {
         displayAccountInformation(user);
         std::cout << CYAN << "\t\tWhate do you want to edit ? \n\n" << RESET;
         std::cout << "\t\t+ --------------------- +\n";
@@ -576,7 +574,7 @@ void DataHandler::editUser(User* user) {
                 system("cls");
                 std::cout << RED << "\n\n # this email is exist before \ntry again\n";
             }
-            
+
         }
         else if (choice == "3") {
             std::cout << GREEN << "Enter new password : " << RESET;
@@ -614,7 +612,7 @@ void DataHandler::editUser(User* user) {
             std::cout << RED << "Sorry, this option is not supported\nplease try again\n";
         }
     }
-    
+
 }
 
 void DataHandler::displayAccountInformation(Account* account)
@@ -629,7 +627,7 @@ void DataHandler::displayAccountInformation(Account* account)
     std::cout << "\t\t|" << GREEN << " National ID :-\t" << RESET << account->getNationalId() << YELLOW << "\t|\n";
     std::cout << "\t\t|                               |\n";
     std::cout << "\t\t|" << GREEN << " Age :- \t" << RESET << account->getAge() << YELLOW << "\t\t|\n";
-    std::cout << "\t\t+ ----------------------------- +\n\n\n"<<RESET;
+    std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
 }
 
 User* DataHandler::logIn(std::string email, std::string pass) {
@@ -852,7 +850,7 @@ void DataHandler::purchaseSubscription(User* user)
     cout << "\t\t1)Continue \n";
     cout << "\t\t2)Back \n";
     ch = valid_input(1, 2);
-    if (ch==1) {
+    if (ch == 1) {
         char x;
         cout << "\t\tEnter subscription plan number: ";
         subIndex = valid_input(1, subscriptionPlans.size());
@@ -865,7 +863,7 @@ void DataHandler::purchaseSubscription(User* user)
         cout << "\t\tEnter 1 to continue: ";
         cin >> x;
     }
-    else if (ch==2) {
+    else if (ch == 2) {
         system("cls");
         return;
     }
@@ -893,7 +891,7 @@ void DataHandler::subscriptionPlanManagement()
             int subPlanNum, trips, months;
             float p1, p2, p3, p4;
             for (int i = 0; i < subscriptionPlans.size(); i++) {
-                cout <<"\t\t"<< i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+                cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
             }
             cout << "\t\tEnter the subscription plan number: ";
             subPlanNum = valid_input(1, subscriptionPlans.size() + 1);
@@ -997,7 +995,7 @@ void  DataHandler::stageTemporaryData() {
 void DataHandler::SubscriptionPlansTemporaryData()
 {
     subscriptionPlans.push_back(SubscriptionPlan("Students"));
-     subscriptionPlans[0].AddPlan(3, 180, 33, 41, 50, 65);
+    subscriptionPlans[0].AddPlan(3, 180, 33, 41, 50, 65);
     subscriptionPlans[0].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 
     subscriptionPlans.push_back(SubscriptionPlan("Public"));
@@ -1038,7 +1036,7 @@ void DataHandler::readDataFiles() {
 }
 
 
-void DataHandler:: Exit() {
+void DataHandler::Exit() {
     bool clear = 1;
     while (true) {
         string y_or_n;
@@ -1083,7 +1081,7 @@ void DataHandler::usersEmailWindow()
     cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
     for (auto it : users) {
-        cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+        cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
     }
 
 
@@ -1124,6 +1122,7 @@ void DataHandler::userManagement()
             system("cls");
             while (true)
             {
+                clearUndoStackUser();
                 cout << "\t\t\t" << YELLOW << "--------------------\n";
                 cout << "\t\t\t" << YELLOW << "|" << GREEN << "Edit window       " << YELLOW << "|\n";
                 cout << "\t\t\t" << YELLOW << "--------------------\n";
@@ -1146,7 +1145,7 @@ void DataHandler::userManagement()
                     break;
                 }
 
-                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
                 {
                     system("cls");
                     std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -1154,7 +1153,7 @@ void DataHandler::userManagement()
                 else
                 {
                     system("cls");
-                    editUser(searchUser(stoi(ChooseUser) - 1));
+                    editUser(searchUser(stoi(ChooseUser)));
                 }
             }
         }
@@ -1185,7 +1184,7 @@ void DataHandler::userManagement()
                     break;
                 }
 
-                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
                 {
                     system("cls");
                     std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -1193,7 +1192,7 @@ void DataHandler::userManagement()
                 else
                 {
                     system("cls");
-                    deleteUser(stoi(ChooseUser) - 1);
+                    deleteUser(stoi(ChooseUser));
                 }
 
             }
@@ -1216,7 +1215,7 @@ void DataHandler::userManagement()
     }
 }
 
-string DataHandler::pathToString(vector<int> &path) {
+string DataHandler::pathToString(vector<int>& path) {
     string spath;
 
     for (int i = 0; i < path.size(); i++) {
@@ -1583,10 +1582,10 @@ void DataHandler::linkTwoStations(int stationId1, int stationId2)
  * The idea of the implementation is to traverse using DFS and keep track of the
  * passed path during that and in case of reaching the destination station add
  * recorded path to paths and stop getting deeper (look for another path).
- * 
+ *
  * Time Complexity: O(V + E) where V is the number of vertices and E is the number of edges in the graph.
  * Space Complexity: O(N^2)
- * 
+ *
  * Useful reference: https://www.geeksforgeeks.org/find-paths-given-source-destination
  */
 vector<vector<int>> DataHandler::getPaths(int source, int destination) {
@@ -1763,20 +1762,20 @@ void DataHandler::fareManagementCLI() {
         std::string choice;
         std::string price;
         std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
-        std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "1. Stage #1\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
         std::cout << "\t\t|" << GREEN << "2. Stage #2\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "3. Stage #3 :-\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "3. Stage #3\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t\n";
-        std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+        std::cout << "\t\t|" << GREEN << "4. Stage #4\t\t\t|\n";
+        std::cout << YELLOW << "\t\t+ ----------------------------- +\n\n\n" << RESET;
         std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
         choice = this->choice();
         while (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
 
             std::cout << "\n\t\tInvalid input\n" << RESET;
-            std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
+            std::cout << YELLOW << "\t\tSelect a stage to edit : " << RESET;
             choice = this->choice();
         }
 
@@ -1808,3 +1807,15 @@ void DataHandler::fareManagementCLI() {
 void DataHandler::editStagesPrice(int index, int price) {
     stages[index] = price;
 }
+
+//void DataHandler::addData() {
+//    User* newUser = new User("arsany@gmail.com", "123", "arsany", 3030, 20);
+//
+//    addUser(newUser);
+//    Ride newRide;
+//    newRide.setStartingStation(*stations[0]);
+//    newRide.setEndingStation(*stations[3]);
+//    newRide.setStartingTime(3);
+//    newRide.setEndingTime(9);
+//    users[newUser->getId()]->addRide(newRide);
+//}
