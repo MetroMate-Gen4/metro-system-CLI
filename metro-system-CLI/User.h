@@ -4,10 +4,12 @@
 #include "Account.h"
 #include "Subscription.h"
 #include "Ride.h"
-
+#include "Wallet.h"
 class User :public Account
 {
     Subscription sub;
+
+    Wallet wallet;
 
     /// <summary>
     /// Variable to store user location, if it's value is -1 then the user is out of metro.
@@ -27,7 +29,7 @@ public:
     User();
     User(std::string email, std::string password);
     User(std::string email, std::string password, std::string name, int nationalId, int age);
-    Subscription getSubscription();
+    Subscription &getSubscription();
     void setSubscription(Subscription sub);
     void displaySubscription();
 
@@ -35,6 +37,8 @@ public:
     void setCheckedInStationId(int checkedInStationId);
     int getUsedTicket();
     void setUsedTicket(int usedTicket);
+
+    Wallet &getWallet();
 
     //to save files
     void serialize(std::ostream& os) const;

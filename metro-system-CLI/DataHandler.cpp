@@ -170,9 +170,9 @@ void DataHandler::mainCLI() {
                                 system("cls");//to clear.
 
                             }
-                            else if (choice == "5") {// 5)  My whallet
+                            else if (choice == "5") {// 5)  My wallet
                                 system("cls");//to clear.
-                                
+                                manageWallet(user);
                             }
                             else if (choice == "6") {// 6)  back
                                 system("cls");//to clear.
@@ -925,12 +925,26 @@ void DataHandler::manageSubscription(User* user)
     int ch;
     while (true) {
         system("cls");
-        user->displaySubscription();
-        cout << "\t\t1) Renew subscription\n";
-        cout << "\t\t2) upgrade subscription\n";
-        cout << "\t\t3) Exit\n";
+        if (user->getSubscription().getType() == "") {
+            cout << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
+            cout << RED << "\t\t\t" << "|" << "---------------" << RESET << "\n";
 
-        ch = valid_input(1, 3);
+            return; // Exit the function since there's no subscription information
+            cout << "\t\t3) Exit\n";
+            cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+            ch = valid_input(3, 3);
+        }
+        else {
+            user->displaySubscription();
+
+            cout << "\t\t1) Renew subscription\n";
+            cout << "\t\t2) upgrade subscription\n";
+            cout << "\t\t3) Exit\n";
+            cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+
+            ch = valid_input(1, 3);
+        }
+        
         if (ch == 1) {
             char x;
             user->getSubscription().Renew();
@@ -1690,6 +1704,53 @@ vector<int> DataHandler::generateShortestPath(int source, int destination, unord
     return shortestPath;
 }
 
+void DataHandler::displayWallet(User* user)
+{
+    cout << YELLOW << "\t\t+ ----------------------------- +\n";
+    cout << "\t\t|" << GREEN << " Current balance :- \t" << RESET << user->getWallet().getMoney()<<"$" << YELLOW << "\t|\n";
+    cout << "\t\t|                               |\n";
+    cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+}
+
+void DataHandler::manageWallet(User* user)
+{
+    int ch=1;
+    while (ch != 2) {
+        displayWallet(user);
+       
+        cout << "\t\t+ --------------------- +\n";
+        cout << "\t\t|" << CYAN << "  [1] Recharge         " << RESET << "|\n";
+        cout << "\t\t+ --------------------- +\n";
+        cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
+        cout << "\t\t+ --------------------- +\n\n\n";
+        cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+        ch = valid_input(1, 2);
+        if (ch == 1) {
+            int ch2 = 1;
+            while (ch2 != 2) {
+                int money;
+                cout << "Enter your money: ";
+                money = valid_input(1, INT_MAX);
+                if (user->getWallet().vaidCharge(money)) {
+                    user->getWallet().charge(money);
+                    break;
+                }
+                else {
+                    cout << "\t\t+ --------------------- +\n";
+                    cout << "\t\t|" << CYAN << "  [1] Recharge             " << RESET << "|\n";
+                    cout << "\t\t+ --------------------- +\n";
+                    cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
+                    cout << "\t\t+ --------------------- +\n\n\n";
+                    cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+                    ch2 = valid_input(1, 2);
+                }
+            }
+
+        }
+        system("cls");
+    }
+}
+
 bool DataHandler::is_number(std::string& s)
 {
     std::string::const_iterator it = s.begin();
@@ -1698,42 +1759,49 @@ bool DataHandler::is_number(std::string& s)
 }
 
 void DataHandler::fareManagementCLI() {
-    std::string choice;
-    std::string price;
-    std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
-    std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
-    std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t|" << GREEN << "2. Stage #2 :-\t\t\t|\n";
-    std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t|" << GREEN << "3. Stage #3 :-\t\t\t|\n";
-    std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t|\n";
-    std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
-    std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
-    choice = this->choice();
-    while (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
+    while (1) {
+        std::string choice;
+        std::string price;
         std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
         std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "2. Stage #2 :-\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "2. Stage #2\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
         std::cout << "\t\t|" << GREEN << "3. Stage #3 :-\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t\n";
         std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
-        std::cout << "\t\tInvalid input\n" << RESET;
         std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
         choice = this->choice();
-    }
+        while (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
 
-    std::cout << GREEN << "\n\t\tEnter your desired stage price : " << RESET;
-    price = this->choice();
-    while (!is_number(price)) {
+            std::cout << "\n\t\tInvalid input\n" << RESET;
+            std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
+            choice = this->choice();
+        }
+
         std::cout << GREEN << "\n\t\tEnter your desired stage price : " << RESET;
-        std::cout << GREEN << "\n\t\tInvalid input." << RESET;
         price = this->choice();
+        while (!is_number(price)) {
+            std::cout << GREEN << "\n\t\tEnter your desired stage price : " << RESET;
+            std::cout << GREEN << "\n\t\tInvalid input." << RESET;
+            price = this->choice();
+        }
+        editStagesPrice(std::stoi(choice), stoi(price));
+        std::cout << GREEN << "\n\t\tSuccess." << RESET;
+        std::cout << MAGENTA << "\n\t\tDo you want to continue editing?" << RESET;
+        std::cout << MAGENTA << "\n\t\t1. Continue";
+        std::cout << "\n\t\t2. Back to menu";
+        choice = this->choice();
+        while (choice != "1" && choice != "2") {
+            std::cout << GREEN << "\n\t\tInvalid input." << RESET;
+            choice = this->choice();
+        }
+        if (choice == "1")
+            continue;
+        else
+            break;
     }
-    editStagesPrice(std::stoi(choice), stoi(price));
 }
 
 

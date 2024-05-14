@@ -6,19 +6,17 @@
 using namespace std;
 
 
-User::User() :Account() {
+User::User(string email, string password) : Account(email, password), checkedInStationId(-1), usedTicket(-1),wallet(0){}
+User::User() :Account(), wallet(0) {
 
 }
 
-User::User(string email, string password) : Account(email, password), checkedInStationId(-1), usedTicket(-1)
-{
-}
 
-User::User(std::string email, std::string password, std::string name, int nationalId, int age) :Account(email, password, name, nationalId, age), checkedInStationId(-1), usedTicket(-1) {
+User::User(std::string email, std::string password, std::string name, int nationalId, int age) :Account(email, password, name, nationalId, age), checkedInStationId(-1), usedTicket(-1), wallet(0) {
 
 }
 
-Subscription User::getSubscription()
+Subscription &User::getSubscription()
 {
     return sub;
 }
@@ -69,6 +67,11 @@ int User::getUsedTicket()
 void User::setUsedTicket(int usedTicket)
 {
     this->usedTicket = usedTicket;
+}
+
+Wallet &User::getWallet()
+{
+    return this->wallet;
 }
 
 
