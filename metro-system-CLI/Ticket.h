@@ -8,13 +8,9 @@
 class Ticket
 {
     Stage* stageType;
-    Station* startingStation;
-    std::vector<Station> availableStations;
 
 public:
-    Ticket(Stage& stageType, Station& startingStation);
-    std::vector<Station> getAvailableStations();
-    void addAvailableStation(Station& avilableStation);
+    Ticket(Stage& stageType);
     float getPrice();
     Stage getType();
 };

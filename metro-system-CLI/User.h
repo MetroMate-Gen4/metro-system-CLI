@@ -9,6 +9,17 @@ class User :public Account
 {
     Subscription sub;
     stack<Ride>rides;
+
+    /// <summary>
+    /// Variable to store user location, if it's value is -1 then the user is out of metro.
+    /// Otherwise the user is in the metro and entered it throw station with stored id.
+    /// </summary>
+    int checkedInStationId;
+    /// <summary>
+    /// Variable to know whether the user checked-in using subscription card or ticket and a ticket of which stage. it doesn't make sense if checkedInStationId is -1.
+    /// It's value is -1 in case no ticket is used.
+    /// </summary>
+    int usedTicket;
 public:
 
     User(std::string email, std::string password);
@@ -18,4 +29,9 @@ public:
     void addRide(Ride ride);
     stack<Ride> getRides();
     void displaySubscription();
+
+    int getCheckedInStationId();
+    void setCheckedInStationId(int checkedInStationId);
+    int getUsedTicket();
+    void setUsedTicket(int usedTicket);
 };
