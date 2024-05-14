@@ -1,10 +1,13 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
 #include <stack>
+#include <queue>
 #include "User.h"
 #include "Line.h"
 #include "Admin.h"
+#include "Station.h"
 
 // ANSI color codes
 #define RESET       "\033[0m"
@@ -27,13 +30,31 @@
 
 class DataHandler
 {
+private:
+
+    /// <summary>
+    /// Utility method for getPaths method that gets all possible paths from station to station.
+    /// </summary>
+    /// <param name="currentStation">Id of starting station</param>
+    /// <param name="destination">Id of destination station</param>
+    /// <param name="visited">Set used to know visited points</param>
+    /// <param name="currentPath">Used to store used path that can potentially be a path from currentStation to destination</param>
+    /// <param name="paths">Used to store possible paths from currentStation to destination</param>
+    void _getPaths(int currentStation, int destination, unordered_set<int>& visited, vector<int>& currentPath, vector<vector<int>>& paths);
 public:
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
     static std::stack<Ride> rides;
     stack<User> undoStackUser;
-    static std::vector<Stage>stages;
+    static std::vector<int> stages;
     static std::vector<SubscriptionPlan>subscriptionPlans;
+
+    /// The graph of stations where the key is the station id of the
+    /// station stored in the Station instance the pointer in value points to.
+    static std::unordered_map<int, Station*> stations;
+
+    /// Used to make sure that station names are unique
+    static std::map<std::string, int> usedStationNames;
     DataHandler();
     ~DataHandler();
     User* searchUser(int id);
@@ -45,8 +66,6 @@ public:
     void editUserNationalId(int userId, int newNationalId);
     void editUserAge(int userId, int NewAge);
     void deleteUser(int userId);
-    void addStation(Station newStation);
-    void deleteStation(int stationId);
     void addLine(Line newLine);
     void deleteLine(int lineId);
     void undoEditUser();
@@ -77,5 +96,87 @@ public:
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
     void Exit();
+    void enterCheckInOutScene(User* user);
+    void initializeGraph();
+    vector<int> getShortestPath(const vector<vector<int>>& paths);
+    int getFair(int numOfStations);
+    int stationsToStage(int numOfStations);
+
+    /**
+     * Get shortest path of two stations.
+     *
+     * @param source Starting point of path
+     *
+     * @param destination Ending point of path
+     *
+     * @return vector of station ids of the shortest path between two stations (inclusive)
+     *      the vector is empty if there is no path between the two stations.
+     *
+     * @throws Error Thrown if `source` or `destination` does not exist.
+     */
+    vector<int> getShortestPath(int source, int destination);
+
+
+    /**
+     * Add new station to the metro graph
+     *
+     * @param name The name of the station that should be added.
+     *
+     * @throws Error Thrown if `name` is duplicate.
+     */
+    void addStation(std::string name);
+
+    /**
+     * Remove station from the metro graph
+     *
+     * @param id The id of the station that should be removed.
+     *
+     * @throws Error Thrown if `id` does not exist.
+     */
+    void removeStation(int id);
+
+    /**
+     * Links two stations with each other in the graph with undirected edge.
+     *
+     * @param stationId1 Id of the first station to be linked.
+     * @param stationId2 Id of the second station to be linked.
+     *
+     * @throws Error Thrown if `stationId1` or `stationId2` does not exist.
+     */
+    void linkTwoStations(int stationId1, int stationId2);
+
+    /**
+     * Get station instance by it's id.
+     *
+     * @param id Id of the first station to be linked.
+     *
+     * @return station pointer.
+     *
+     * @throws Error Thrown if `id` does not exist.
+     */
+    Station* getStationById(int id);
+
+    /// <summary>
+    /// Used to get all possible paths from source to destination.
+    /// </summary>
+    /// <param name="source">Id of starting station</param>
+    /// <param name="destination">Id of destination station</param>
+    /// <returns>All possible paths in form of Vector that stores a list of vectors,
+    ///          each one of them lists station ids from source station to destination station (inclusive).</returns>
+    vector<vector<int>> getPaths(int source, int destination);
+    string pathToString(vector<int>& path);
+
+    /// struct used in `getShortestPath()` method
+    struct FromToCost {
+        int from;
+        int to;
+        int cost;
+    };
+
+    /// Add stations linked with `source` station to `que`.
+    void addEdgesFromSource(int source, std::queue<FromToCost*>& que);
+
+    /// Get shortest path using `pathCost` structure.
+    vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
 };
 

@@ -60,20 +60,6 @@ void Subscription::setPrice(float newPrice)
     price = newPrice;
 }
 
-Station Subscription::getStartingStation() const
-{
-    return startingStation;
-}
-
-void Subscription::setStartingStation(const Station& newStartingStation)
-{
-    startingStation = newStartingStation;
-}
-
-Station Subscription::getLastStation() const
-{
-    return lastStation;
-}
 
 int Subscription::getNumberOfMonth() const
 {
@@ -85,12 +71,17 @@ int Subscription::getNumberOfTrip() const
     return this->numberOfTrip;
 }
 
-void Subscription::setLastStation(const Station& newLastStation)
+void Subscription::setStageNumber(int stageNumber)
 {
-    lastStation = newLastStation;
+    this->stageNumber = stageNumber;
 }
 
 bool Subscription:: isValid()
 {
     return time(nullptr) < endTime && numberOfTrip;
+}
+
+int Subscription::getStageNumber()
+{
+    return stageNumber;
 }

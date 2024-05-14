@@ -1,9 +1,13 @@
 #include "DataHandler.h"
+#include <conio.h>//to use getch 
+#include <iomanip>  // For std::setw
+
 std::unordered_map<int, User*> DataHandler::users;
 std::stack<Ride> DataHandler::rides;
-#include <conio.h>//to use getch 
-std::vector<Stage> DataHandler::stages;
-std::vector<SubscriptionPlan>DataHandler::subscriptionPlans;
+std::vector<int> DataHandler::stages;
+std::vector<SubscriptionPlan> DataHandler::subscriptionPlans;
+std::unordered_map<int, Station*> DataHandler::stations;
+std::map<std::string, int> DataHandler::usedStationNames;
 
 DataHandler::DataHandler() {}
 
@@ -64,16 +68,6 @@ void DataHandler::deleteUser(int userId) {
     users.erase(userId);
 }
 
-
-
-void DataHandler::addStation(Station newStation) {
-    //depend on graph for stations (adjacency list)
-}
-
-void DataHandler::deleteStation(int stationId) {
-    //depend on graph for stations (adjacency list)
-}
-
 void DataHandler::addLine(Line newLine) {
     //depend on graph for stations (adjacency list)
 }
@@ -102,6 +96,9 @@ void DataHandler::clearUndoStackUser() {
 
 void DataHandler::mainCLI() {
     addUser(new User("ib.com", "ib", "IB", 1, 20));
+    initializeGraph();
+    stageTemporaryData();
+
     while (true) {
         std::string choice;
         Account* account;
@@ -129,7 +126,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "3") {//3)    Check (In/Out) for Ride 
                         system("cls");
-
+                        enterCheckInOutScene(user);
                     }
                     else if (choice == "4") { //4)    My profile 
                         system("cls");
@@ -834,14 +831,11 @@ void DataHandler::manageSubscription(User* user)
 }
 //// until the files are finished
 void  DataHandler::stageTemporaryData() {
-    /*stages[0] = new Stage(6, 1, 9);
-    stages[1] = new Stage(8, 10, 16);
-    stages[2] = new Stage(12, 17, 23);
-    stages[3] = new Stage(15, 24, 9);*/
-    stages.push_back(Stage(6, 1, 9));
-    stages.push_back(Stage(8, 10, 16));
-    stages.push_back(Stage(12, 17, 23));
-    stages.push_back(Stage(15, 24, 1000));
+    stages.push_back(0);
+    stages.push_back(6);
+    stages.push_back(8);
+    stages.push_back(12);
+    stages.push_back(15);
 }
 
 void DataHandler::SubscriptionPlansTemporaryData()
@@ -894,4 +888,491 @@ void DataHandler:: Exit() {
             continue;
         }
     }
+}
+string DataHandler::pathToString(vector<int> &path) {
+    string spath;
+
+    for (int i = 0; i < path.size(); i++) {
+        spath += to_string(path[i]) + " > ";
+    }
+
+    spath = spath.substr(0, spath.size() - 3);
+
+    return spath;
+}
+
+void DataHandler::enterCheckInOutScene(User* user)
+{
+    // TODO take care of styling.
+    string beginning = "          ";
+    while (1) {
+        cout << beginning << "Check-In/Out Scene\n\n";
+        cout << beginning << "\t1) Check-In\n";
+        cout << beginning << "\t2) Check-Out\n";
+        cout << beginning << "\t3) Get Paths and it's fare between two stations\n";
+        cout << beginning << "\t4) List Station ids and Names\n";
+        cout << beginning << "\t5) Return to main menu\n";
+
+        string choice = this->choice();
+
+        if (choice == "1") {
+            system("cls");
+            string checkedInStationIdInput;
+            int checkedInStationId;
+            string choice;
+
+            try {
+                cout << beginning << "Enter check-in station id: ";
+                cin >> checkedInStationIdInput;
+                checkedInStationId = stoi(checkedInStationIdInput);
+            }
+            catch (...) {
+                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(checkedInStationId) == stations.end()) {
+                cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                continue;
+            }
+
+            cout << beginning << "Payment Method: ";
+            cout << beginning << "\t1) Subscription\n";
+            cout << beginning << "\t2) Ticket\n";
+            cout << beginning << "\t3) Back to previous menu\n";
+            choice = this->choice();
+
+            if (choice == "1") {
+                if (user->getSubscription().getType() == "") {
+                    cout << RED << "You don't have a subscription plan, purchase one to be able to use this option.\n" << RESET;
+                    continue;
+                }
+                else if (user->getSubscription().getNumberOfTrip() < 1) {
+                    cout << RED << "Your quata has ended, you need to renew your subscription to use this option\n" << RESET;
+                    continue;
+                }
+                else if (false) { // add condition in case of subscription being expired. TODO
+                    cout << RED << "Your subscription has expired, you need to renew your subscription to use this option\n" << RESET;
+                    continue;
+                }
+                else {
+                    user->setCheckedInStationId(checkedInStationId);
+                    user->setUsedTicket(-1);
+                }
+            }
+            else if (choice == "2") {
+                // TODO Check Wallet
+                cout << beginning << "Choose stage: ";
+                cout << beginning << "\t1) Stage 1 (price: " << setw(2) << stages[1] << ")\n";
+                cout << beginning << "\t1) Stage 2 (price: " << setw(2) << stages[2] << ")\n";
+                cout << beginning << "\t1) Stage 3 (price: " << setw(2) << stages[3] << ")\n";
+                cout << beginning << "\t1) Stage 4 (price: " << setw(2) << stages[4] << ")\n";
+
+                string stage = this->choice();
+
+                if (stage == "1") {
+                    user->setUsedTicket(1);
+                }
+                else if (stage == "2") {
+                    user->setUsedTicket(2);
+                }
+                else if (stage == "3") {
+                    user->setUsedTicket(3);
+                }
+                else if (stage == "4") {
+                    user->setUsedTicket(4);
+                }
+                else {
+                    system("cls");
+                    cout << RED << "Sorry, this option is not supported\n" << RESET;
+                    continue;
+                }
+                user->setCheckedInStationId(checkedInStationId);
+            }
+            else if (choice == "3") {
+                continue;
+            }
+            else {
+                system("cls");
+                cout << RED << "Sorry, this option is not supported\n" << RESET;
+                continue;
+            }
+
+        }
+        else if (choice == "2") {
+            system("cls");
+
+            if (user->getCheckedInStationId() == -1) {
+                cout << RED << "You didn't check-in to check-out.\n" << RESET;
+                continue;
+            }
+
+            string checkedOutStationIdInput;
+            int checkedOutStationId;
+
+            try {
+                cout << beginning << "Enter check-out station id: ";
+                cin >> checkedOutStationIdInput;
+                checkedOutStationId = stoi(checkedOutStationIdInput);
+            }
+            catch (...) {
+                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(checkedOutStationId) == stations.end()) {
+                cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                continue;
+            }
+
+            int ticket = user->getUsedTicket();
+            int numberOfStations = getShortestPath(user->getCheckedInStationId(), checkedOutStationId).size();
+            int neededStage = stationsToStage(numberOfStations);
+
+            if (ticket == -1) {
+                // add condition to check subscription stage. TODO
+            }
+            else if (ticket < neededStage) {
+                cout << RED << "\n\nYour ticket doesn't allow you to check-out from this station, check-out in a more near place.\n\n" << RESET;
+                continue;
+            }
+
+            user->setCheckedInStationId(-1);
+            // user->addRide(Ride()) add ride to logs later, Ride needs refactoring. TODO
+        }
+        else if (choice == "3") {
+            system("cls");
+            string startingPointIdInput;
+            string destinationIdInput;
+            int startingPointId;
+            int destinationId;
+
+            cout << "\n\n";
+            try {
+
+                cout << beginning << "Enter station where you would check-in: ";
+                cin >> startingPointIdInput;
+
+                startingPointId = stoi(startingPointIdInput);
+
+                if (stations.find(startingPointId) == stations.end()) {
+                    cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                    continue;
+                }
+
+                cout << beginning << "Enter station where you would check-out: ";
+                cin >> destinationIdInput;
+
+                destinationId = stoi(destinationIdInput);
+
+                if (stations.find(destinationId) == stations.end()) {
+                    cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                    continue;
+                }
+
+            }
+            catch (...) {
+                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                continue;
+            }
+            vector<vector<int>> paths = getPaths(startingPointId, destinationId);
+
+            if (paths.empty()) {
+                cout << RED << "\n\nSadly there is no path between this two stations.\n\n" << RESET;
+                continue;
+            }
+
+            vector<int> shortestPath = getShortestPath(paths);
+
+            cout << "\n";
+
+            cout << beginning << "Shortest Path: " << pathToString(shortestPath) << "\n";
+            cout << beginning << "Shortest Path's Fare: " << getFair(shortestPath.size() - 1) << "\n";
+            cout << beginning << "Stage: " << stationsToStage(shortestPath.size() - 1) << "\n";
+
+            cout << "\n";
+
+            // Print the table header
+            cout << beginning << "---------------------------------------------------------------\n";
+            cout << beginning << "                      All Possible Paths                       \n";
+            cout << beginning << "---------------------------------------------------------------\n";
+            cout << beginning << left << setw(50) << "Path" << " | " << setw(10) << "Fare" << "\n";
+            cout << beginning << "---------------------------------------------------------------\n";
+
+            for (int i = 0; i < paths.size(); i++) {
+                cout << beginning << setw(50) << pathToString(paths[i]) << " | " << setw(10) << getFair(shortestPath.size() - 1) << "\n";
+            }
+
+            cout << "\n\n";
+
+        }
+        else if (choice == "4") {
+            system("cls");
+
+            cout << "\n\n";
+
+            // Print the table header
+            cout << beginning << "--------------------------------------------\n";
+            cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
+            cout << beginning << "--------------------------------------------\n";
+
+            for (auto i : usedStationNames) {
+                cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
+            }
+
+            cout << "\n\n";
+        }
+        else if (choice == "5") {
+            break;
+            system("cls");
+        }
+        else {
+            system("cls");
+            cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
+        }
+    }
+
+}
+
+void DataHandler::initializeGraph()
+{
+    addStation("New El-Marg");
+    addStation("El-Marg");
+    addStation("Ezbet El-Nakhl");
+    addStation("Ain Shams");
+    addStation("El-Matareyya");
+    addStation("Helmeyet El-Zaitoun");
+    addStation("Hadayeq El-Zaitoun");
+    addStation("Saray El-Qobba");
+    addStation("Hammamat El-Qobba");
+    addStation("Kobri El-Qobba");
+    addStation("Manshiet El-Sadr");
+
+    linkTwoStations(0, 1);
+    linkTwoStations(1, 2);
+    linkTwoStations(2, 3);
+    linkTwoStations(3, 4);
+    linkTwoStations(4, 5);
+    linkTwoStations(5, 6);
+    linkTwoStations(6, 7);
+    linkTwoStations(7, 8);
+    linkTwoStations(8, 9);
+    linkTwoStations(9, 10);
+
+}
+
+vector<int> DataHandler::getShortestPath(const vector<vector<int>>& paths)
+{
+    if (paths.size() < 1) {
+        throw "Error getShortestPath: paths argument is empty.";
+    }
+
+    vector<int> shortestPath = paths[0];
+
+    for (int i = 0; i < paths.size(); i++) {
+        if (shortestPath.size() > paths[i].size()) {
+            shortestPath = paths[i];
+        }
+    }
+
+    return shortestPath;
+}
+
+int DataHandler::getFair(int numOfStations)
+{
+    if (numOfStations < 1) {
+        throw "Error getFair: numOfStations must be a positive number.";
+    }
+    else if (numOfStations <= 9) {
+        return stages[1];
+    }
+    else if (numOfStations <= 16) {
+        return stages[2];
+    }
+    else if (numOfStations <= 23) {
+        return stages[3];
+    }
+    else {
+        return stages[4];
+    }
+}
+
+int DataHandler::stationsToStage(int numOfStations)
+{
+    if (numOfStations < 1) {
+        throw "Error stationsToStage: numOfStations must be a positive number.";
+    }
+    else if (numOfStations <= 9) {
+        return 1;
+    }
+    else if (numOfStations <= 16) {
+        return 2;
+    }
+    else if (numOfStations <= 23) {
+        return 3;
+    }
+    else {
+        return 4;
+    }
+}
+
+void DataHandler::addStation(std::string name)
+{
+    if (usedStationNames.find(name) != usedStationNames.end())
+        throw "Error addStation: This station name is already used.";
+
+    Station* station = new Station(name);
+    stations[station->getId()] = station;
+
+    usedStationNames[name] = station->getId();
+}
+
+void DataHandler::removeStation(int id)
+{
+    if (stations.find(id) == stations.end())
+        throw "Error removeStation: id doesn't exist.";
+    stations.erase(id);
+}
+
+Station* DataHandler::getStationById(int id)
+{
+    if (stations.find(id) == stations.end())
+        throw "Error getStationById: id doesn't exist.";
+    return stations[id];
+}
+
+void DataHandler::linkTwoStations(int stationId1, int stationId2)
+{
+    if (stations.find(stationId1) == stations.end())
+        throw "Error linkTwoStations: Id in stationId1 parameter doesn't exist in the graph.";
+    if (stations.find(stationId2) == stations.end())
+        throw "Error linkTwoStations: Id in stationId2 parameter doesn't exist in the graph.";
+
+    stations[stationId1]->linkToStation(stationId2);
+    stations[stationId2]->linkToStation(stationId1);
+}
+
+/*
+ * The idea of the implementation is to traverse using DFS and keep track of the
+ * passed path during that and in case of reaching the destination station add
+ * recorded path to paths and stop getting deeper (look for another path).
+ * 
+ * Time Complexity: O(V + E) where V is the number of vertices and E is the number of edges in the graph.
+ * Space Complexity: O(N^2)
+ * 
+ * Useful reference: https://www.geeksforgeeks.org/find-paths-given-source-destination
+ */
+vector<vector<int>> DataHandler::getPaths(int source, int destination) {
+    unordered_set<int> visited;
+    vector<int> currentPath;
+    vector<vector<int>> paths;
+
+    _getPaths(source, destination, visited, currentPath, paths);
+
+    return paths;
+}
+void DataHandler::_getPaths(int currentStation, int destination, unordered_set<int>& visited, vector<int>& currentPath, vector<vector<int>>& paths) {
+    /// include currentPoint in the path
+    visited.insert(currentStation);
+    currentPath.push_back(currentStation);
+
+    /// If currentPoint is the destination then include currentPath to paths.
+    if (currentStation == destination) {
+        paths.push_back(vector<int>(currentPath));
+    }
+    /// Else, traverse linked stations.
+    else {
+        vector<int> linkStationIds = stations[currentStation]->getLinkedStationIds();
+
+        for (auto stationId : linkStationIds) {
+            if (visited.find(stationId) == visited.end()) {
+                _getPaths(stationId, destination, visited, currentPath, paths);
+            }
+        }
+    }
+
+    // Remove station from path.
+    currentPath.erase(currentPath.end() - 1);
+    visited.erase(currentStation);
+}
+
+// Useful resource to understand how this method is implemented: https://www.youtube.com/watch?v=T_m27bhVQQQ
+vector<int> DataHandler::getShortestPath(int source, int destination)
+{
+    if (stations.find(source) == stations.end())
+        throw "Error getShortestPath: Id in source parameter doesn't exist in the graph.";
+    if (stations.find(destination) == stations.end())
+        throw "Error getShortestPath: Id in destination parameter doesn't exist in the graph.";
+
+    std::queue<FromToCost*> que;
+    unordered_map<int, std::pair<int, int>> pathCost;
+
+    addEdgesFromSource(source, que);
+    pathCost[source] = std::make_pair(source, 0);
+
+    /// construct pathCost structure
+    while (!que.empty() && pathCost.size() < stations.size()) {
+        auto procItem = que.front();
+        que.pop();
+        if (pathCost.find(procItem->to) == pathCost.end()) {
+
+            pathCost[procItem->to] = std::make_pair(procItem->from, pathCost[procItem->from].second + 1);
+
+            std::vector<int> links = stations[procItem->to]->getLinkedStationIds();
+
+            for (int i = 0; i < links.size(); i++) {
+                if (pathCost.find(links[i]) == pathCost.end()) {
+                    auto temp = new FromToCost();
+                    temp->from = procItem->to;
+                    temp->to = links[i];
+                    temp->cost = pathCost[procItem->to].second;
+                    que.push(temp);
+                }
+            }
+        }
+        delete procItem;
+    }
+
+    /// free remaining elements in `que` from memory.
+    while (!que.empty()) {
+        auto procItem = que.front();
+        que.pop();
+        delete procItem;
+    }
+
+    return generateShortestPath(source, destination, pathCost);
+}
+
+void DataHandler::addEdgesFromSource(int source, std::queue<FromToCost*>& que)
+{
+    vector<int> links = this->stations[source]->getLinkedStationIds();
+
+    FromToCost* temp;
+
+    for (int i = 0; i < links.size(); i++) {
+        temp = new FromToCost();
+        temp->from = source;
+        temp->to = links[i];
+        temp->cost = 1;
+        que.push(temp);
+    }
+}
+
+vector<int> DataHandler::generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int> >& pathCost)
+{
+    if (pathCost.find(destination) == pathCost.end()) {
+        return {};
+    }
+
+    vector<int> shortestPath;
+
+    for (int i = destination; i != source; i = pathCost[i].first) {
+        shortestPath.push_back(i);
+    }
+
+    shortestPath.push_back(source);
+
+    reverse(shortestPath.begin(), shortestPath.end());
+
+    return shortestPath;
 }

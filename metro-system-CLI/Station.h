@@ -4,6 +4,7 @@
 #include <map>
 #include<ctime>
 #include<iostream>
+
 struct dayData {
     int numberOfSoldTickets;
     double totalIncome;
@@ -13,14 +14,9 @@ struct dayData {
 
 class Station
 {
-private:
-    int id;
-    static int idCount;
-    std::string name;
-    std::vector<int> linesIds;
-    std::map<std::string, dayData>stationData;
 public:
     Station();
+    Station(std::string name);
     int getId();
     std::string getName();
     void setId(int id);
@@ -36,4 +32,14 @@ public:
     void displayStationData();
     dayData getStationDataDay(std::string day);
     dayData getDayDataForPeriod(int numberOfDays)const;
+
+    void linkToStation(int id);
+    std::vector<int> getLinkedStationIds();
+private:
+    static int idCounter;
+    int id;
+    std::string name;
+    std::vector<int> linesIds;
+    std::map<std::string, dayData>stationData;
+    std::vector<int> linkedStationIds;
 };

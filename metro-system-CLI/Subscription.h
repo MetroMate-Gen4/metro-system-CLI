@@ -12,8 +12,7 @@ class Subscription
     string type;
     float price;
     int numberOfMonth, numberOfTrip,originalNumberOfTrip;
-    Station startingStation, lastStation;
-    set<Station> availableStations;
+    int stageNumber;
     time_t startTime,endTime;
     //
     //should put start date and period for subscription
@@ -27,15 +26,15 @@ public:
     //getter
     string  getType() const;
     float   getPrice() const;
-    Station getStartingStation() const;
-    Station getLastStation() const;
     int getNumberOfMonth()const;
     int getNumberOfTrip()const;
+    void setStageNumber(int stageNumber);
 
     //setter
     void setType(const string& newType);
     void setPrice(float newPrice);
-    void setStartingStation(const Station& newStartingStation);
-    void setLastStation(const Station& newLastStation);
+    int getStageNumber();
     bool isValid();
+
+
 };

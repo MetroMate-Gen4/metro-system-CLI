@@ -1,11 +1,16 @@
 #include "Station.h"
 
-int Station::idCount = 0;
+int Station::idCounter = 0;
 
-Station::Station()
+Station::Station(std::string name)
 {
-    id = ++idCount;
+    id = idCounter;
+    idCounter++;
+    this->name = name;
 }
+
+Station::Station() : Station("New ElMarg")
+{}
 
 int Station::getId() {
     return id;
@@ -104,3 +109,14 @@ dayData Station::getDayDataForPeriod(int numberOfDays)const
     }
     return data;
 }
+
+void Station::linkToStation(int id)
+{
+    linkedStationIds.push_back(id);
+}
+
+std::vector<int> Station::getLinkedStationIds()
+{
+    return linkedStationIds;
+}
+
