@@ -28,16 +28,6 @@ void User::setSubscription(Subscription sub)
     this->sub = sub;
 }
 
-void User::addRide(Ride ride)
-{
-    rides.push(ride);
-    DataHandler::rides.push(ride);
-}
-
-stack<Ride> User::getRides()
-{
-    return rides;
-}
 
 void User::displaySubscription()
 {

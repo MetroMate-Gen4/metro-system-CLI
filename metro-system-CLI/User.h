@@ -8,7 +8,6 @@
 class User :public Account
 {
     Subscription sub;
-    stack<Ride>rides;
 
     /// <summary>
     /// Variable to store user location, if it's value is -1 then the user is out of metro.
@@ -30,8 +29,6 @@ public:
     User(std::string email, std::string password, std::string name, int nationalId, int age);
     Subscription getSubscription();
     void setSubscription(Subscription sub);
-    void addRide(Ride ride);
-    stack<Ride> getRides();
     void displaySubscription();
 
     int getCheckedInStationId();
