@@ -17,4 +17,5 @@ public:
     void setSubscription(Subscription sub);
     void addRide(Ride ride);
     stack<Ride> getRides();
+    void displaySubscription();
 };
