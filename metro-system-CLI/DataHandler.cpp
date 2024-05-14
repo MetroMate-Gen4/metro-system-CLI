@@ -653,71 +653,71 @@ void DataHandler::displayAllRidesCLI() {
     std::cout << "\n\n";
 }
 
-void DataHandler::stationStatisticsInput() {
-    Station* tempStation = new Station();
-    std::string stationName;
-    std::string day;
-    int option;
-    std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
-        << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
-        << "Enter a station name: ";
-    std::cin >> stationName;
-    std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
-    std::cout << "Choose Option:\n\t\t\t";
-    std::cin >> option;
-    if (option == 1) {
-        std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
-            << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
-        std::cin >> option;
-        switch (option) {
-        case 1:
-            day = "Sunday";
-            break;
-        case 2:
-            day = "Monday";
-            break;
-        case 3:
-            day = "Tuesday";
-            break;
-        case 4:
-            day = "Wednesday";
-            break;
-        case 5:
-            day = "Thursday";
-            break;
-        case 6:
-            day = "Friday";
-            break;
-        case 7:
-            day = "Saturday";
-            break;
-        case 8:
-            displayStationStatisticsCLI(stationName, 1);
-            return;
-        }
-    }
-    displayStationStatisticsCLI(stationName, day);
-}
+//void DataHandler::stationStatisticsInput() {
+//    Station* tempStation = new Station();
+//    std::string stationName;
+//    std::string day;
+//    int option;
+//    std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
+//        << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
+//        << "Enter a station name: ";
+//    std::cin >> stationName;
+//    std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
+//    std::cout << "Choose Option:\n\t\t\t";
+//    std::cin >> option;
+//    if (option == 1) {
+//        std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
+//            << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
+//        std::cin >> option;
+//        switch (option) {
+//        case 1:
+//            day = "Sunday";
+//            break;
+//        case 2:
+//            day = "Monday";
+//            break;
+//        case 3:
+//            day = "Tuesday";
+//            break;
+//        case 4:
+//            day = "Wednesday";
+//            break;
+//        case 5:
+//            day = "Thursday";
+//            break;
+//        case 6:
+//            day = "Friday";
+//            break;
+//        case 7:
+//            day = "Saturday";
+//            break;
+//        case 8:
+//            displayStationStatisticsCLI(stationName, 1);
+//            return;
+//        }
+//    }
+//    displayStationStatisticsCLI(stationName, day);
+//}
 
-void DataHandler::displayStationStatisticsCLI(std::string stationName, int days) {
-    // FIND STATION IN LINES USING GRAPH
-    Station* station = new Station(); // Comment this line out after implementing graph search
-    dayData data = station->getDayDataForPeriod(days);
-    std::cout << "\t\t\tStation Name: " << station->getName()
-        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\t\tTotal income: " << data.totalIncome
-        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
-}
+//void DataHandler::displayStationStatisticsCLI(std::string stationName, int days) {
+//    // FIND STATION IN LINES USING GRAPH
+//    Station* station = new Station(); // Comment this line out after implementing graph search
+//    dayData data = station->getDayDataForPeriod(days);
+//    std::cout << "\t\t\tStation Name: " << station->getName()
+//        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//        << "\n\t\t\tTotal income: " << data.totalIncome
+//        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+//}
 
-void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
-    // FIND STATION IN LINES USING GRAPH
-    Station* station = new Station(); // Comment this line out after implementing graph search
-    dayData data = station->getStationDataDay(day);
-    std::cout << "\t\t\tStation Name: " << station->getName()
-        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\t\tTotal income: " << data.totalIncome
-        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
-}
+//void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
+//    // FIND STATION IN LINES USING GRAPH
+//    Station* station = new Station(); // Comment this line out after implementing graph search
+//    dayData data = station->getStationDataDay(day);
+//    std::cout << "\t\t\tStation Name: " << station->getName()
+//        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//        << "\n\t\t\tTotal income: " << data.totalIncome
+//        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+//}
 
 int DataHandler::valid_input(int l, int r)
 {
@@ -903,10 +903,23 @@ void DataHandler::writeDataFiles() {
         }
         usersFile.close();
 
-        std::cout << "Objects saved to file." << std::endl;
+        std::cout << "Users saved to file." << std::endl;
     }
     else {
-        std::cerr << "Failed to open file for writing." << std::endl;
+        std::cerr << "Failed to open Users file for writing." << std::endl;
+    }
+
+    std::ofstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        for (auto it = stations.begin(); it != stations.end(); it++) {
+            it->second->serialize(stationsFile);
+        }
+        stationsFile.close();
+
+        std::cout << "Stations saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open Stations file for writing." << std::endl;
     }
 }
 
@@ -922,7 +935,22 @@ void DataHandler::readDataFiles() {
         usersFile.close();
     }
     else {
-        std::cerr << "Failed to open file for reading." << std::endl;
+        std::cerr << "Failed to open Users file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        while (!stationsFile.eof()) {
+            Station* station = new Station;
+            if (!station->deserialize(stationsFile))
+                break;
+            stations[station->getId()] = station;
+        }
+        stationsFile.close();
+    }
+    else {
+        std::cerr << "Failed to open Stations file for reading." << std::endl;
         return;
     }
 }
