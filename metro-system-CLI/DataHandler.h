@@ -89,6 +89,7 @@ public:
     void displayStationStatisticsCLI(std::string stationName, int days);
     void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
+    bool is_number(std::string& s);
     void displaySubscriptionPlans();
     void purchaseSubscription(User* user);
     void subscriptionPlanManagement();

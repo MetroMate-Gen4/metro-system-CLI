@@ -203,6 +203,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "6") {//6)    Fare Management
                         system("cls");
+                        fareManagementCLI();
 
                     }
                     //else if (choice == "7") {//7)    My profile
@@ -1560,8 +1561,16 @@ vector<int> DataHandler::generateShortestPath(int source, int destination, unord
     return shortestPath;
 }
 
+bool DataHandler::is_number(std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
 void DataHandler::fareManagementCLI() {
-    int choice, price;
+    std::string choice;
+    std::string price;
     std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
     std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
     std::cout << "\t\t|                               |\n";
@@ -1571,12 +1580,33 @@ void DataHandler::fareManagementCLI() {
     std::cout << "\t\t|                               |\n";
     std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t|\n";
     std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
-    std::cout << GREEN << "Select a stage to edit : " << RESET;
-    std::cin >> choice;
+    std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
+    choice = this->choice();
+    while (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
+        std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
+        std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
+        std::cout << "\t\t|                               |\n";
+        std::cout << "\t\t|" << GREEN << "2. Stage #2 :-\t\t\t|\n";
+        std::cout << "\t\t|                               |\n";
+        std::cout << "\t\t|" << GREEN << "3. Stage #3 :-\t\t\t|\n";
+        std::cout << "\t\t|                               |\n";
+        std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t|\n";
+        std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+        std::cout << "\t\tInvalid input\n" << RESET;
+        std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
+        choice = this->choice();
+    }
+
     std::cout << GREEN << "\n\t\tEnter your desired stage price : " << RESET;
-    std::cin >> price;
-    editStagesPrice(choice, price);
+    price = this->choice();
+    while (!is_number(price)) {
+        std::cout << GREEN << "\n\t\tEnter your desired stage price : " << RESET;
+        std::cout << GREEN << "\n\t\tInvalid input." << RESET;
+        price = this->choice();
+    }
+    editStagesPrice(std::stoi(choice), stoi(price));
 }
+
 
 void DataHandler::editStagesPrice(int index, int price) {
     stages[index] = price;
