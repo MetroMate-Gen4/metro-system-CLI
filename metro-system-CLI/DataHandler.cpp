@@ -149,7 +149,11 @@ void DataHandler::mainCLI() {
                                 system("cls");//to clear.
 
                             }
-                            else if (choice == "5") {// 5)  back
+                            else if (choice == "5") {// 5)  My whallet
+                                system("cls");//to clear.
+                                
+                            }
+                            else if (choice == "6") {// 6)  back
                                 system("cls");//to clear.
                                 break;
                             }
@@ -454,7 +458,8 @@ void DataHandler::displayMyProfile(User* u) {
     std::cout << "\t\t\t|" << CYAN << " 2)   Edit in my account         " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 3)   Manage my subscriptions    " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 4)   Subscription renewal date  " << YELLOW << "|" << endl;
-    std::cout << "\t\t\t|" << CYAN << " 5)   Back                       " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 5)   My wallet                  " << YELLOW << "|" << endl;
+    std::cout << "\t\t\t|" << CYAN << " 6)   Back                       " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ------------------------------- |" << endl;
     std::cout << CYAN << "\n\t\t\t+ ------------------------------- +" << RESET << endl;
 }
