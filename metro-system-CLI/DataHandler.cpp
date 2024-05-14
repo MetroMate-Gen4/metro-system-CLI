@@ -5,7 +5,7 @@
 #include<sstream>//for save files
 
 std::unordered_map<int, User*> DataHandler::users;
-std::stack<Ride> DataHandler::rides;
+std::unordered_map<int, vector<Ride*> > DataHandler::rides; // key is the Id of user
 std::vector<int> DataHandler::stages;
 std::vector<SubscriptionPlan> DataHandler::subscriptionPlans;
 std::unordered_map<int, Station*> DataHandler::stations;
@@ -16,6 +16,24 @@ DataHandler::DataHandler() {}
 DataHandler::~DataHandler()
 {
     users.clear();
+}
+
+void DataHandler::addData() {
+    //for (auto id : users) {
+    //    rides.insert(id.second->getId(), {}); // create a placeholder for users in rides data
+    //}
+
+    //User* newUser = new User("arsany@gmail.com", "123", "arsany", 3030, 20);
+
+    //addUser(newUser);
+
+    Ride *newRide = new Ride();
+    newRide->setStartingStation(*stations[0]);
+    newRide->setEndingStation(*stations[3]);
+    newRide->setStartingTime(time(nullptr));
+    newRide->setEndingTime(time(nullptr));
+    //std::cout << newUser->getId() << "\n\n";
+    rides[4].push_back(newRide);
 }
 
 User* DataHandler::searchUser(int id)
@@ -100,6 +118,7 @@ void DataHandler::mainCLI() {
     //addUser(new User("ib.com", "ib", "IB", 1, 20));
     initializeGraph();
     stageTemporaryData();
+    //addData();
 
     while (true) {
         std::string choice;
@@ -635,21 +654,22 @@ bool DataHandler::signUp(std::string email, std::string password, std::string na
 }
 
 void DataHandler::displayRidesCLI(User* user) {
-    stack<Ride> tempRides = user->getRides();
-    std::cout << "\t\t\t" << user->getName() << "'s ride history: \n";
-    while (!tempRides.empty()) {
-        std::cout << tempRides.top().toString();
-        tempRides.pop();
+    vector<Ride*> userRides = rides[user->getId()];
+    std::cout << "\t\t\t" << user->getName() << "'s ride history: \n\n\n";
+    for (auto ride : userRides) {
+        std::cout << ride->toString();
     }
     std::cout << "\n\n";
 }
 
 void DataHandler::displayAllRidesCLI() {
-    stack<Ride>tempRides = rides;
     std::cout << "\t\t\t" << "Ride Logs : \n";
-    while (!tempRides.empty()) {
-        std::cout << tempRides.top().toString();
-        tempRides.pop();
+    for (auto ride : rides) {
+        std::cout << "\t\t\t" << users[ride.first]->getName() << "'s ride history: \n\n";
+        for (auto rideVector : ride.second) {
+            std::cout << rideVector->toString();
+            std::cout << "\t\t\t" << ride.first;
+        }
     }
     std::cout << "\n\n";
 }

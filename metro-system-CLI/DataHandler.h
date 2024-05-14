@@ -44,7 +44,7 @@ private:
 public:
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
-    static std::stack<Ride> rides;
+    static std::unordered_map<int, vector<Ride*> > rides;
     stack<User> undoStackUser;
     static std::vector<int> stages;
     static std::vector<SubscriptionPlan>subscriptionPlans;
@@ -57,6 +57,7 @@ public:
     static std::map<std::string, int> usedStationNames;
     DataHandler();
     ~DataHandler();
+    void addData();
     User* searchUser(int id);
     User* searchUserEmail(std::string email);
     void addUser(User* newUser);
