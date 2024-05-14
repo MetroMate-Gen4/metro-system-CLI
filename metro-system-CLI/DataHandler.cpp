@@ -183,7 +183,7 @@ void DataHandler::mainCLI() {
                     choice = this->choice();
                     if (choice == "1") { //1)    User Management
                         system("cls");
-                        displayUsers();
+                        userManagement();
                     }
                     else if (choice == "2") {//2)    Metro Management
                         system("cls");
@@ -466,12 +466,51 @@ void DataHandler::displayMyProfile(User* u) {
 
 void DataHandler::displayUsers()
 {
-    cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
-    int i = 1;
-    for (auto it : users) {
-        displayAccountInformation(it.second);
+    while (true)
+    {
+        cout << "\t\t\t" << YELLOW << "--------------------\n";
+        cout << "\t\t\t" << YELLOW << "|" << GREEN << "view window       " << YELLOW << "|\n";
+        cout << "\t\t\t" << YELLOW << "--------------------\n";
 
+        cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
+
+        for (auto it : users) {
+            cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+        }
+
+
+        cout << BOLDCYAN << "--------------------\n";
+        cout << BOLDCYAN << "|" << MAGENTA << "press \"B\" to Back " << BOLDCYAN << "|\n";
+        cout << BOLDCYAN << "--------------------\n";
+
+        string ChooseUser = choice();
+
+        bool notChoice = false;
+
+        for (int i = 0; i < ChooseUser.size(); i++)
+            if (!std::isdigit(ChooseUser[i])) {
+                notChoice = true;
+                break;
+            }
+
+        if (ChooseUser == "B" || ChooseUser == "b")
+        {
+            system("cls");
+            break;
+        }
+
+        else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+        {
+            system("cls");
+            std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
+        }
+        else
+        {
+            system("cls");
+            displayAccountInformation(searchUser(stoi(ChooseUser) - 1));
+        }
     }
+
 }
 
 void DataHandler::editUser(User* user) {
@@ -894,6 +933,145 @@ void DataHandler:: Exit() {
         }
     }
 }
+
+void DataHandler::usersEmailWindow()
+{
+    cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
+
+    for (auto it : users) {
+        cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+    }
+
+
+    cout << BOLDCYAN << "--------------------\n";
+    cout << BOLDCYAN << "|" << MAGENTA << "press \"B\" to Back " << BOLDCYAN << "|\n";
+    cout << BOLDCYAN << "--------------------\n";
+
+
+}
+
+void DataHandler::userManagement()
+{
+    while (true)
+    {
+        system("cls");
+        cout << "\n\n\n";
+        cout << "\t\tUser Management :\n\n";
+
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [1] View Users       " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [2] Edit Users       " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [3] Delete Users     " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [4] Back             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n\n\n";
+
+        string UserManagementChoices = choice();
+
+        if (UserManagementChoices == "1") //display Users
+        {
+            system("cls");
+            displayUsers();
+        }
+        else if (UserManagementChoices == "2") //Edit User
+        {
+            system("cls");
+            while (true)
+            {
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
+                cout << "\t\t\t" << YELLOW << "|" << GREEN << "Edit window       " << YELLOW << "|\n";
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
+
+                usersEmailWindow();
+
+                string ChooseUser = choice();
+
+                bool notChoice = false;
+
+                for (int i = 0; i < ChooseUser.size(); i++)
+                    if (!std::isdigit(ChooseUser[i])) {
+                        notChoice = true;
+                        break;
+                    }
+
+                if (ChooseUser == "B" || ChooseUser == "b")
+                {
+                    system("cls");
+                    break;
+                }
+
+                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                {
+                    system("cls");
+                    std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
+                }
+                else
+                {
+                    system("cls");
+                    editUser(searchUser(stoi(ChooseUser) - 1));
+                }
+            }
+        }
+        else if (UserManagementChoices == "3") //Delete User
+        {
+            system("cls");
+            while (true)
+            {
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
+                cout << "\t\t\t" << YELLOW << "|" << GREEN << "Delete window     " << YELLOW << "|\n";
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
+
+                usersEmailWindow();
+
+                string ChooseUser = choice();
+
+                bool notChoice = false;
+
+                for (int i = 0; i < ChooseUser.size(); i++)
+                    if (!std::isdigit(ChooseUser[i])) {
+                        notChoice = true;
+                        break;
+                    }
+
+                if (ChooseUser == "B" || ChooseUser == "b")
+                {
+                    system("cls");
+                    break;
+                }
+
+                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                {
+                    system("cls");
+                    std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
+                }
+                else
+                {
+                    system("cls");
+                    deleteUser(stoi(ChooseUser) - 1);
+                }
+
+            }
+
+        }
+        else if (UserManagementChoices == "4") //Back
+        {
+            system("cls");
+            break;
+        }
+        else
+        {
+            system("cls");
+            std::cout << RED << "\n\n # this Choice not exist  \ntry again\n" << RESET;
+            continue;
+        }
+
+
+
+    }
+}
+
 string DataHandler::pathToString(vector<int> &path) {
     string spath;
 

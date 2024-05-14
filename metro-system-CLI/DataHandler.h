@@ -101,6 +101,8 @@ public:
     vector<int> getShortestPath(const vector<vector<int>>& paths);
     int getFair(int numOfStations);
     int stationsToStage(int numOfStations);
+    void userManagement();
+    void usersEmailWindow();
 
     /**
      * Get shortest path of two stations.
