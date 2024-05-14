@@ -201,7 +201,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "5") {//5)    Station Management
                         system("cls");
-
+                        stationManagement();
                     }
                     else if (choice == "6") {//6)    Fare Management
                         system("cls");
@@ -653,6 +653,82 @@ void DataHandler::displayAllRidesCLI() {
     std::cout << "\n\n";
 }
 
+void DataHandler::stationManagement() {
+    int stationId; // choosing a specific station
+    int timeChoice; // choosing the data in Day / Week / Month / Year
+    int continueChoice;
+
+    while (true) {
+        system("cls");
+        cout << "\n\n";
+        string beginning = "          ";
+        // Print the table header
+        cout << beginning << "--------------------------------------------\n";
+        cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
+        cout << beginning << "--------------------------------------------\n";
+
+        for (auto i : usedStationNames) {
+            cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
+        }
+
+        cout << "\n\n";
+
+
+        cout << "enter a station ID: ";
+        stationId = valid_input(0, usedStationNames.size() - 1);
+
+        std::cout << CYAN << "\t\tDay / Week / Month / Year ? \n\n" << RESET;
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [1] Day              " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [2] Week             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [3] Month            " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [4] Year             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [5] Back             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n\n\n";
+
+        std::cout << "enter your choice: ";
+        timeChoice = valid_input(1, 5);
+        std::cout << '\n';
+
+        if (timeChoice == 1) {
+            displayStationStatisticsCLI(stations[stationId], 1);
+        }
+        else if (timeChoice == 2) {
+            displayStationStatisticsCLI(stations[stationId], 7);
+        }
+        else if (timeChoice == 3) {
+            displayStationStatisticsCLI(stations[stationId], 30);
+        }
+        else if (timeChoice == 4) {
+            displayStationStatisticsCLI(stations[stationId], 365);
+        }
+        else {
+            return;
+        }
+
+        std::cout << CYAN << "\t\tDo you want to continue ? \n\n" << RESET;
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [1] Yes              " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [2] No               " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n\n\n";
+
+        std::cout << "enter your choice: ";
+        continueChoice = valid_input(1, 2);
+
+        if (continueChoice == 1) {
+            continue;
+        }
+        else {
+            break;
+        }
+    }
+}
+
 void DataHandler::stationStatisticsInput() {
     Station* tempStation = new Station();
     std::string stationName;
@@ -692,21 +768,20 @@ void DataHandler::stationStatisticsInput() {
             day = "Saturday";
             break;
         case 8:
-            displayStationStatisticsCLI(stationName, 1);
+            displayStationStatisticsCLI(tempStation, 1);
             return;
         }
     }
     displayStationStatisticsCLI(stationName, day);
 }
 
-void DataHandler::displayStationStatisticsCLI(std::string stationName, int days) {
+void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
     // FIND STATION IN LINES USING GRAPH
-    Station* station = new Station(); // Comment this line out after implementing graph search
     dayData data = station->getDayDataForPeriod(days);
-    std::cout << "\t\t\tStation Name: " << station->getName()
-        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\t\tTotal income: " << data.totalIncome
-        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+    std::cout << "\t\tStation Name: " << station->getName()
+        << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+        << "\n\t\tTotal income: " << data.totalIncome
+        << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
 }
 
 void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
@@ -1153,7 +1228,7 @@ void DataHandler::enterCheckInOutScene(User* user)
                 continue;
             }
 
-            cout << beginning << "Payment Method: ";
+            cout << beginning << "Payment Method: \n";
             cout << beginning << "\t1) Subscription\n";
             cout << beginning << "\t2) Ticket\n";
             cout << beginning << "\t3) Back to previous menu\n";
@@ -1165,7 +1240,7 @@ void DataHandler::enterCheckInOutScene(User* user)
                     continue;
                 }
                 else if (user->getSubscription().getNumberOfTrip() < 1) {
-                    cout << RED << "Your quata has ended, you need to renew your subscription to use this option\n" << RESET;
+                    cout << RED << "Your quota has ended, you need to renew your subscription to use this option\n" << RESET;
                     continue;
                 }
                 else if (false) { // add condition in case of subscription being expired. TODO
