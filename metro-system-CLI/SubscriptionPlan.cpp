@@ -20,6 +20,12 @@ void SubscriptionPlan::ModifyPlanDuration(int planIndex, int month)
 	plans[planIndex].numberOfMonths = month;
 }
 
+void SubscriptionPlan::removePlan(int planIndex)
+{
+	auto it = plans.begin() + planIndex;
+	plans.erase(it);
+}
+
 float SubscriptionPlan::getPlanPrice(int planIndex, int stageIndex)
 {
 	return plans[planIndex].stages[stageIndex].getPrice();

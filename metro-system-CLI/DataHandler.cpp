@@ -156,6 +156,10 @@ void DataHandler::mainCLI() {
                             if (choice == "1") { //1)   Account information
                                 system("cls");//to clear.
                                 displayAccountInformation(user);
+                                cout << "\n\n press any key to go back: ";
+                                char kk;
+                                cin >> kk;
+                                system("cls");
                             }
                             else if (choice == "2") {// 2)   Edit my information
                                 system("cls");//to clear.
@@ -166,8 +170,12 @@ void DataHandler::mainCLI() {
                                 manageSubscription(user);
                             }
                             else if (choice == "4") {//4)   Subscription renewal date
-                                system("cls");//to clear.
-
+                             
+                                subscriptionRenewalDate(user);
+                                cout << "\n\n press any key to go back: ";
+                                char kk;
+                                cin >> kk;
+                                system("cls");
                             }
                             else if (choice == "5") {// 5)  My wallet
                                 system("cls");//to clear.
@@ -858,9 +866,10 @@ void DataHandler::purchaseSubscription(User* user)
         cout << "\t\tEnter stage number: ";
         stageIndex = valid_input(1, 4);
         user->setSubscription(Subscription(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1));
-        cout << "\t\t*Your subscription purchase was successful\n";
+        cout <<GREEN << "\t\t*Your subscription purchase was successful\n"<<RESET;
         cout << "\t\tEnter 1 to continue: ";
         cin >> x;
+        system("cls");
     }
     else if (ch == 2) {
         system("cls");
@@ -878,8 +887,9 @@ void DataHandler::subscriptionPlanManagement()
         int ch;
         cout << "\t\t1) Add new subscription Plan\n";
         cout << "\t\t2) Add new Plan\n";
-        cout << "\t\t3) EXit\n";
-        ch = valid_input(1, 3);
+        cout << "\t\t3) Modify Plan\n";
+        cout << "\t\t4) EXit\n";
+        ch = valid_input(1, 4);
         if (ch == 1) {
             string name;
             cout << "\t\tEnter subscription plan name : ";
@@ -912,6 +922,55 @@ void DataHandler::subscriptionPlanManagement()
 
         }
         else if (ch == 3) {
+            while (true) {
+                int subPlan, planIndex, modifyoption;
+                for (int i = 0; i < subscriptionPlans.size(); i++) {
+                    cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+                }
+                cout << "\t\tEnter the subscription plan number: ";
+                subPlan = valid_input(1, subscriptionPlans.size()) - 1;
+                cout << "\t\tEnter the plan number: ";
+                planIndex = valid_input(1, subscriptionPlans[subPlan].getNumberOfPlans()) - 1;
+                cout << "\t\t1) Modify number of months:\n";
+                cout << "\t\t2) Modify number of trips:\n";
+                cout << "\t\t3) Modify Price\n";
+                cout << "\t\t4) Remove Plan\n";
+                cout << "\t\t5) Back \n";
+
+                modifyoption = valid_input(1, 5);
+                if (modifyoption == 1) {
+                    int months;
+                    cout << "\t\tEnter new number of months: ";
+                    months = valid_input(1, INT_MAX);
+                    subscriptionPlans[subPlan].ModifyPlanDuration(planIndex, months);
+                    break;
+                }
+                else if (modifyoption == 2) {
+                    int trips;
+                    cout << "\t\tEnter new number of trips: ";
+                    trips = valid_input(1, INT_MAX);
+                    subscriptionPlans[subPlan].ModifyPlantrip(planIndex, trips);
+                    break;
+                }
+                else if(modifyoption==3){
+                    int stageNumber, stagePrice;
+                    cout << "\t\tEnter Stage number to modify: ";
+                    stageNumber = valid_input(1, 4) - 1;
+                    cout << "\t\tEnter new Stage Price: ";
+                    stagePrice = valid_input(1, INT_MAX);
+                    subscriptionPlans[subPlan].ModifyPlanPrice(planIndex, stageNumber, stagePrice);
+                    break;
+                }
+                else if (modifyoption == 4) {
+                    subscriptionPlans[subPlan].removePlan(planIndex);
+                    break;
+                }
+                else if (modifyoption == 5) {
+                    break;
+                }
+            }
+        }
+        else if (ch == 4) {
             system("cls");
             break;
         }
@@ -923,7 +982,7 @@ void DataHandler::manageSubscription(User* user)
     while (true) {
         system("cls");
         if (user->getSubscription().getType() == "") {
-            cout << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
+            cout << RED << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
             cout << RED << "\t\t\t" << "|" << "---------------" << RESET << "\n";
 
             return; // Exit the function since there's no subscription information
@@ -1192,6 +1251,13 @@ void DataHandler::usersEmailWindow()
     cout << BOLDCYAN << "--------------------\n";
 
 
+}
+
+void DataHandler::subscriptionRenewalDate(User* user)
+{
+    cout << "\n\n\n";
+    cout << "\t\tSubscription Renewal Date:\n\n";
+    cout << "\t\t" << user->getSubscription().getRenewalDate();
 }
 
 void DataHandler::userManagement()
