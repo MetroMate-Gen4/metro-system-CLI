@@ -108,7 +108,7 @@ public:
     int stationsToStage(int numOfStations);
     void userManagement();
     void usersEmailWindow();
-
+    void subscriptionRenewalDate(User* user);
     /**
      * Get shortest path of two stations.
      *

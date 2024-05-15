@@ -157,6 +157,10 @@ void DataHandler::mainCLI() {
                             if (choice == "1") { //1)   Account information
                                 system("cls");//to clear.
                                 displayAccountInformation(user);
+                                cout << "\n\n press any key to go back: ";
+                                char kk;
+                                cin >> kk;
+                                system("cls");
                             }
                             else if (choice == "2") {// 2)   Edit my information
                                 system("cls");//to clear.
@@ -167,8 +171,12 @@ void DataHandler::mainCLI() {
                                 manageSubscription(user);
                             }
                             else if (choice == "4") {//4)   Subscription renewal date
-                                system("cls");//to clear.
-
+                             
+                                subscriptionRenewalDate(user);
+                                cout << "\n\n press any key to go back: ";
+                                char kk;
+                                cin >> kk;
+                                system("cls");
                             }
                             else if (choice == "5") {// 5)  My wallet
                                 system("cls");//to clear.
@@ -1143,6 +1151,13 @@ void DataHandler::usersEmailWindow()
     cout << BOLDCYAN << "--------------------\n";
 
 
+}
+
+void DataHandler::subscriptionRenewalDate(User* user)
+{
+    cout << "\n\n\n";
+    cout << "\t\tSubscription Renewal Date:\n\n";
+    cout << "\t\t" << user->getSubscription().getRenewalDate();
 }
 
 void DataHandler::userManagement()
