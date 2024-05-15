@@ -39,6 +39,7 @@ public:
 	void ModifyPlanPrice(int planIndex, int stageIndex,float price);
 	void ModifyPlantrip(int planIndex, int trip);
 	void ModifyPlanDuration(int planIndex, int month);
+	void removePlan(int planIndex);
 	//Getters
 	float getPlanPrice(int planIndex, int stageIndex);
 	int getPlantrip(int planIndex);
@@ -46,4 +47,6 @@ public:
 	int getNumberOfPlans();
 	std::string toString()const;
 	std::string getname();
+	
+
 };
