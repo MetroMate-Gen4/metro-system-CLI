@@ -6,7 +6,7 @@
 using namespace std;
 
 
-User::User(string email, string password) : Account(email, password), checkedInStationId(-1), usedTicket(-1),wallet(0){}
+User::User(string email, string password) : Account(email, password), checkedInStationId(-1), usedTicket(-1), wallet(0) {}
 User::User() :Account(), wallet(0) {
 
 }
@@ -16,7 +16,7 @@ User::User(std::string email, std::string password, std::string name, int nation
 
 }
 
-Subscription &User::getSubscription()
+Subscription& User::getSubscription()
 {
     return sub;
 }
@@ -69,21 +69,11 @@ void User::setUsedTicket(int usedTicket)
     this->usedTicket = usedTicket;
 }
 
-Wallet &User::getWallet()
+Wallet& User::getWallet()
 {
     return this->wallet;
 }
 
-void User::addRide(Ride* ride)
-{
-    DataHandler::rides[id].push_back(ride);
-    
-}
-
-vector<Ride*> User::getRides()
-{
-    return DataHandler::rides[id];
-}
 
 //files
 void User::writeString(std::ostream& os, const std::string& str) const {
@@ -109,6 +99,8 @@ void User::serialize(std::ostream& os) const {
     writeString(os, email);
     writeString(os, password);
     writeString(os, name);
+    wallet.serialize(os);
+    sub.serialize(os);
 }
 
 bool User::deserialize(std::istream& is) {
@@ -121,6 +113,10 @@ bool User::deserialize(std::istream& is) {
     email = readString(is);
     password = readString(is);
     name = readString(is);
+    if (!wallet.deserialize(is))
+        return false;
+    if (!sub.deserialize(is))
+        return false;
     idCount = id;
     return true;
 }
