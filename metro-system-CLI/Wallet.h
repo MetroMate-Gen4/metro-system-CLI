@@ -8,9 +8,9 @@ private:
 	float money;
 public:
 	Wallet(int chash);
-	void charge(int chash);
+	void charge(float chash);
 	bool vaidCharge(int chash);
-	void checkIn(Stage &stage);
+	void checkIn(float price);
 	float getMoney();
 	bool isValid(float price);
 };

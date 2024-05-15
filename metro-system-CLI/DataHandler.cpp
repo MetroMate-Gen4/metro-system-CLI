@@ -1234,11 +1234,12 @@ void DataHandler::enterCheckInOutScene(User* user)
     string beginning = "          ";
     while (1) {
         cout << beginning << "Check-In/Out Scene\n\n";
-        cout << beginning << "\t1) Check-In\n";
-        cout << beginning << "\t2) Check-Out\n";
-        cout << beginning << "\t3) Get Paths and it's fare between two stations\n";
-        cout << beginning << "\t4) List Station ids and Names\n";
-        cout << beginning << "\t5) Return to main menu\n";
+        cout << beginning << "\n\t1) Check-In\n";
+        cout << beginning << "\n\t2) Check-Out\n";
+        cout << beginning << "\n\t3) Get Paths and it's fare between two stations\n";
+        cout << beginning << "\n\t4) List Station ids and Names\n";
+        cout << beginning << "\n\t5) Charge Wallet\n";
+        cout << beginning << "\n\t6) Return to main menu\n";
 
         string choice = this->choice();
 
@@ -1278,22 +1279,23 @@ void DataHandler::enterCheckInOutScene(User* user)
                     cout << RED << "Your quota has ended, you need to renew your subscription to use this option\n" << RESET;
                     continue;
                 }
-                else if (false) { // add condition in case of subscription being expired. TODO
+                else if (!user->getSubscription().isValid()) { // add condition in case of subscription being expired. TODO ++
                     cout << RED << "Your subscription has expired, you need to renew your subscription to use this option\n" << RESET;
                     continue;
                 }
                 else {
                     user->setCheckedInStationId(checkedInStationId);
                     user->setUsedTicket(-1);
+                    checkIn(getStationById(checkedInStationId - 1), user,0.0, checkedInStationIdInput);
                 }
             }
             else if (choice == "2") {
                 // TODO Check Wallet
-                cout << beginning << "Choose stage: ";
-                cout << beginning << "\t1) Stage 1 (price: " << setw(2) << stages[1] << ")\n";
-                cout << beginning << "\t1) Stage 2 (price: " << setw(2) << stages[2] << ")\n";
-                cout << beginning << "\t1) Stage 3 (price: " << setw(2) << stages[3] << ")\n";
-                cout << beginning << "\t1) Stage 4 (price: " << setw(2) << stages[4] << ")\n";
+                cout << beginning << "Choose stage: \n";
+                cout << beginning << BLUE << "\n\t1)" << YELLOW << " Stage 1 (price: " << setw(2) << stages[1] << ")\n";
+                cout << beginning << BLUE << "\n\t2)" << YELLOW << " Stage 2 (price: " << setw(2) << stages[2] << ")\n";
+                cout << beginning << BLUE "\n\t3)" << YELLOW << " Stage 3 (price: " << setw(2) << stages[3] << ")\n";
+                cout << beginning << BLUE "\n\t4)" << YELLOW << " Stage 4 (price: " << setw(2) << stages[4] << ")\n";
 
                 string stage = this->choice();
 
@@ -1315,6 +1317,18 @@ void DataHandler::enterCheckInOutScene(User* user)
                     continue;
                 }
                 user->setCheckedInStationId(checkedInStationId);
+                if (user->getWallet().getMoney() >= stages[stoi(stage)])
+                {
+                    checkIn(getStationById(checkedInStationId - 1), user, stages[stoi(stage)], checkedInStationIdInput);
+
+                }
+                else
+                {
+                    cout << BOLDRED << "\n\t\t\t" << "----------------------------------------------------\n";
+                    cout << BOLDRED << "\t\t\t|" << RED << "*Your don't have enought money to Buy this ticket*"<<BOLDRED<<"|\n";
+                    cout << BOLDRED << "\t\t\t" << "----------------------------------------------------\n"<<RESET;
+
+                }
             }
             else if (choice == "3") {
                 continue;
@@ -1365,6 +1379,7 @@ void DataHandler::enterCheckInOutScene(User* user)
             }
 
             user->setCheckedInStationId(-1);
+            checkOut(getStationById(checkedOutStationId - 1), numberOfStations, user);
             // user->addRide(Ride()) add ride to logs later, Ride needs refactoring. TODO
         }
         else if (choice == "3") {
@@ -1449,7 +1464,49 @@ void DataHandler::enterCheckInOutScene(User* user)
 
             cout << "\n\n";
         }
-        else if (choice == "5") {
+        else if (choice == "5")
+        {
+            system("cls");
+
+            while (true) {
+                cout << CYAN << "\t\t\t---------------\n";
+                cout << CYAN << "\t\t\t|" << GREEN << "Charge wallet" << CYAN << "|\n";
+                cout << CYAN << "\t\t\t---------------\n" << RESET;
+
+                string chargeCountS;
+
+
+
+                cout << BOLDRED << "\n-------------------\n";
+                cout << BOLDRED << "|" << RED << "press B to back   " << BOLDRED << "|\n";
+                cout << BOLDRED << "-------------------\n" << RESET;
+
+                cout << GREEN << "\n\t\tEnter how much money do you want to charge: "<<RESET;
+
+                cin >> chargeCountS;
+
+                float chargeCountF = stringToFloat(chargeCountS);
+
+
+
+                if (chargeCountS == "b" || chargeCountS == "B")
+                    break;
+                
+                else if (chargeCountF == 0.0)
+                {
+                    cout << BOLDRED << "\t\t\t-------------------------\n";
+                    cout << BOLDRED << "\t\t\t|" << RED << "invalid Choice try Again" << BOLDRED << "|\n";
+                    cout << BOLDRED << "\t\t\t-------------------------\n" << RESET;
+                    continue;
+                }
+                else
+                {
+                    user->getWallet().charge(chargeCountF);
+                    break;
+                }
+            }
+        }
+        else if (choice == "6") {
             break;
             system("cls");
         }
@@ -1807,4 +1864,55 @@ void DataHandler::fareManagementCLI() {
 
 void DataHandler::editStagesPrice(int index, int price) {
     stages[index] = price;
+}
+
+void DataHandler::checkIn(Station* startingStation, User* user, float price, string choice)
+{
+    time_t startingTime = time(nullptr);
+
+    Ride* ride = new Ride(*startingStation, startingTime);
+    
+    if (choice == "1")
+    {
+        user->getSubscription().checkIn();
+        ride->setCost(0);
+
+    }
+
+    else if (choice == "2")
+    {
+        user->getWallet().checkIn(price);
+        ride->setCost(price);
+
+    }
+
+
+    rides[user->getId()].push_back(ride);
+}
+
+void DataHandler::checkOut(Station* endingStation, int StationsNO, User* user)
+{
+    time_t endingTime = time(nullptr);
+
+    endingStation += 60 * 3 * StationsNO;
+
+    Ride* ride = new Ride(*endingStation, endingTime);
+
+    rides[user->getId()].push_back(ride);
+}
+
+
+
+
+
+
+
+float DataHandler:: stringToFloat(const std::string& str) {
+    float num;
+    std::istringstream(str) >> num;
+    if (std::istringstream(str).fail()) {
+        std::cout << "The input string is not a valid number." << std::endl;
+        return 0.0;
+    }
+    return num;
 }
