@@ -41,6 +41,7 @@ public:
 	void ModifyPlanDuration(int planIndex, int month);
 	void removePlan(int planIndex);
 	//Getters
+	int getStage(int planIndex, int stageIndex);
 	float getPlanPrice(int planIndex, int stageIndex);
 	int getPlantrip(int planIndex);
 	int getPlanDuration(int planIndex);

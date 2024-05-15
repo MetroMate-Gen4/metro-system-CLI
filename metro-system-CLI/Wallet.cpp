@@ -5,7 +5,7 @@ Wallet::Wallet(int chash):money(chash)
     
 }
 
-void Wallet::charge(int chash) 
+void Wallet::charge(float chash) 
 {
     if (!vaidCharge(chash))return;
     /*std::cout << "chash = " << chash <<"   money"<<money <<"\n";
@@ -28,13 +28,13 @@ bool Wallet::vaidCharge(int chash)
     return true;
 }
 
-void Wallet::checkIn(Stage& stage)
+void Wallet::checkIn(float price)
 {
-    if (!isValid(stage.getPrice())) {
+    if (!isValid(price)) {
         std::cout << "Not enough money in wallet." << std::endl;
         return;
     }
-    money -= stage.getPrice();
+    money -= price;
 }
 
 float Wallet::getMoney()
@@ -44,6 +44,6 @@ float Wallet::getMoney()
 
 bool Wallet::isValid(float price)
 {
-    if (price > money)return false;;
+    if (price > money)return false;
     return true;
 }

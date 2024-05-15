@@ -113,10 +113,16 @@ public:
     int stationsToStage(int numOfStations);
     void userManagement();
     void usersEmailWindow();
+    float stringToFloat(const std::string& str);
+    void checkIn(Station* startingStation, User* user, float price, string choice);
+    void checkOut(Station* endingStation, int StationsNO, User* user);
+
+
     void subscriptionRenewalDate(User* user);
     void showStationNamesAndIds();
 
     void enterMetroManagementScene();
+
 
     /**
      * Get shortest path of two stations.
@@ -187,4 +193,3 @@ public:
     void editStagesPrice(int index, int price);
     void fareManagementCLI();
 };
-

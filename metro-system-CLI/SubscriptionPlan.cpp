@@ -20,6 +20,10 @@ void SubscriptionPlan::ModifyPlanDuration(int planIndex, int month)
 	plans[planIndex].numberOfMonths = month;
 }
 
+int SubscriptionPlan::getStage(int planIndex, int stageIndex)
+{
+	return plans[planIndex].stages[stageIndex].getMaxNumberOfStation();
+}
 void SubscriptionPlan::removePlan(int planIndex)
 {
 	auto it = plans.begin() + planIndex;

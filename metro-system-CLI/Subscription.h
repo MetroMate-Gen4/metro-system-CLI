@@ -14,9 +14,7 @@ class Subscription
     int numberOfMonth, numberOfTrip,originalNumberOfTrip;
     int stageNumber;
     time_t startTime,endTime;
-    //
-    //should put start date and period for subscription
-    //
+
 public:
     Subscription(SubscriptionPlan& subscriptionPlan, int planIndex, int stageIndex);
     Subscription();

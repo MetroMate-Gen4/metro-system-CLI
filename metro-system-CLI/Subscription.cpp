@@ -1,6 +1,6 @@
 #include "Subscription.h"
 
-Subscription::Subscription(): type(), price(0.0f), numberOfMonth(0), numberOfTrip(0), originalNumberOfTrip(0), startTime(0), endTime(0)
+Subscription::Subscription(): type(), price(0.0f), numberOfMonth(0), numberOfTrip(0), originalNumberOfTrip(0), startTime(0), endTime(0) , stageNumber(0)
 {
 
 }
@@ -33,6 +33,7 @@ Subscription::Subscription(SubscriptionPlan& subscriptionPlan, int planIndex, in
     this->price = subscriptionPlan.getPlanPrice(planIndex,stageIndex);
     this->numberOfMonth = subscriptionPlan.getPlanDuration(planIndex);
     this->numberOfTrip = subscriptionPlan.getPlantrip(planIndex);
+    this->stageNumber = subscriptionPlan.getStage(planIndex, stageIndex);
     startTime = time(nullptr);
     endTime = startTime+ (numberOfMonth * (30 * 24 * 3600));
     originalNumberOfTrip = numberOfTrip;
