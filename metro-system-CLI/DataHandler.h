@@ -31,7 +31,6 @@
 class DataHandler
 {
 private:
-
     /// <summary>
     /// Utility method for getPaths method that gets all possible paths from station to station.
     /// </summary>
@@ -41,6 +40,9 @@ private:
     /// <param name="currentPath">Used to store used path that can potentially be a path from currentStation to destination</param>
     /// <param name="paths">Used to store possible paths from currentStation to destination</param>
     void _getPaths(int currentStation, int destination, unordered_set<int>& visited, vector<int>& currentPath, vector<vector<int>>& paths);
+    //to save files
+    void writeString(std::ostream& os, const std::string& str) const;
+    std::string readString(std::istream& is) const;
 public:
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
@@ -87,9 +89,9 @@ public:
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
     void stationManagement();
-    void stationStatisticsInput();
-    void displayStationStatisticsCLI(Station* station, int days);
-    void displayStationStatisticsCLI(std::string stationName, std::string day);
+    // void stationStatisticsInput();
+    // void displayStationStatisticsCLI(Station* station, int days);
+    // void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
     bool is_number(std::string& s);
     void displaySubscriptionPlans();
@@ -98,6 +100,9 @@ public:
     void manageSubscription(User* user);
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
+    //files
+    void serialize(std::ostream& os) const;
+    bool deserialize(std::istream& is);
     void writeDataFiles();
     void readDataFiles();
     void Exit();
@@ -111,6 +116,12 @@ public:
     float stringToFloat(const std::string& str);
     void checkIn(Station* startingStation, User* user, float price, string choice);
     void checkOut(Station* endingStation, int StationsNO, User* user);
+
+
+    void subscriptionRenewalDate(User* user);
+    void showStationNamesAndIds();
+
+    void enterMetroManagementScene();
 
 
     /**
@@ -154,7 +165,7 @@ public:
      *
      * @throws Error Thrown if `stationId1` or `stationId2` does not exist.
      */
-    void linkTwoStations(int stationId1, int stationId2);
+    void createStationLink(int stationId1, int stationId2);
 
     /**
      * Get station instance by it's id.
@@ -177,18 +188,6 @@ public:
     vector<vector<int>> getPaths(int source, int destination);
     string pathToString(vector<int>& path);
 
-    /// struct used in `getShortestPath()` method
-    struct FromToCost {
-        int from;
-        int to;
-        int cost;
-    };
-
-    /// Add stations linked with `source` station to `que`.
-    void addEdgesFromSource(int source, std::queue<FromToCost*>& que);
-
-    /// Get shortest path using `pathCost` structure.
-    vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
     void displayWallet(User* user);
     void manageWallet(User* user);
     void editStagesPrice(int index, int price);

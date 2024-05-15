@@ -27,7 +27,7 @@ public:
     int getNumberOfMonth()const;
     int getNumberOfTrip()const;
     void setStageNumber(int stageNumber);
-
+    string getRenewalDate();
     //setter
     void setType(const string& newType);
     void setPrice(float newPrice);

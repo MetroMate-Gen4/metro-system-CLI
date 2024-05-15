@@ -77,6 +77,13 @@ void Subscription::setStageNumber(int stageNumber)
     this->stageNumber = stageNumber;
 }
 
+string Subscription::getRenewalDate()
+{
+    tm* localTime2 = std::localtime(&endTime);
+    std::string stringTime = std::to_string(localTime2->tm_year + 1900) + "-" + std::to_string(localTime2->tm_mon + 1) + "-" + std::to_string(localTime2->tm_mday);
+    return stringTime;
+}
+
 bool Subscription:: isValid()
 {
     return time(nullptr) < endTime && numberOfTrip;

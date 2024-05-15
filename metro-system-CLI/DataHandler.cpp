@@ -48,7 +48,7 @@ User* DataHandler::searchUser(int id)
 User* DataHandler::searchUserEmail(std::string email)
 {
     for (auto it = users.begin(); it != users.end(); ++it) {
-        if (it->second->getEmail() == email) 
+        if (it->second->getEmail() == email)
             return users[it->first];
     }
     return nullptr;
@@ -116,10 +116,9 @@ void DataHandler::clearUndoStackUser() {
 
 void DataHandler::mainCLI() {
     //addUser(new User("ib.com", "ib", "IB", 1, 20));
-    initializeGraph();
+    //initializeGraph();
     stageTemporaryData();
-    //addData();
-
+    addData();
     while (true) {
         std::string choice;
         Account* account;
@@ -127,14 +126,14 @@ void DataHandler::mainCLI() {
         choice = this->choice();
         if (choice == "1") {
             system("cls");//to clear.
-            account= displaySignIn();
+            account = displaySignIn();
             system("cls");//to clear.
             if (account == NULL) {
                 std::cout << RED << "\n\n\n  # The username or password is incorrect\n" << RESET;
                 continue;
             }
             if (User* user = dynamic_cast<User*>(account)) {
-                while (true){
+                while (true) {
                     displayHomeUser(user);
                     choice = this->choice();
                     if (choice == "1") {//1)    Purchase Subscription
@@ -157,6 +156,10 @@ void DataHandler::mainCLI() {
                             if (choice == "1") { //1)   Account information
                                 system("cls");//to clear.
                                 displayAccountInformation(user);
+                                cout << "\n\n press any key to go back: ";
+                                char kk;
+                                cin >> kk;
+                                system("cls");
                             }
                             else if (choice == "2") {// 2)   Edit my information
                                 system("cls");//to clear.
@@ -167,8 +170,12 @@ void DataHandler::mainCLI() {
                                 manageSubscription(user);
                             }
                             else if (choice == "4") {//4)   Subscription renewal date
-                                system("cls");//to clear.
-
+                             
+                                subscriptionRenewalDate(user);
+                                cout << "\n\n press any key to go back: ";
+                                char kk;
+                                cin >> kk;
+                                system("cls");
                             }
                             else if (choice == "5") {// 5)  My wallet
                                 system("cls");//to clear.
@@ -199,7 +206,7 @@ void DataHandler::mainCLI() {
                 }
             }
             else if (Admin* admin = dynamic_cast<Admin*>(account)) {
-                while (true){
+                while (true) {
                     displayHomeAdmin(admin);
                     choice = this->choice();
                     if (choice == "1") { //1)    User Management
@@ -208,7 +215,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "2") {//2)    Metro Management
                         system("cls");
-
+                        enterMetroManagementScene();
                     }
                     else if (choice == "3") {//3)    Subscription Plan Management
                         system("cls");
@@ -285,7 +292,7 @@ void DataHandler::mainCLI() {
             std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
         }
     }
-    
+
 }
 
 string DataHandler::choice() {
@@ -296,7 +303,7 @@ string DataHandler::choice() {
 }
 
 void DataHandler::displayMainMenu_SignIn_SignUp() {
-    std::cout << "\n\n\n                                     Welcome to"<< BOLDRED <<" MetroMate\n";
+    std::cout << "\n\n\n                                     Welcome to" << BOLDRED << " MetroMate\n";
 
 
 
@@ -304,12 +311,12 @@ void DataHandler::displayMainMenu_SignIn_SignUp() {
     std::cout << "                       " << "   /     \\   ____   ____    __ __\n";
     std::cout << "                       " << "  /  \\ /  \\_/ __ \\ /     \\ |  |  |\n";
     std::cout << "                       " << " /    Y    \\  ___/|   |   \\|  |  |\n";
-    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n"<< RESET;
+    std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
     std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;
     std::cout << YELLOW << "\n\t\t\t| ----------------------------- |" << endl;
-    std::cout << "\n\t\t\t|"<< CYAN <<" 1)    sign in                 "<< YELLOW << "|" << endl;
+    std::cout << "\n\t\t\t|" << CYAN << " 1)    sign in                 " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 2)    sign up                 " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 3)    Exit                    " << YELLOW << "|" << endl;
     std::cout << "\n\t\t\t| ----------------------------- |" << endl;
@@ -327,10 +334,10 @@ Account* DataHandler::displaySignIn() {
     std::cout << "  		     - - - - - - - - - - - - -  \n";
     std::cout << YELLOW << "			      	   SIGN IN \n";
     std::cout << CYAN << "  		                - - - - - - - - - - - - -  \n";
-    std::cout << "  	      	         -------------------------\n"<< RESET;
+    std::cout << "  	      	         -------------------------\n" << RESET;
 
 
-    std::cout << GREEN << "\n\n                               Email: "<< RESET;
+    std::cout << GREEN << "\n\n                               Email: " << RESET;
     std::cin >> email;
     std::cout << GREEN << "\n\n                               Password: " << RESET;
 
@@ -343,7 +350,7 @@ Account* DataHandler::displaySignIn() {
             else if (ch == 8) {
                 if (!pass.empty()) {
                     std::cout << "\b \b";
-                    pass.pop_back(); 
+                    pass.pop_back();
                 }
             }
             else {
@@ -410,7 +417,7 @@ void DataHandler::displaySignUp() {
             break;
         }
     }
-    
+
 }
 void DataHandler::displayHomeUser(User* u) {
     std::cout << "\n\n\n                                     Welcome " << BOLDRED << u->getName() << " ^_~ \n";
@@ -424,7 +431,7 @@ void DataHandler::displayHomeUser(User* u) {
     std::cout << "                       " << " \\____|____/\\____>____|____|_____|\n\n" << RESET;
 
 
-    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;    
+    std::cout << CYAN << "\n\t\t\t+ ----------------------------- +" << RESET << endl;
     std::cout << YELLOW << "\n\t\t\t| ----------------------------- |" << endl;
     std::cout << "\n\t\t\t|" << CYAN << " 1)    Purchase Subscription   " << YELLOW << "|" << endl;
     std::cout << "\t\t\t|" << CYAN << " 2)    View Ride History       " << YELLOW << "|" << endl;
@@ -497,7 +504,7 @@ void DataHandler::displayUsers()
         cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
         for (auto it : users) {
-            cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+            cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
         }
 
 
@@ -514,14 +521,12 @@ void DataHandler::displayUsers()
                 notChoice = true;
                 break;
             }
-
         if (ChooseUser == "B" || ChooseUser == "b")
         {
             system("cls");
             break;
         }
-
-        else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+        else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
         {
             system("cls");
             std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -529,7 +534,7 @@ void DataHandler::displayUsers()
         else
         {
             system("cls");
-            displayAccountInformation(searchUser(stoi(ChooseUser) - 1));
+            displayAccountInformation(searchUser(stoi(ChooseUser)));
         }
     }
 
@@ -537,7 +542,7 @@ void DataHandler::displayUsers()
 
 void DataHandler::editUser(User* user) {
     std::string choice;
-    while (true){
+    while (true) {
         displayAccountInformation(user);
         std::cout << CYAN << "\t\tWhate do you want to edit ? \n\n" << RESET;
         std::cout << "\t\t+ --------------------- +\n";
@@ -576,7 +581,7 @@ void DataHandler::editUser(User* user) {
                 system("cls");
                 std::cout << RED << "\n\n # this email is exist before \ntry again\n";
             }
-            
+
         }
         else if (choice == "3") {
             std::cout << GREEN << "Enter new password : " << RESET;
@@ -614,7 +619,7 @@ void DataHandler::editUser(User* user) {
             std::cout << RED << "Sorry, this option is not supported\nplease try again\n";
         }
     }
-    
+
 }
 
 void DataHandler::displayAccountInformation(Account* account)
@@ -629,7 +634,7 @@ void DataHandler::displayAccountInformation(Account* account)
     std::cout << "\t\t|" << GREEN << " National ID :-\t" << RESET << account->getNationalId() << YELLOW << "\t|\n";
     std::cout << "\t\t|                               |\n";
     std::cout << "\t\t|" << GREEN << " Age :- \t" << RESET << account->getAge() << YELLOW << "\t\t|\n";
-    std::cout << "\t\t+ ----------------------------- +\n\n\n"<<RESET;
+    std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
 }
 
 User* DataHandler::logIn(std::string email, std::string pass) {
@@ -716,16 +721,16 @@ void DataHandler::stationManagement() {
         std::cout << '\n';
 
         if (timeChoice == 1) {
-            displayStationStatisticsCLI(stations[stationId], 1);
+           // displayStationStatisticsCLI(stations[stationId], 1);
         }
         else if (timeChoice == 2) {
-            displayStationStatisticsCLI(stations[stationId], 7);
+           // displayStationStatisticsCLI(stations[stationId], 7);
         }
         else if (timeChoice == 3) {
-            displayStationStatisticsCLI(stations[stationId], 30);
+           // displayStationStatisticsCLI(stations[stationId], 30);
         }
         else if (timeChoice == 4) {
-            displayStationStatisticsCLI(stations[stationId], 365);
+           // displayStationStatisticsCLI(stations[stationId], 365);
         }
         else {
             return;
@@ -750,70 +755,70 @@ void DataHandler::stationManagement() {
     }
 }
 
-void DataHandler::stationStatisticsInput() {
-    Station* tempStation = new Station();
-    std::string stationName;
-    std::string day;
-    int option;
-    std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
-        << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
-        << "Enter a station name: ";
-    std::cin >> stationName;
-    std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
-    std::cout << "Choose Option:\n\t\t\t";
-    std::cin >> option;
-    if (option == 1) {
-        std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
-            << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
-        std::cin >> option;
-        switch (option) {
-        case 1:
-            day = "Sunday";
-            break;
-        case 2:
-            day = "Monday";
-            break;
-        case 3:
-            day = "Tuesday";
-            break;
-        case 4:
-            day = "Wednesday";
-            break;
-        case 5:
-            day = "Thursday";
-            break;
-        case 6:
-            day = "Friday";
-            break;
-        case 7:
-            day = "Saturday";
-            break;
-        case 8:
-            displayStationStatisticsCLI(tempStation, 1);
-            return;
-        }
-    }
-    displayStationStatisticsCLI(stationName, day);
-}
+// void DataHandler::stationStatisticsInput() {
+//     Station* tempStation = new Station();
+//     std::string stationName;
+//     std::string day;
+//     int option;
+//     std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
+//         << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
+//         << "Enter a station name: ";
+//     std::cin >> stationName;
+//     std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
+//     std::cout << "Choose Option:\n\t\t\t";
+//     std::cin >> option;
+//     if (option == 1) {
+//         std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
+//             << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
+//         std::cin >> option;
+//         switch (option) {
+//         case 1:
+//             day = "Sunday";
+//             break;
+//         case 2:
+//             day = "Monday";
+//             break;
+//         case 3:
+//             day = "Tuesday";
+//             break;
+//         case 4:
+//             day = "Wednesday";
+//             break;
+//         case 5:
+//             day = "Thursday";
+//             break;
+//         case 6:
+//             day = "Friday";
+//             break;
+//         case 7:
+//             day = "Saturday";
+//             break;
+//         case 8:
+//             displayStationStatisticsCLI(tempStation, 1);
+//             return;
+//         }
+//     }
+//     displayStationStatisticsCLI(stationName, day);
+// }
 
-void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
-    // FIND STATION IN LINES USING GRAPH
-    dayData data = station->getDayDataForPeriod(days);
-    std::cout << "\t\tStation Name: " << station->getName()
-        << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\tTotal income: " << data.totalIncome
-        << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
-}
+// void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
+//     // FIND STATION IN LINES USING GRAPH
+//     dayData data = station->getDayDataForPeriod(days);
+//     std::cout << "\t\tStation Name: " << station->getName()
+//         << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//         << "\n\t\tTotal income: " << data.totalIncome
+//         << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
+// }
 
-void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
-    // FIND STATION IN LINES USING GRAPH
-    Station* station = new Station(); // Comment this line out after implementing graph search
-    dayData data = station->getStationDataDay(day);
-    std::cout << "\t\t\tStation Name: " << station->getName()
-        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\t\tTotal income: " << data.totalIncome
-        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
-}
+//void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
+//    // FIND STATION IN LINES USING GRAPH
+//    Station* station = new Station(); // Comment this line out after implementing graph search
+//    dayData data = station->getStationDataDay(day);
+//    std::cout << "\t\t\tStation Name: " << station->getName()
+//        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//        << "\n\t\t\tTotal income: " << data.totalIncome
+//        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+//}
 
 int DataHandler::valid_input(int l, int r)
 {
@@ -852,7 +857,7 @@ void DataHandler::purchaseSubscription(User* user)
     cout << "\t\t1)Continue \n";
     cout << "\t\t2)Back \n";
     ch = valid_input(1, 2);
-    if (ch==1) {
+    if (ch == 1) {
         char x;
         cout << "\t\tEnter subscription plan number: ";
         subIndex = valid_input(1, subscriptionPlans.size());
@@ -861,11 +866,12 @@ void DataHandler::purchaseSubscription(User* user)
         cout << "\t\tEnter stage number: ";
         stageIndex = valid_input(1, 4);
         user->setSubscription(Subscription(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1));
-        cout << "\t\t*Your subscription purchase was successful\n";
+        cout <<GREEN << "\t\t*Your subscription purchase was successful\n"<<RESET;
         cout << "\t\tEnter 1 to continue: ";
         cin >> x;
+        system("cls");
     }
-    else if (ch==2) {
+    else if (ch == 2) {
         system("cls");
         return;
     }
@@ -881,8 +887,9 @@ void DataHandler::subscriptionPlanManagement()
         int ch;
         cout << "\t\t1) Add new subscription Plan\n";
         cout << "\t\t2) Add new Plan\n";
-        cout << "\t\t3) EXit\n";
-        ch = valid_input(1, 3);
+        cout << "\t\t3) Modify Plan\n";
+        cout << "\t\t4) EXit\n";
+        ch = valid_input(1, 4);
         if (ch == 1) {
             string name;
             cout << "\t\tEnter subscription plan name : ";
@@ -893,7 +900,7 @@ void DataHandler::subscriptionPlanManagement()
             int subPlanNum, trips, months;
             float p1, p2, p3, p4;
             for (int i = 0; i < subscriptionPlans.size(); i++) {
-                cout <<"\t\t"<< i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+                cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
             }
             cout << "\t\tEnter the subscription plan number: ";
             subPlanNum = valid_input(1, subscriptionPlans.size() + 1);
@@ -915,6 +922,55 @@ void DataHandler::subscriptionPlanManagement()
 
         }
         else if (ch == 3) {
+            while (true) {
+                int subPlan, planIndex, modifyoption;
+                for (int i = 0; i < subscriptionPlans.size(); i++) {
+                    cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+                }
+                cout << "\t\tEnter the subscription plan number: ";
+                subPlan = valid_input(1, subscriptionPlans.size()) - 1;
+                cout << "\t\tEnter the plan number: ";
+                planIndex = valid_input(1, subscriptionPlans[subPlan].getNumberOfPlans()) - 1;
+                cout << "\t\t1) Modify number of months:\n";
+                cout << "\t\t2) Modify number of trips:\n";
+                cout << "\t\t3) Modify Price\n";
+                cout << "\t\t4) Remove Plan\n";
+                cout << "\t\t5) Back \n";
+
+                modifyoption = valid_input(1, 5);
+                if (modifyoption == 1) {
+                    int months;
+                    cout << "\t\tEnter new number of months: ";
+                    months = valid_input(1, INT_MAX);
+                    subscriptionPlans[subPlan].ModifyPlanDuration(planIndex, months);
+                    break;
+                }
+                else if (modifyoption == 2) {
+                    int trips;
+                    cout << "\t\tEnter new number of trips: ";
+                    trips = valid_input(1, INT_MAX);
+                    subscriptionPlans[subPlan].ModifyPlantrip(planIndex, trips);
+                    break;
+                }
+                else if(modifyoption==3){
+                    int stageNumber, stagePrice;
+                    cout << "\t\tEnter Stage number to modify: ";
+                    stageNumber = valid_input(1, 4) - 1;
+                    cout << "\t\tEnter new Stage Price: ";
+                    stagePrice = valid_input(1, INT_MAX);
+                    subscriptionPlans[subPlan].ModifyPlanPrice(planIndex, stageNumber, stagePrice);
+                    break;
+                }
+                else if (modifyoption == 4) {
+                    subscriptionPlans[subPlan].removePlan(planIndex);
+                    break;
+                }
+                else if (modifyoption == 5) {
+                    break;
+                }
+            }
+        }
+        else if (ch == 4) {
             system("cls");
             break;
         }
@@ -926,7 +982,7 @@ void DataHandler::manageSubscription(User* user)
     while (true) {
         system("cls");
         if (user->getSubscription().getType() == "") {
-            cout << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
+            cout << RED << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
             cout << RED << "\t\t\t" << "|" << "---------------" << RESET << "\n";
 
             return; // Exit the function since there's no subscription information
@@ -997,7 +1053,7 @@ void  DataHandler::stageTemporaryData() {
 void DataHandler::SubscriptionPlansTemporaryData()
 {
     subscriptionPlans.push_back(SubscriptionPlan("Students"));
-     subscriptionPlans[0].AddPlan(3, 180, 33, 41, 50, 65);
+    subscriptionPlans[0].AddPlan(3, 180, 33, 41, 50, 65);
     subscriptionPlans[0].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 
     subscriptionPlans.push_back(SubscriptionPlan("Public"));
@@ -1005,7 +1061,72 @@ void DataHandler::SubscriptionPlansTemporaryData()
     subscriptionPlans[1].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 }
 
+//files
+void DataHandler::writeString(std::ostream& os, const std::string& str) const {
+    size_t len = str.size();
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    os.write(str.data(), len);
+}
+
+std::string DataHandler::readString(std::istream& is) const {
+    size_t len;
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    std::string str(len, '\0');
+    is.read(&str[0], len);
+    return str;
+}
+
+
+
+void DataHandler::serialize(std::ostream& os) const {
+    size_t sizeOfstagesVector = stages.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfstagesVector), sizeof(sizeOfstagesVector));
+    os.write(reinterpret_cast<const char*>(stages.data()), sizeOfstagesVector * sizeof(int));
+
+    size_t sizeOfusedStationNamesMap = usedStationNames.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfusedStationNamesMap), sizeof(sizeOfusedStationNamesMap));
+    for (const auto& pair : usedStationNames) {
+        os.write(reinterpret_cast<const char*>(&pair.second), sizeof(int));
+        writeString(os, pair.first);
+    }
+}
+
+bool DataHandler::deserialize(std::istream& is) {
+
+    size_t sizeOfstagesVector;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfstagesVector), sizeof(sizeOfstagesVector)))
+        return false;
+    stages.resize(sizeOfstagesVector);
+    is.read(reinterpret_cast<char*>(stages.data()), sizeOfstagesVector * sizeof(int));
+
+
+    size_t sizeOfusedStationNamesMap;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfusedStationNamesMap), sizeof(sizeOfusedStationNamesMap)))
+        return false;
+    usedStationNames.clear();
+    for (size_t i = 0; i < sizeOfusedStationNamesMap; ++i) {
+        int value;
+        std::string stationName;
+        if (!is.read(reinterpret_cast<char*>(&value), sizeof(int))) // Read value
+            return false;
+        stationName = readString(is); // Read station name
+        usedStationNames[stationName] = value;
+    }
+    return true;
+}
+
 void DataHandler::writeDataFiles() {
+    std::ofstream stagesUsedStationNamesFile("data_files\\stages_usedStationNames_data.bin", std::ios::binary);
+    if (stagesUsedStationNamesFile.is_open()) {
+        this->serialize(stagesUsedStationNamesFile);
+        stagesUsedStationNamesFile.close();
+
+        std::cout << "stages and usedStationNames data saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open stages and usedStationNames file for writing." << std::endl;
+    }
+
     std::ofstream usersFile("data_files\\users_data.bin", std::ios::binary);
     if (usersFile.is_open()) {
         for (auto it = users.begin(); it != users.end(); it++) {
@@ -1013,10 +1134,23 @@ void DataHandler::writeDataFiles() {
         }
         usersFile.close();
 
-        std::cout << "Objects saved to file." << std::endl;
+        std::cout << "Users saved to file." << std::endl;
     }
     else {
-        std::cerr << "Failed to open file for writing." << std::endl;
+        std::cerr << "Failed to open Users file for writing." << std::endl;
+    }
+
+    std::ofstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        for (auto it = stations.begin(); it != stations.end(); it++) {
+            it->second->serialize(stationsFile);
+        }
+        stationsFile.close();
+
+        std::cout << "Stations saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open Stations file for writing." << std::endl;
     }
 }
 
@@ -1032,13 +1166,38 @@ void DataHandler::readDataFiles() {
         usersFile.close();
     }
     else {
-        std::cerr << "Failed to open file for reading." << std::endl;
+        std::cerr << "Failed to open Users file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        while (!stationsFile.eof()) {
+            Station* station = new Station;
+            if (!station->deserialize(stationsFile))
+                break;
+            stations[station->getId()] = station;
+        }
+        stationsFile.close();
+    }
+    else {
+        std::cerr << "Failed to open Stations file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stagesUsedStationNamesFile("data_files\\stages_usedStationNames_data.bin", std::ios::binary);
+    if (stagesUsedStationNamesFile.is_open()) {
+        this->deserialize(stagesUsedStationNamesFile);
+        stagesUsedStationNamesFile.close();
+    }
+    else {
+        std::cerr << "Failed to open stages and usedStationNames file for reading." << std::endl;
         return;
     }
 }
 
 
-void DataHandler:: Exit() {
+void DataHandler::Exit() {
     bool clear = 1;
     while (true) {
         string y_or_n;
@@ -1083,7 +1242,7 @@ void DataHandler::usersEmailWindow()
     cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
     for (auto it : users) {
-        cout << "\t\t\t\t" << BLUE << "[" << it.first + 1 << "] " << it.second->getEmail() << "\n\n" << RESET;
+        cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
     }
 
 
@@ -1092,6 +1251,13 @@ void DataHandler::usersEmailWindow()
     cout << BOLDCYAN << "--------------------\n";
 
 
+}
+
+void DataHandler::subscriptionRenewalDate(User* user)
+{
+    cout << "\n\n\n";
+    cout << "\t\tSubscription Renewal Date:\n\n";
+    cout << "\t\t" << user->getSubscription().getRenewalDate();
 }
 
 void DataHandler::userManagement()
@@ -1124,6 +1290,7 @@ void DataHandler::userManagement()
             system("cls");
             while (true)
             {
+                clearUndoStackUser();
                 cout << "\t\t\t" << YELLOW << "--------------------\n";
                 cout << "\t\t\t" << YELLOW << "|" << GREEN << "Edit window       " << YELLOW << "|\n";
                 cout << "\t\t\t" << YELLOW << "--------------------\n";
@@ -1146,7 +1313,7 @@ void DataHandler::userManagement()
                     break;
                 }
 
-                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
                 {
                     system("cls");
                     std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -1154,7 +1321,7 @@ void DataHandler::userManagement()
                 else
                 {
                     system("cls");
-                    editUser(searchUser(stoi(ChooseUser) - 1));
+                    editUser(searchUser(stoi(ChooseUser)));
                 }
             }
         }
@@ -1185,7 +1352,7 @@ void DataHandler::userManagement()
                     break;
                 }
 
-                else if (notChoice || searchUser(stoi(ChooseUser) - 1) == NULL)
+                else if (notChoice || searchUser(stoi(ChooseUser)) == NULL)
                 {
                     system("cls");
                     std::cout << RED << "\n\n # this email not exist before \ntry again\n" << RESET;
@@ -1193,7 +1360,7 @@ void DataHandler::userManagement()
                 else
                 {
                     system("cls");
-                    deleteUser(stoi(ChooseUser) - 1);
+                    deleteUser(stoi(ChooseUser));
                 }
 
             }
@@ -1216,7 +1383,7 @@ void DataHandler::userManagement()
     }
 }
 
-string DataHandler::pathToString(vector<int> &path) {
+string DataHandler::pathToString(vector<int>& path) {
     string spath;
 
     for (int i = 0; i < path.size(); i++) {
@@ -1390,6 +1557,8 @@ void DataHandler::enterCheckInOutScene(User* user)
                     continue;
                 }
 
+
+
                 else
                 {
                     checkOut(getStationById(checkedOutStationId - 1), numberOfStations, user);
@@ -1470,19 +1639,7 @@ void DataHandler::enterCheckInOutScene(User* user)
         }
         else if (choice == "4") {
             system("cls");
-
-            cout << "\n\n";
-
-            // Print the table header
-            cout << beginning << "--------------------------------------------\n";
-            cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
-            cout << beginning << "--------------------------------------------\n";
-
-            for (auto i : usedStationNames) {
-                cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
-            }
-
-            cout << "\n\n";
+            showStationNamesAndIds();
         }
         else if (choice == "5")
         {
@@ -1552,16 +1709,16 @@ void DataHandler::initializeGraph()
     addStation("Kobri El-Qobba");
     addStation("Manshiet El-Sadr");
 
-    linkTwoStations(0, 1);
-    linkTwoStations(1, 2);
-    linkTwoStations(2, 3);
-    linkTwoStations(3, 4);
-    linkTwoStations(4, 5);
-    linkTwoStations(5, 6);
-    linkTwoStations(6, 7);
-    linkTwoStations(7, 8);
-    linkTwoStations(8, 9);
-    linkTwoStations(9, 10);
+    createStationLink(0, 1);
+    createStationLink(1, 2);
+    createStationLink(2, 3);
+    createStationLink(3, 4);
+    createStationLink(4, 5);
+    createStationLink(5, 6);
+    createStationLink(6, 7);
+    createStationLink(7, 8);
+    createStationLink(8, 9);
+    createStationLink(9, 10);
 
 }
 
@@ -1620,6 +1777,247 @@ int DataHandler::stationsToStage(int numOfStations)
     }
 }
 
+void DataHandler::showStationNamesAndIds()
+{
+    string beginning = "          ";
+
+    cout << "\n\n";
+
+    // Print the table header
+    cout << beginning << "--------------------------------------------\n";
+    cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
+    cout << beginning << "--------------------------------------------\n";
+
+    for (auto i : usedStationNames) {
+        cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
+    }
+
+    cout << "\n\n";
+}
+
+void DataHandler::enterMetroManagementScene()
+{
+    // TODO take care of styling.
+    string beginning = "          ";
+    while (1) {
+        cout << beginning << "Metro Management Scene\n\n";
+        cout << beginning << "\t1) Add Station\n";
+        cout << beginning << "\t2) Update Station\n";
+        cout << beginning << "\t3) Add Station Link\n";
+        cout << beginning << "\t4) Remove Station Link\n";
+        cout << beginning << "\t5) Remove Station and related links\n";
+        cout << beginning << "\t6) List Stations and linkedStations\n";
+        cout << beginning << "\t7) List Stations names and ids\n";
+        cout << beginning << "\t8) Return to main menu\n";
+
+        string choice = this->choice();
+
+        if (choice == "1") {
+            system("cls");
+            string stationName;
+
+            cout << beginning << "Enter station name: ";
+
+            cin.ignore();
+            getline(cin, stationName);
+
+            if (usedStationNames.find(stationName) != usedStationNames.end()) {
+                cout << beginning << RED << "This station name is already used.\n\n" << RESET;
+                continue;
+            }
+
+            addStation(stationName);
+            cout << beginning << GREEN << stationName << " Station added successfully.\n\n" << RESET;
+        }
+        else if (choice == "2") {
+            system("cls");
+            string stationIdInput;
+            int stationId;
+            string newStationName;
+
+            cout << beginning << "Enter station id: ";
+
+            try {
+                cin >> stationIdInput;
+                stationId = stoi(stationIdInput);
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter a number that represents station id.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId) == stations.end()) {
+                cout << beginning << RED << "This station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            cout << beginning << "Enter new station name: ";
+
+            cin.ignore();
+            getline(cin, newStationName);
+
+            if (usedStationNames.find(newStationName) != usedStationNames.end()) {
+                cout << beginning << RED << "This station name is already used.\n\n" << RESET;
+                continue;
+            }
+
+            usedStationNames.erase(stations[stationId]->getName());
+            usedStationNames[newStationName] = stationId;
+            stations[stationId]->setName(newStationName);
+
+            cout << beginning << GREEN << "Updating Station " << stationId << "'s name to '" << newStationName << "' has been done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "3") {
+            system("cls");
+            string stationId1Input;
+            int stationId1;
+            string stationId2Input;
+            int stationId2;
+
+
+            try {
+                cout << beginning << "Enter station id 1: ";
+                cin >> stationId1Input;
+                stationId1 = stoi(stationId1Input);
+
+                cout << beginning << "Enter station id 2: ";
+                cin >> stationId2Input;
+                stationId2 = stoi(stationId2Input);
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter numbers that represents station ids.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId1) == stations.end()) {
+                cout << beginning << RED << stationId1 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId2) == stations.end()) {
+                cout << beginning << RED << stationId2 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+            
+            const vector<int>& linkedStations1 = stations[stationId1]->getLinkedStationIds();
+
+            if (find(linkedStations1.begin(), linkedStations1.end(), stationId2) != linkedStations1.end()) {
+                cout << beginning << RED << "Those two stations are already linked.\n\n" << RESET;
+                continue;
+            }
+
+            createStationLink(stationId1, stationId2);
+
+            cout << beginning << GREEN << "Linking done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "4") {
+            system("cls");
+            string stationId1Input;
+            int stationId1;
+            string stationId2Input;
+            int stationId2;
+
+
+            try {
+                cout << beginning << "Enter station id 1: ";
+                cin >> stationId1Input;
+                stationId1 = stoi(stationId1Input);
+
+                cout << beginning << "Enter station id 2: ";
+                cin >> stationId2Input;
+                stationId2 = stoi(stationId2Input);
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter numbers that represents station ids.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId1) == stations.end()) {
+                cout << beginning << RED << stationId1 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId2) == stations.end()) {
+                cout << beginning << RED << stationId2 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            vector<int>& linkedStations1 = stations[stationId1]->getLinkedStationIds();
+            vector<int>& linkedStations2 = stations[stationId2]->getLinkedStationIds();
+
+            if (find(linkedStations1.begin(), linkedStations1.end(), stationId2) == linkedStations1.end()) {
+                cout << beginning << RED << "No link between this two stations.\n\n" << RESET;
+                continue;
+            }
+
+            linkedStations1.erase(find(linkedStations1.begin(), linkedStations1.end(), stationId2));
+            linkedStations2.erase(find(linkedStations2.begin(), linkedStations2.end(), stationId1));
+
+            cout << beginning << GREEN << "Unlinking done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "5") {
+            system("cls");
+            string stationIdInput;
+            int stationId;
+
+
+            try {
+                cout << beginning << "Enter station id: ";
+                cin >> stationIdInput;
+                stationId = stoi(stationIdInput);
+
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter numbers that represents station ids.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId) == stations.end()) {
+                cout << beginning << RED << stationId << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            vector<int>& linkedStations = stations[stationId]->getLinkedStationIds();
+
+            for (int i = 0; i < linkedStations.size(); i++) {
+                vector<int>& temp = stations[linkedStations[i]]->getLinkedStationIds();
+                temp.erase(find(temp.begin(), temp.end(), stationId));
+            }
+
+            stations.erase(stationId);
+
+            cout << beginning << GREEN << "Deleting station done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "6") {
+            system("cls");
+
+            for (auto station : stations) {
+                cout << beginning << station.first << ": ";
+
+                const vector<int>& linkedStations = station.second->getLinkedStationIds();
+
+                for (int i = 0; i < linkedStations.size(); i++) {
+                    cout << linkedStations[i] << "  ";
+                }
+
+                cout << "\n\n";
+            }
+
+        }
+        else if (choice == "7") {
+            system("cls");
+            showStationNamesAndIds();
+        }
+        else if (choice == "8") {
+            break;
+        }
+        else {
+            system("cls");
+            cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
+        }
+    }
+}
+
 void DataHandler::addStation(std::string name)
 {
     if (usedStationNames.find(name) != usedStationNames.end())
@@ -1645,7 +2043,7 @@ Station* DataHandler::getStationById(int id)
     return stations[id];
 }
 
-void DataHandler::linkTwoStations(int stationId1, int stationId2)
+void DataHandler::createStationLink(int stationId1, int stationId2)
 {
     if (stations.find(stationId1) == stations.end())
         throw "Error linkTwoStations: Id in stationId1 parameter doesn't exist in the graph.";
@@ -1660,10 +2058,10 @@ void DataHandler::linkTwoStations(int stationId1, int stationId2)
  * The idea of the implementation is to traverse using DFS and keep track of the
  * passed path during that and in case of reaching the destination station add
  * recorded path to paths and stop getting deeper (look for another path).
- * 
+ *
  * Time Complexity: O(V + E) where V is the number of vertices and E is the number of edges in the graph.
  * Space Complexity: O(N^2)
- * 
+ *
  * Useful reference: https://www.geeksforgeeks.org/find-paths-given-source-destination
  */
 vector<vector<int>> DataHandler::getPaths(int source, int destination) {
@@ -1698,87 +2096,6 @@ void DataHandler::_getPaths(int currentStation, int destination, unordered_set<i
     // Remove station from path.
     currentPath.erase(currentPath.end() - 1);
     visited.erase(currentStation);
-}
-
-// Useful resource to understand how this method is implemented: https://www.youtube.com/watch?v=T_m27bhVQQQ
-vector<int> DataHandler::getShortestPath(int source, int destination)
-{
-    if (stations.find(source) == stations.end())
-        throw "Error getShortestPath: Id in source parameter doesn't exist in the graph.";
-    if (stations.find(destination) == stations.end())
-        throw "Error getShortestPath: Id in destination parameter doesn't exist in the graph.";
-
-    std::queue<FromToCost*> que;
-    unordered_map<int, std::pair<int, int>> pathCost;
-
-    addEdgesFromSource(source, que);
-    pathCost[source] = std::make_pair(source, 0);
-
-    /// construct pathCost structure
-    while (!que.empty() && pathCost.size() < stations.size()) {
-        auto procItem = que.front();
-        que.pop();
-        if (pathCost.find(procItem->to) == pathCost.end()) {
-
-            pathCost[procItem->to] = std::make_pair(procItem->from, pathCost[procItem->from].second + 1);
-
-            std::vector<int> links = stations[procItem->to]->getLinkedStationIds();
-
-            for (int i = 0; i < links.size(); i++) {
-                if (pathCost.find(links[i]) == pathCost.end()) {
-                    auto temp = new FromToCost();
-                    temp->from = procItem->to;
-                    temp->to = links[i];
-                    temp->cost = pathCost[procItem->to].second;
-                    que.push(temp);
-                }
-            }
-        }
-        delete procItem;
-    }
-
-    /// free remaining elements in `que` from memory.
-    while (!que.empty()) {
-        auto procItem = que.front();
-        que.pop();
-        delete procItem;
-    }
-
-    return generateShortestPath(source, destination, pathCost);
-}
-
-void DataHandler::addEdgesFromSource(int source, std::queue<FromToCost*>& que)
-{
-    vector<int> links = this->stations[source]->getLinkedStationIds();
-
-    FromToCost* temp;
-
-    for (int i = 0; i < links.size(); i++) {
-        temp = new FromToCost();
-        temp->from = source;
-        temp->to = links[i];
-        temp->cost = 1;
-        que.push(temp);
-    }
-}
-
-vector<int> DataHandler::generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int> >& pathCost)
-{
-    if (pathCost.find(destination) == pathCost.end()) {
-        return {};
-    }
-
-    vector<int> shortestPath;
-
-    for (int i = destination; i != source; i = pathCost[i].first) {
-        shortestPath.push_back(i);
-    }
-
-    shortestPath.push_back(source);
-
-    reverse(shortestPath.begin(), shortestPath.end());
-
-    return shortestPath;
 }
 
 void DataHandler::displayWallet(User* user)
@@ -1840,20 +2157,20 @@ void DataHandler::fareManagementCLI() {
         std::string choice;
         std::string price;
         std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
-        std::cout << "\t\t|" << GREEN << "1. Stage #1 :- \t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "1. Stage #1\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
         std::cout << "\t\t|" << GREEN << "2. Stage #2\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "3. Stage #3 :-\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "3. Stage #3\t\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "4. Stage #4 :-\t\t\n";
-        std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+        std::cout << "\t\t|" << GREEN << "4. Stage #4\t\t\t|\n";
+        std::cout << YELLOW << "\t\t+ ----------------------------- +\n\n\n" << RESET;
         std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
         choice = this->choice();
         while (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
 
             std::cout << "\n\t\tInvalid input\n" << RESET;
-            std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
+            std::cout << YELLOW << "\t\tSelect a stage to edit : " << RESET;
             choice = this->choice();
         }
 
@@ -1885,6 +2202,7 @@ void DataHandler::fareManagementCLI() {
 void DataHandler::editStagesPrice(int index, int price) {
     stages[index] = price;
 }
+
 
 void DataHandler::checkIn(Station* startingStation, User* user, float price, string choice)
 {
@@ -1936,3 +2254,15 @@ float DataHandler:: stringToFloat(const std::string& str) {
     }
     return num;
 }
+
+//void DataHandler::addData() {
+//    User* newUser = new User("arsany@gmail.com", "123", "arsany", 3030, 20);
+//
+//    addUser(newUser);
+//    Ride newRide;
+//    newRide.setStartingStation(*stations[0]);
+//    newRide.setEndingStation(*stations[3]);
+//    newRide.setStartingTime(3);
+//    newRide.setEndingTime(9);
+//    users[newUser->getId()]->addRide(newRide);
+//}
