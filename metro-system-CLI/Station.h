@@ -34,10 +34,10 @@ public:
     //dayData getDayDataForPeriod(int numberOfDays)const;
 
     void linkToStation(int id);
-    std::vector<int> getLinkedStationIds();
     //files
     void serialize(std::ostream& os) const;
     bool deserialize(std::istream& is);
+    std::vector<int>& getLinkedStationIds();
 private:
     static int idCounter;
     int id;
