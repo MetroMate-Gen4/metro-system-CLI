@@ -70,3 +70,33 @@ std::string Ride::toString() {
         << "Ending Time: " << std::asctime(std::localtime(&endingTime)) << "\n";
     return ss.str();
 }
+
+//files
+
+
+void Ride::serialize(std::ostream& os) const {
+    os.write(reinterpret_cast<const char*>(&id), sizeof(id));
+    os.write(reinterpret_cast<const char*>(&startingTime), sizeof(startingTime));
+    os.write(reinterpret_cast<const char*>(&endingTime), sizeof(endingTime));
+    os.write(reinterpret_cast<const char*>(&cost), sizeof(cost));
+
+    startingStation.serialize(os);
+    endingStation.serialize(os);
+}
+
+bool Ride::deserialize(std::istream& is) {
+    if (!is.read(reinterpret_cast<char*>(&id), sizeof(id)))
+        return false;
+    if (!is.read(reinterpret_cast<char*>(&startingTime), sizeof(startingTime)))
+        return false;
+    if (!is.read(reinterpret_cast<char*>(&endingTime), sizeof(endingTime)))
+        return false;
+    if (!is.read(reinterpret_cast<char*>(&cost), sizeof(cost)))
+        return false;
+    if (!startingStation.deserialize(is))
+        return false;
+    if (!endingStation.deserialize(is))
+        return false;
+    idCount = id;
+    return true;
+}
