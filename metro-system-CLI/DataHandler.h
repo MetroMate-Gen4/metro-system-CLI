@@ -42,6 +42,7 @@ private:
     /// <param name="paths">Used to store possible paths from currentStation to destination</param>
     void _getPaths(int currentStation, int destination, unordered_set<int>& visited, vector<int>& currentPath, vector<vector<int>>& paths);
 public:
+    struct tm timeStruct = {};
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
     static std::unordered_map<int, vector<Ride*> > rides;
@@ -88,7 +89,7 @@ public:
     void displayAllRidesCLI();
     void stationManagement();
     void stationStatisticsInput();
-    void displayStationStatisticsCLI(Station* station, int days);
+    void displayStationStatisticsCLI(Station* station, time_t specifictime, int choice);
     void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
     bool is_number(std::string& s);
@@ -189,5 +190,6 @@ public:
     void manageWallet(User* user);
     void editStagesPrice(int index, int price);
     void fareManagementCLI();
+    time_t getDay();
 };
 

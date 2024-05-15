@@ -74,6 +74,16 @@ Wallet &User::getWallet()
     return this->wallet;
 }
 
+void User::addRide(Ride* ride)
+{
+    DataHandler::rides[id].push_back(ride);
+    
+}
+
+vector<Ride*> User::getRides()
+{
+    return DataHandler::rides[id];
+}
 
 //files
 void User::writeString(std::ostream& os, const std::string& str) const {
