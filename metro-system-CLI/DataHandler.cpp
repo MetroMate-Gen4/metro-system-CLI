@@ -489,20 +489,20 @@ void DataHandler::displayUsers()
 {
     while (true)
     {
-        std::cout << "\t\t\t" << YELLOW << "--------------------\n";
-        std::cout << "\t\t\t" << YELLOW << "|" << GREEN << "view window       " << YELLOW << "|\n";
-        std::cout << "\t\t\t" << YELLOW << "--------------------\n";
+        cout << "\t\t\t" << YELLOW << "--------------------\n";
+        cout << "\t\t\t" << YELLOW << "|" << GREEN << "view window       " << YELLOW << "|\n";
+        cout << "\t\t\t" << YELLOW << "--------------------\n";
 
-        std::cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
+        cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
         for (auto it : users) {
-            std::cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
+            cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
         }
 
 
-        std::cout << BOLDCYAN << "--------------------\n";
-        std::cout << BOLDCYAN << "|" << MAGENTA << "press \"B\" to Back " << BOLDCYAN << "|\n";
-        std::cout << BOLDCYAN << "--------------------\n";
+        cout << BOLDCYAN << "--------------------\n";
+        cout << BOLDCYAN << "|" << MAGENTA << "press \"B\" to Back " << BOLDCYAN << "|\n";
+        cout << BOLDCYAN << "--------------------\n";
 
         string ChooseUser = choice();
 
@@ -671,61 +671,136 @@ void DataHandler::displayAllRidesCLI() {
     std::cout << "\n\n";
 }
 
-//void DataHandler::stationStatisticsInput() {
-//    Station* tempStation = new Station();
-//    std::string stationName;
-//    std::string day;
-//    int option;
-//    std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
-//        << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
-//        << "Enter a station name: ";
-//    std::cin >> stationName;
-//    std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
-//    std::cout << "Choose Option:\n\t\t\t";
-//    std::cin >> option;
-//    if (option == 1) {
-//        std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
-//            << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
-//        std::cin >> option;
-//        switch (option) {
-//        case 1:
-//            day = "Sunday";
-//            break;
-//        case 2:
-//            day = "Monday";
-//            break;
-//        case 3:
-//            day = "Tuesday";
-//            break;
-//        case 4:
-//            day = "Wednesday";
-//            break;
-//        case 5:
-//            day = "Thursday";
-//            break;
-//        case 6:
-//            day = "Friday";
-//            break;
-//        case 7:
-//            day = "Saturday";
-//            break;
-//        case 8:
-//            displayStationStatisticsCLI(stationName, 1);
-//            return;
-//        }
-//    }
-//    displayStationStatisticsCLI(stationName, day);
-//}
+void DataHandler::stationManagement() {
+    int stationId; // choosing a specific station
+    int timeChoice; // choosing the data in Day / Week / Month / Year
+    int continueChoice;
 
-//void DataHandler::displayStationStatisticsCLI(std::string stationName, int days) {
-//    // FIND STATION IN LINES USING GRAPH
-//    Station* station = new Station(); // Comment this line out after implementing graph search
-//    dayData data = station->getDayDataForPeriod(days);
-//    std::cout << "\t\t\tStation Name: " << station->getName()
-//        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-//        << "\n\t\t\tTotal income: " << data.totalIncome
-//        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
-//}
+    while (true) {
+        system("cls");
+        cout << "\n\n";
+        string beginning = "          ";
+        // Print the table header
+        cout << beginning << "--------------------------------------------\n";
+        cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
+        cout << beginning << "--------------------------------------------\n";
+
+        for (auto i : usedStationNames) {
+            cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
+        }
+
+        cout << "\n\n";
+
+
+        cout << "enter a station ID: ";
+        stationId = valid_input(0, usedStationNames.size() - 1);
+
+        std::cout << CYAN << "\t\tDay / Week / Month / Year ? \n\n" << RESET;
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [1] Day              " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [2] Week             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [3] Month            " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [4] Year             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [5] Back             " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n\n\n";
+
+        std::cout << "enter your choice: ";
+        timeChoice = valid_input(1, 5);
+        std::cout << '\n';
+
+        if (timeChoice == 1) {
+           // displayStationStatisticsCLI(stations[stationId], 1);
+        }
+        else if (timeChoice == 2) {
+           // displayStationStatisticsCLI(stations[stationId], 7);
+        }
+        else if (timeChoice == 3) {
+           // displayStationStatisticsCLI(stations[stationId], 30);
+        }
+        else if (timeChoice == 4) {
+           // displayStationStatisticsCLI(stations[stationId], 365);
+        }
+        else {
+            return;
+        }
+
+        std::cout << CYAN << "\t\tDo you want to continue ? \n\n" << RESET;
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [1] Yes              " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n";
+        std::cout << "\t\t|" << CYAN << "  [2] No               " << RESET << "|\n";
+        std::cout << "\t\t+ --------------------- +\n\n\n";
+
+        std::cout << "enter your choice: ";
+        continueChoice = valid_input(1, 2);
+
+        if (continueChoice == 1) {
+            continue;
+        }
+        else {
+            break;
+        }
+    }
+}
+
+// void DataHandler::stationStatisticsInput() {
+//     Station* tempStation = new Station();
+//     std::string stationName;
+//     std::string day;
+//     int option;
+//     std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
+//         << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
+//         << "Enter a station name: ";
+//     std::cin >> stationName;
+//     std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
+//     std::cout << "Choose Option:\n\t\t\t";
+//     std::cin >> option;
+//     if (option == 1) {
+//         std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
+//             << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
+//         std::cin >> option;
+//         switch (option) {
+//         case 1:
+//             day = "Sunday";
+//             break;
+//         case 2:
+//             day = "Monday";
+//             break;
+//         case 3:
+//             day = "Tuesday";
+//             break;
+//         case 4:
+//             day = "Wednesday";
+//             break;
+//         case 5:
+//             day = "Thursday";
+//             break;
+//         case 6:
+//             day = "Friday";
+//             break;
+//         case 7:
+//             day = "Saturday";
+//             break;
+//         case 8:
+//             displayStationStatisticsCLI(tempStation, 1);
+//             return;
+//         }
+//     }
+//     displayStationStatisticsCLI(stationName, day);
+// }
+
+// void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
+//     // FIND STATION IN LINES USING GRAPH
+//     dayData data = station->getDayDataForPeriod(days);
+//     std::cout << "\t\tStation Name: " << station->getName()
+//         << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//         << "\n\t\tTotal income: " << data.totalIncome
+//         << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
+// }
 
 //void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
 //    // FIND STATION IN LINES USING GRAPH
@@ -750,10 +825,10 @@ int DataHandler::valid_input(int l, int r)
         {
             cin.clear();
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "\nInvalid Choice\n";
+            cout << "\nInvalid Choice\n";
 
         }
-        std::cout << "please enter your choice: ";
+        cout << "please enter your choice: ";
     }
     return x;
 }
@@ -761,30 +836,30 @@ int DataHandler::valid_input(int l, int r)
 void DataHandler::displaySubscriptionPlans()
 {
     for (int i = 0; i < subscriptionPlans.size(); i++) {
-        std::cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].toString();
+        cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].toString();
     }
 }
 
 void DataHandler::purchaseSubscription(User* user)
 {
     int ch, subIndex, planIndex, stageIndex;
-    std::cout << "\n\n\n";
-    std::cout << "\t\tAvilable subscription plans :\n\n";
+    cout << "\n\n\n";
+    cout << "\t\tAvilable subscription plans :\n\n";
     displaySubscriptionPlans();
-    std::cout << "\t\t1)Continue \n";
-    std::cout << "\t\t2)Back \n";
+    cout << "\t\t1)Continue \n";
+    cout << "\t\t2)Back \n";
     ch = valid_input(1, 2);
     if (ch == 1) {
         char x;
-        std::cout << "\t\tEnter subscription plan number: ";
+        cout << "\t\tEnter subscription plan number: ";
         subIndex = valid_input(1, subscriptionPlans.size());
-        std::cout << "\t\tEnter plan number: ";
+        cout << "\t\tEnter plan number: ";
         planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
-        std::cout << "\t\tEnter stage number: ";
+        cout << "\t\tEnter stage number: ";
         stageIndex = valid_input(1, 4);
         user->setSubscription(Subscription(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1));
-        std::cout << "\t\t*Your subscription purchase was successful\n";
-        std::cout << "\t\tEnter 1 to continue: ";
+        cout << "\t\t*Your subscription purchase was successful\n";
+        cout << "\t\tEnter 1 to continue: ";
         cin >> x;
     }
     else if (ch == 2) {
@@ -797,17 +872,17 @@ void DataHandler::subscriptionPlanManagement()
 {
     while (true) {
         system("cls");
-        std::cout << "\n\n\n";
-        std::cout << "\t\tAvilable subscription plans :\n\n";
+        cout << "\n\n\n";
+        cout << "\t\tAvilable subscription plans :\n\n";
         displaySubscriptionPlans();
         int ch;
-        std::cout << "\t\t1) Add new subscription Plan\n";
-        std::cout << "\t\t2) Add new Plan\n";
-        std::cout << "\t\t3) EXit\n";
+        cout << "\t\t1) Add new subscription Plan\n";
+        cout << "\t\t2) Add new Plan\n";
+        cout << "\t\t3) EXit\n";
         ch = valid_input(1, 3);
         if (ch == 1) {
             string name;
-            std::cout << "\t\tEnter subscription plan name : ";
+            cout << "\t\tEnter subscription plan name : ";
             cin >> name;
             subscriptionPlans.push_back(SubscriptionPlan(name));
         }
@@ -815,23 +890,23 @@ void DataHandler::subscriptionPlanManagement()
             int subPlanNum, trips, months;
             float p1, p2, p3, p4;
             for (int i = 0; i < subscriptionPlans.size(); i++) {
-                std::cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
+                cout << "\t\t" << i + 1 << "- " << subscriptionPlans[i].getname() << "\n";
             }
-            std::cout << "\t\tEnter the subscription plan number: ";
+            cout << "\t\tEnter the subscription plan number: ";
             subPlanNum = valid_input(1, subscriptionPlans.size() + 1);
             system("cls");
-            std::cout << "\t\tYou have selected: " << subscriptionPlans[subPlanNum - 1].getname() << "\n";
-            std::cout << "\t\tEnter the duration in months: ";
+            cout << "\t\tYou have selected: " << subscriptionPlans[subPlanNum - 1].getname() << "\n";
+            cout << "\t\tEnter the duration in months: ";
             months = valid_input(0, INT_MAX);
-            std::cout << "\t\tEnter the number of trips per month:";
+            cout << "\t\tEnter the number of trips per month:";
             trips = valid_input(0, INT_MAX);
-            std::cout << "\t\tEnter price of stage 1: ";
+            cout << "\t\tEnter price of stage 1: ";
             cin >> p1;
-            std::cout << "\t\tEnter price of stage 2: ";
+            cout << "\t\tEnter price of stage 2: ";
             cin >> p2;
-            std::cout << "\t\tEnter price of stage 3: ";
+            cout << "\t\tEnter price of stage 3: ";
             cin >> p3;
-            std::cout << "\t\tEnter price of stage 4: ";
+            cout << "\t\tEnter price of stage 4: ";
             cin >> p4;
             subscriptionPlans[subPlanNum - 1].AddPlan(months, trips, p1, p2, p3, p4);
 
@@ -848,21 +923,21 @@ void DataHandler::manageSubscription(User* user)
     while (true) {
         system("cls");
         if (user->getSubscription().getType() == "") {
-            std::cout << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
-            std::cout << RED << "\t\t\t" << "|" << "---------------" << RESET << "\n";
+            cout << "\n\n\t\t\t" << "|" << "*No subscription information available." << "\n";
+            cout << RED << "\t\t\t" << "|" << "---------------" << RESET << "\n";
 
             return; // Exit the function since there's no subscription information
-            std::cout << "\t\t3) Exit\n";
-            std::cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+            cout << "\t\t3) Exit\n";
+            cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
             ch = valid_input(3, 3);
         }
         else {
             user->displaySubscription();
 
-            std::cout << "\t\t1) Renew subscription\n";
-            std::cout << "\t\t2) upgrade subscription\n";
-            std::cout << "\t\t3) Exit\n";
-            std::cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+            cout << "\t\t1) Renew subscription\n";
+            cout << "\t\t2) upgrade subscription\n";
+            cout << "\t\t3) Exit\n";
+            cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
 
             ch = valid_input(1, 3);
         }
@@ -870,30 +945,30 @@ void DataHandler::manageSubscription(User* user)
         if (ch == 1) {
             char x;
             user->getSubscription().Renew();
-            std::cout << "\t\t*Successfully Renewed!!\n";
-            std::cout << "\t\tEnter 1 to continue: ";
+            cout << "\t\t*Successfully Renewed!!\n";
+            cout << "\t\tEnter 1 to continue: ";
             cin >> x;
         }
         else if (ch == 2) {
             system("cls");
             int ch2, subIndex, planIndex, stageIndex;
 
-            std::cout << "\t\tAvilable subscription plans :\n\n";
+            cout << "\t\tAvilable subscription plans :\n\n";
             displaySubscriptionPlans();
-            std::cout << "\t\t1)Continue \n";
-            std::cout << "\t\t2)Back \n";
+            cout << "\t\t1)Continue \n";
+            cout << "\t\t2)Back \n";
             ch2 = valid_input(1, 2);
             if (ch2 == 1) {
                 char x;
-                std::cout << "\t\tEnter subscription plan number: ";
+                cout << "\t\tEnter subscription plan number: ";
                 subIndex = valid_input(1, subscriptionPlans.size());
-                std::cout << "\t\tEnter plan number: ";
+                cout << "\t\tEnter plan number: ";
                 planIndex = valid_input(1, subscriptionPlans[subIndex - 1].getNumberOfPlans());
-                std::cout << "\t\tEnter stage number: ";
+                cout << "\t\tEnter stage number: ";
                 stageIndex = valid_input(1, 4);
                 user->getSubscription().UpgradePlans(subscriptionPlans[subIndex - 1], planIndex - 1, stageIndex - 1);
-                std::cout << "\t\t* Your subscription upgrade was successful\n";
-                std::cout << "\t\tEnter 1 to continue: ";
+                cout << "\t\t* Your subscription upgrade was successful\n";
+                cout << "\t\tEnter 1 to continue: ";
                 cin >> x;
             }
             else if (ch2 == 2) {
@@ -1070,21 +1145,21 @@ void DataHandler::Exit() {
         if (clear == 1) {
             system("cls");//so clear.
         }
-        std::cout << YELLOW << "\n\n\t+ ---------------------------------------------------- +\n";
-        std::cout << "\t|" << CYAN << " Thank you for using our simple program! We are very  " << YELLOW << "|\n";
-        std::cout << "\t|                                                      |\n";
-        std::cout << "\t|" << CYAN << " pleased to have served you. If you have any issues   " << YELLOW << "|\n";
-        std::cout << "\t|                                                      |\n";
-        std::cout << "\t|" << CYAN << " or suggestions to improve our program,please do not  " << YELLOW << "|\n";
-        std::cout << "\t|                                                      |\n";
-        std::cout << "\t|" << CYAN << " hesitate to let us know .                " << YELLOW << "(" << RESET << " A E " << GREEN << "IB" << YELLOW << " )  " << YELLOW << "|\n";
-        std::cout << "\t+ ---------------------------------------------------- +\n\n\n" << RESET;
+        cout << YELLOW << "\n\n\t+ ---------------------------------------------------- +\n";
+        cout << "\t|" << CYAN << " Thank you for using our simple program! We are very  " << YELLOW << "|\n";
+        cout << "\t|                                                      |\n";
+        cout << "\t|" << CYAN << " pleased to have served you. If you have any issues   " << YELLOW << "|\n";
+        cout << "\t|                                                      |\n";
+        cout << "\t|" << CYAN << " or suggestions to improve our program,please do not  " << YELLOW << "|\n";
+        cout << "\t|                                                      |\n";
+        cout << "\t|" << CYAN << " hesitate to let us know .                " << YELLOW << "(" << RESET << " A E " << GREEN << "IB" << YELLOW << " )  " << YELLOW << "|\n";
+        cout << "\t+ ---------------------------------------------------- +\n\n\n" << RESET;
 
 
-        std::cout << RED << "\t\t+ ------------------------------------ +\n\n";
-        std::cout << "\t\t|" << RESET << " Do you want to exit the program ? :( " << RED << "|\n\n";
-        std::cout << "\t\t+ --------------[      ]-------------- +" << RESET;
-        std::cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+        cout << RED << "\t\t+ ------------------------------------ +\n\n";
+        cout << "\t\t|" << RESET << " Do you want to exit the program ? :( " << RED << "|\n\n";
+        cout << "\t\t+ --------------[      ]-------------- +" << RESET;
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
         cin >> y_or_n;
         if (y_or_n == "yes" || y_or_n == "Yes" || y_or_n == "y" || y_or_n == "Y") {
             writeDataFiles();
@@ -1097,7 +1172,7 @@ void DataHandler::Exit() {
         else {
             system("cls");//so clear.
             clear = 0;
-            std::cout << RED << "Sorry, this choice is not supported\nplease try again\n" << RESET;
+            cout << RED << "Sorry, this choice is not supported\nplease try again\n" << RESET;
             continue;
         }
     }
@@ -1105,16 +1180,16 @@ void DataHandler::Exit() {
 
 void DataHandler::usersEmailWindow()
 {
-    std::cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
+    cout << "\n\t\t\t" << GREEN << "Users Information\n\n\n" << RESET;
 
     for (auto it : users) {
-        std::cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
+        cout << "\t\t\t\t" << BLUE << "[" << it.first << "] " << it.second->getEmail() << "\n\n" << RESET;
     }
 
 
-    std::cout << BOLDCYAN << "--------------------\n";
-    std::cout << BOLDCYAN << "|" << MAGENTA << "press \"B\" to Back " << BOLDCYAN << "|\n";
-    std::cout << BOLDCYAN << "--------------------\n";
+    cout << BOLDCYAN << "--------------------\n";
+    cout << BOLDCYAN << "|" << MAGENTA << "press \"B\" to Back " << BOLDCYAN << "|\n";
+    cout << BOLDCYAN << "--------------------\n";
 
 
 }
@@ -1124,8 +1199,8 @@ void DataHandler::userManagement()
     while (true)
     {
         system("cls");
-        std::cout << "\n\n\n";
-        std::cout << "\t\tUser Management :\n\n";
+        cout << "\n\n\n";
+        cout << "\t\tUser Management :\n\n";
 
         std::cout << "\t\t+ --------------------- +\n";
         std::cout << "\t\t|" << CYAN << "  [1] View Users       " << RESET << "|\n";
@@ -1150,9 +1225,9 @@ void DataHandler::userManagement()
             while (true)
             {
                 clearUndoStackUser();
-                std::cout << "\t\t\t" << YELLOW << "--------------------\n";
-                std::cout << "\t\t\t" << YELLOW << "|" << GREEN << "Edit window       " << YELLOW << "|\n";
-                std::cout << "\t\t\t" << YELLOW << "--------------------\n";
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
+                cout << "\t\t\t" << YELLOW << "|" << GREEN << "Edit window       " << YELLOW << "|\n";
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
 
                 usersEmailWindow();
 
@@ -1189,9 +1264,9 @@ void DataHandler::userManagement()
             system("cls");
             while (true)
             {
-                std::cout << "\t\t\t" << YELLOW << "--------------------\n";
-                std::cout << "\t\t\t" << YELLOW << "|" << GREEN << "Delete window     " << YELLOW << "|\n";
-                std::cout << "\t\t\t" << YELLOW << "--------------------\n";
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
+                cout << "\t\t\t" << YELLOW << "|" << GREEN << "Delete window     " << YELLOW << "|\n";
+                cout << "\t\t\t" << YELLOW << "--------------------\n";
 
                 usersEmailWindow();
 
@@ -1259,12 +1334,12 @@ void DataHandler::enterCheckInOutScene(User* user)
     // TODO take care of styling.
     string beginning = "          ";
     while (1) {
-        std::cout << beginning << "Check-In/Out Scene\n\n";
-        std::cout << beginning << "\t1) Check-In\n";
-        std::cout << beginning << "\t2) Check-Out\n";
-        std::cout << beginning << "\t3) Get Paths and it's fare between two stations\n";
-        std::cout << beginning << "\t4) List Station ids and Names\n";
-        std::cout << beginning << "\t5) Return to main menu\n";
+        cout << beginning << "Check-In/Out Scene\n\n";
+        cout << beginning << "\t1) Check-In\n";
+        cout << beginning << "\t2) Check-Out\n";
+        cout << beginning << "\t3) Get Paths and it's fare between two stations\n";
+        cout << beginning << "\t4) List Station ids and Names\n";
+        cout << beginning << "\t5) Return to main menu\n";
 
         string choice = this->choice();
 
@@ -1275,37 +1350,37 @@ void DataHandler::enterCheckInOutScene(User* user)
             string choice;
 
             try {
-                std::cout << beginning << "Enter check-in station id: ";
+                cout << beginning << "Enter check-in station id: ";
                 cin >> checkedInStationIdInput;
                 checkedInStationId = stoi(checkedInStationIdInput);
             }
             catch (...) {
-                std::cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
                 continue;
             }
 
             if (stations.find(checkedInStationId) == stations.end()) {
-                std::cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
                 continue;
             }
 
-            std::cout << beginning << "Payment Method: \n";
-            std::cout << beginning << "\t1) Subscription\n";
-            std::cout << beginning << "\t2) Ticket\n";
-            std::cout << beginning << "\t3) Back to previous menu\n";
+            cout << beginning << "Payment Method: \n";
+            cout << beginning << "\t1) Subscription\n";
+            cout << beginning << "\t2) Ticket\n";
+            cout << beginning << "\t3) Back to previous menu\n";
             choice = this->choice();
 
             if (choice == "1") {
                 if (user->getSubscription().getType() == "") {
-                    std::cout << RED << "You don't have a subscription plan, purchase one to be able to use this option.\n" << RESET;
+                    cout << RED << "You don't have a subscription plan, purchase one to be able to use this option.\n" << RESET;
                     continue;
                 }
                 else if (user->getSubscription().getNumberOfTrip() < 1) {
-                    std::cout << RED << "Your quota has ended, you need to renew your subscription to use this option\n" << RESET;
+                    cout << RED << "Your quota has ended, you need to renew your subscription to use this option\n" << RESET;
                     continue;
                 }
                 else if (false) { // add condition in case of subscription being expired. TODO
-                    std::cout << RED << "Your subscription has expired, you need to renew your subscription to use this option\n" << RESET;
+                    cout << RED << "Your subscription has expired, you need to renew your subscription to use this option\n" << RESET;
                     continue;
                 }
                 else {
@@ -1315,11 +1390,11 @@ void DataHandler::enterCheckInOutScene(User* user)
             }
             else if (choice == "2") {
                 // TODO Check Wallet
-                std::cout << beginning << "Choose stage: ";
-                std::cout << beginning << "\t1) Stage 1 (price: " << setw(2) << stages[1] << ")\n";
-                std::cout << beginning << "\t1) Stage 2 (price: " << setw(2) << stages[2] << ")\n";
-                std::cout << beginning << "\t1) Stage 3 (price: " << setw(2) << stages[3] << ")\n";
-                std::cout << beginning << "\t1) Stage 4 (price: " << setw(2) << stages[4] << ")\n";
+                cout << beginning << "Choose stage: ";
+                cout << beginning << "\t1) Stage 1 (price: " << setw(2) << stages[1] << ")\n";
+                cout << beginning << "\t1) Stage 2 (price: " << setw(2) << stages[2] << ")\n";
+                cout << beginning << "\t1) Stage 3 (price: " << setw(2) << stages[3] << ")\n";
+                cout << beginning << "\t1) Stage 4 (price: " << setw(2) << stages[4] << ")\n";
 
                 string stage = this->choice();
 
@@ -1337,7 +1412,7 @@ void DataHandler::enterCheckInOutScene(User* user)
                 }
                 else {
                     system("cls");
-                    std::cout << RED << "Sorry, this option is not supported\n" << RESET;
+                    cout << RED << "Sorry, this option is not supported\n" << RESET;
                     continue;
                 }
                 user->setCheckedInStationId(checkedInStationId);
@@ -1347,7 +1422,7 @@ void DataHandler::enterCheckInOutScene(User* user)
             }
             else {
                 system("cls");
-                std::cout << RED << "Sorry, this option is not supported\n" << RESET;
+                cout << RED << "Sorry, this option is not supported\n" << RESET;
                 continue;
             }
 
@@ -1356,7 +1431,7 @@ void DataHandler::enterCheckInOutScene(User* user)
             system("cls");
 
             if (user->getCheckedInStationId() == -1) {
-                std::cout << RED << "You didn't check-in to check-out.\n" << RESET;
+                cout << RED << "You didn't check-in to check-out.\n" << RESET;
                 continue;
             }
 
@@ -1364,17 +1439,17 @@ void DataHandler::enterCheckInOutScene(User* user)
             int checkedOutStationId;
 
             try {
-                std::cout << beginning << "Enter check-out station id: ";
+                cout << beginning << "Enter check-out station id: ";
                 cin >> checkedOutStationIdInput;
                 checkedOutStationId = stoi(checkedOutStationIdInput);
             }
             catch (...) {
-                std::cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
                 continue;
             }
 
             if (stations.find(checkedOutStationId) == stations.end()) {
-                std::cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
                 continue;
             }
 
@@ -1386,7 +1461,7 @@ void DataHandler::enterCheckInOutScene(User* user)
                 // add condition to check subscription stage. TODO
             }
             else if (ticket < neededStage) {
-                std::cout << RED << "\n\nYour ticket doesn't allow you to check-out from this station, check-out in a more near place.\n\n" << RESET;
+                cout << RED << "\n\nYour ticket doesn't allow you to check-out from this station, check-out in a more near place.\n\n" << RESET;
                 continue;
             }
 
@@ -1400,80 +1475,80 @@ void DataHandler::enterCheckInOutScene(User* user)
             int startingPointId;
             int destinationId;
 
-            std::cout << "\n\n";
+            cout << "\n\n";
             try {
 
-                std::cout << beginning << "Enter station where you would check-in: ";
+                cout << beginning << "Enter station where you would check-in: ";
                 cin >> startingPointIdInput;
 
                 startingPointId = stoi(startingPointIdInput);
 
                 if (stations.find(startingPointId) == stations.end()) {
-                    std::cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                    cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
                     continue;
                 }
 
-                std::cout << beginning << "Enter station where you would check-out: ";
+                cout << beginning << "Enter station where you would check-out: ";
                 cin >> destinationIdInput;
 
                 destinationId = stoi(destinationIdInput);
 
                 if (stations.find(destinationId) == stations.end()) {
-                    std::cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                    cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
                     continue;
                 }
 
             }
             catch (...) {
-                std::cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
                 continue;
             }
             vector<vector<int>> paths = getPaths(startingPointId, destinationId);
 
             if (paths.empty()) {
-                std::cout << RED << "\n\nSadly there is no path between this two stations.\n\n" << RESET;
+                cout << RED << "\n\nSadly there is no path between this two stations.\n\n" << RESET;
                 continue;
             }
 
             vector<int> shortestPath = getShortestPath(paths);
 
-            std::cout << "\n";
+            cout << "\n";
 
-            std::cout << beginning << "Shortest Path: " << pathToString(shortestPath) << "\n";
-            std::cout << beginning << "Shortest Path's Fare: " << getFair(shortestPath.size() - 1) << "\n";
-            std::cout << beginning << "Stage: " << stationsToStage(shortestPath.size() - 1) << "\n";
+            cout << beginning << "Shortest Path: " << pathToString(shortestPath) << "\n";
+            cout << beginning << "Shortest Path's Fare: " << getFair(shortestPath.size() - 1) << "\n";
+            cout << beginning << "Stage: " << stationsToStage(shortestPath.size() - 1) << "\n";
 
-            std::cout << "\n";
+            cout << "\n";
 
             // Print the table header
-            std::cout << beginning << "---------------------------------------------------------------\n";
-            std::cout << beginning << "                      All Possible Paths                       \n";
-            std::cout << beginning << "---------------------------------------------------------------\n";
-            std::cout << beginning << left << setw(50) << "Path" << " | " << setw(10) << "Fare" << "\n";
-            std::cout << beginning << "---------------------------------------------------------------\n";
+            cout << beginning << "---------------------------------------------------------------\n";
+            cout << beginning << "                      All Possible Paths                       \n";
+            cout << beginning << "---------------------------------------------------------------\n";
+            cout << beginning << left << setw(50) << "Path" << " | " << setw(10) << "Fare" << "\n";
+            cout << beginning << "---------------------------------------------------------------\n";
 
             for (int i = 0; i < paths.size(); i++) {
-                std::cout << beginning << setw(50) << pathToString(paths[i]) << " | " << setw(10) << getFair(shortestPath.size() - 1) << "\n";
+                cout << beginning << setw(50) << pathToString(paths[i]) << " | " << setw(10) << getFair(shortestPath.size() - 1) << "\n";
             }
 
-            std::cout << "\n\n";
+            cout << "\n\n";
 
         }
         else if (choice == "4") {
             system("cls");
 
-            std::cout << "\n\n";
+            cout << "\n\n";
 
             // Print the table header
-            std::cout << beginning << "--------------------------------------------\n";
-            std::cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
-            std::cout << beginning << "--------------------------------------------\n";
+            cout << beginning << "--------------------------------------------\n";
+            cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
+            cout << beginning << "--------------------------------------------\n";
 
             for (auto i : usedStationNames) {
-                std::cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
+                cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
             }
 
-            std::cout << "\n\n";
+            cout << "\n\n";
         }
         else if (choice == "5") {
             break;
@@ -1481,7 +1556,7 @@ void DataHandler::enterCheckInOutScene(User* user)
         }
         else {
             system("cls");
-            std::cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
+            cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
         }
     }
 
@@ -1732,10 +1807,10 @@ vector<int> DataHandler::generateShortestPath(int source, int destination, unord
 
 void DataHandler::displayWallet(User* user)
 {
-    std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
-    std::cout << "\t\t|" << GREEN << " Current balance :- \t" << RESET << user->getWallet().getMoney()<<"$" << YELLOW << "\t|\n";
-    std::cout << "\t\t|                               |\n";
-    std::cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
+    cout << YELLOW << "\t\t+ ----------------------------- +\n";
+    cout << "\t\t|" << GREEN << " Current balance :- \t" << RESET << user->getWallet().getMoney()<<"$" << YELLOW << "\t|\n";
+    cout << "\t\t|                               |\n";
+    cout << "\t\t+ ----------------------------- +\n\n\n" << RESET;
 }
 
 void DataHandler::manageWallet(User* user)
@@ -1744,30 +1819,30 @@ void DataHandler::manageWallet(User* user)
     while (ch != 2) {
         displayWallet(user);
        
-        std::cout << "\t\t+ --------------------- +\n";
-        std::cout << "\t\t|" << CYAN << "  [1] Recharge         " << RESET << "|\n";
-        std::cout << "\t\t+ --------------------- +\n";
-        std::cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
-        std::cout << "\t\t+ --------------------- +\n\n\n";
-        std::cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+        cout << "\t\t+ --------------------- +\n";
+        cout << "\t\t|" << CYAN << "  [1] Recharge         " << RESET << "|\n";
+        cout << "\t\t+ --------------------- +\n";
+        cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
+        cout << "\t\t+ --------------------- +\n\n\n";
+        cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
         ch = valid_input(1, 2);
         if (ch == 1) {
             int ch2 = 1;
             while (ch2 != 2) {
                 int money;
-                std::cout << "Enter your money: ";
+                cout << "Enter your money: ";
                 money = valid_input(1, INT_MAX);
                 if (user->getWallet().vaidCharge(money)) {
                     user->getWallet().charge(money);
                     break;
                 }
                 else {
-                    std::cout << "\t\t+ --------------------- +\n";
-                    std::cout << "\t\t|" << CYAN << "  [1] Recharge             " << RESET << "|\n";
-                    std::cout << "\t\t+ --------------------- +\n";
-                    std::cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
-                    std::cout << "\t\t+ --------------------- +\n\n\n";
-                    std::cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
+                    cout << "\t\t+ --------------------- +\n";
+                    cout << "\t\t|" << CYAN << "  [1] Recharge             " << RESET << "|\n";
+                    cout << "\t\t+ --------------------- +\n";
+                    cout << "\t\t|" << CYAN << "  [2] Back             " << RESET << "|\n";
+                    cout << "\t\t+ --------------------- +\n\n\n";
+                    cout << GREEN << "\n\n          Please Enter your Choice: " << RESET;
                     ch2 = valid_input(1, 2);
                 }
             }

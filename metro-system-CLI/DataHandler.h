@@ -89,9 +89,10 @@ public:
     bool signUp(std::string email, std::string password, std::string name, int nationalId, int age);
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
-    //void stationStatisticsInput();
-    //void displayStationStatisticsCLI(std::string stationName, int days);
-    //void displayStationStatisticsCLI(std::string stationName, std::string day);
+    void stationManagement();
+    // void stationStatisticsInput();
+    // void displayStationStatisticsCLI(Station* station, int days);
+    // void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
     bool is_number(std::string& s);
     void displaySubscriptionPlans();
