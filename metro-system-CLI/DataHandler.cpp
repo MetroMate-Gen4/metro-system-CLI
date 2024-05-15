@@ -1237,6 +1237,41 @@ void DataHandler::writeDataFiles() {
     else {
         std::cerr << "Failed to open Stations file for writing." << std::endl;
     }
+    //rides
+    std::ofstream ridesFile("data_files\\rides_data.bin", std::ios::binary);
+    if (ridesFile.is_open()) {
+        size_t sizeOfRidesMap = rides.size();
+        ridesFile.write(reinterpret_cast<const char*>(&sizeOfRidesMap), sizeof(sizeOfRidesMap));
+        for (auto it = rides.begin(); it != rides.end(); it++) {
+            ridesFile.write(reinterpret_cast<const char*>(&it->first), sizeof(it->first));
+            size_t vectorSize = it->second.size();
+            ridesFile.write(reinterpret_cast<const char*>(&vectorSize), sizeof(vectorSize));
+            for (Ride* obj : it->second) {
+                obj->serialize(ridesFile);
+            }
+        }
+        ridesFile.close();
+
+        std::cout << "Users saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open Rides file for writing." << std::endl;
+    }
+    //subscriptionPlans
+    std::ofstream subscriptionPlansFile("data_files\\subscriptionPlans_data.bin", std::ios::binary);
+    if (subscriptionPlansFile.is_open()) {
+        size_t sizeOfsubscriptionPlansVector = subscriptionPlans.size();
+        subscriptionPlansFile.write(reinterpret_cast<const char*>(&sizeOfsubscriptionPlansVector), sizeof(sizeOfsubscriptionPlansVector));
+        for (auto it = subscriptionPlans.begin(); it != subscriptionPlans.end(); it++) {
+            it->serialize(subscriptionPlansFile);
+        }
+        subscriptionPlansFile.close();
+
+        std::cout << "subscriptionPlans data saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open subscriptionPlans file for writing." << std::endl;
+    }
 }
 
 void DataHandler::readDataFiles() {
@@ -1279,6 +1314,48 @@ void DataHandler::readDataFiles() {
         std::cerr << "Failed to open stages and usedStationNames file for reading." << std::endl;
         return;
     }
+    std::ifstream ridesFile("data_files\\rides_data.bin", std::ios::binary);
+    if (ridesFile.is_open()) {
+        size_t sizeOfRidesMap;
+        ridesFile.read(reinterpret_cast<char*>(&sizeOfRidesMap), sizeof(sizeOfRidesMap));
+        rides.clear();
+        for (size_t i = 0; i < sizeOfRidesMap; ++i) {
+            int key;
+            ridesFile.read(reinterpret_cast<char*>(&key), sizeof(key));
+            size_t vectorSize;
+            ridesFile.read(reinterpret_cast<char*>(&vectorSize), sizeof(vectorSize));
+
+            std::vector<Ride*> vec;
+            for (size_t j = 0; j < vectorSize; ++j) {
+                Ride* obj = new Ride;
+                obj->deserialize(ridesFile);
+                vec.push_back(obj);
+            }
+            rides[key] = vec;
+            ridesFile.close();
+        }
+    }
+    else {
+        std::cerr << "Failed to open Rides file for reading." << std::endl;
+        return;
+    }
+    std::ifstream subscriptionPlansFile("data_files\\subscriptionPlans_data.bin", std::ios::binary);
+    if (subscriptionPlansFile.is_open()) {
+        size_t sizeOfsubscriptionPlansVector;
+        subscriptionPlansFile.read(reinterpret_cast<char*>(&sizeOfsubscriptionPlansVector), sizeof(sizeOfsubscriptionPlansVector));
+        for (size_t i = 0; i < sizeOfsubscriptionPlansVector; i++) {
+            SubscriptionPlan sub;
+            if (sub.deserialize(subscriptionPlansFile))
+                break;
+            subscriptionPlans.push_back(sub);
+        }
+        subscriptionPlansFile.close();
+    }
+    else {
+        std::cerr << "Failed to open subscriptionPlans file for reading." << std::endl;
+        return;
+    }
+
 }
 
 

@@ -8,6 +8,9 @@ struct Plan{
 	Stage stages[4];
 	int numberOfMonths;
 	int numberOfTrips;
+	Plan() {
+
+	}
 	Plan(int Months,int trips,float p1, float p2, float p3, float p4) {
 		this->numberOfMonths = Months;
 		this->numberOfTrips = trips;
@@ -32,7 +35,11 @@ class SubscriptionPlan
 private:
 	std::string name;
 	std::vector<Plan>plans;
+	//to save files
+	void writeString(std::ostream& os, const std::string& str) const;
+	std::string readString(std::istream& is) const;
 public:
+	SubscriptionPlan();
 	SubscriptionPlan(std::string name);
 	void AddPlan(int months,int trip, float p1, float p2, float p3, float p4);
 	//Setters
@@ -47,6 +54,8 @@ public:
 	int getNumberOfPlans();
 	std::string toString()const;
 	std::string getname();
-	
+	//to save files
+	void serialize(std::ostream& os) const;
+	bool deserialize(std::istream& is);
 
 };

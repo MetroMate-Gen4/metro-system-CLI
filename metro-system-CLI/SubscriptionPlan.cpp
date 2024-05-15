@@ -1,5 +1,9 @@
 #include "SubscriptionPlan.h"
 
+SubscriptionPlan::SubscriptionPlan()
+{
+}
+
 SubscriptionPlan::SubscriptionPlan(std::string name)
 {
 	this->name = name;
@@ -66,4 +70,44 @@ std::string SubscriptionPlan::getname()
 void SubscriptionPlan::ModifyPlantrip(int planIndex, int trip)
 {
 	plans[planIndex].numberOfTrips = trip;
+}
+
+
+//files
+void SubscriptionPlan::writeString(std::ostream& os, const std::string& str) const {
+    size_t len = str.size();
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    os.write(str.data(), len);
+}
+
+std::string SubscriptionPlan::readString(std::istream& is) const {
+    size_t len;
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    std::string str(len, '\0');
+    is.read(&str[0], len);
+    return str;
+}
+
+
+
+void SubscriptionPlan::serialize(std::ostream& os) const {
+    int sizeOfplansVector = plans.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfplansVector), sizeof(sizeOfplansVector));
+    for (Plan obj : plans) {
+        os.write(reinterpret_cast<const char*>(&obj), sizeof(obj));
+    }
+    writeString(os, name);
+}
+
+bool SubscriptionPlan::deserialize(std::istream& is) {
+    size_t  sizeOfplansVector;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfplansVector), sizeof(sizeOfplansVector)))
+        return false;
+    for (size_t i = 0; i < sizeOfplansVector; i++) {
+        Plan plan;
+        if (!is.read(reinterpret_cast<char*>(&plan), sizeof(plan)))
+            return false;
+    }
+    name = readString(is);
+    return true;
 }

@@ -32,4 +32,7 @@ public:
     std::string toString();
     float getCost() const;
     void setCost(float newCost);
+    //to save files
+    void serialize(std::ostream& os) const;
+    bool deserialize(std::istream& is);
 };
