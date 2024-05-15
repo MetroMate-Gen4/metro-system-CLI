@@ -31,7 +31,6 @@
 class DataHandler
 {
 private:
-
     /// <summary>
     /// Utility method for getPaths method that gets all possible paths from station to station.
     /// </summary>
@@ -115,6 +114,10 @@ public:
     int stationsToStage(int numOfStations);
     void userManagement();
     void usersEmailWindow();
+    void subscriptionRenewalDate(User* user);
+    void showStationNamesAndIds();
+
+    void enterMetroManagementScene();
 
     /**
      * Get shortest path of two stations.
@@ -157,7 +160,7 @@ public:
      *
      * @throws Error Thrown if `stationId1` or `stationId2` does not exist.
      */
-    void linkTwoStations(int stationId1, int stationId2);
+    void createStationLink(int stationId1, int stationId2);
 
     /**
      * Get station instance by it's id.
@@ -180,18 +183,6 @@ public:
     vector<vector<int>> getPaths(int source, int destination);
     string pathToString(vector<int>& path);
 
-    /// struct used in `getShortestPath()` method
-    struct FromToCost {
-        int from;
-        int to;
-        int cost;
-    };
-
-    /// Add stations linked with `source` station to `que`.
-    void addEdgesFromSource(int source, std::queue<FromToCost*>& que);
-
-    /// Get shortest path using `pathCost` structure.
-    vector<int> generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int>>& pathCost);
     void displayWallet(User* user);
     void manageWallet(User* user);
     void editStagesPrice(int index, int price);
