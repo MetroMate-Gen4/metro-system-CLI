@@ -170,13 +170,13 @@ bool Station::deserialize(std::istream& is) {
     name = readString(is);
     idCounter = id;
 
-    size_t sizeOfLinesIdsVector;
+    int sizeOfLinesIdsVector;
     if (!is.read(reinterpret_cast<char*>(&sizeOfLinesIdsVector), sizeof(sizeOfLinesIdsVector)))
         return false;
     linesIds.resize(sizeOfLinesIdsVector);
     is.read(reinterpret_cast<char*>(linesIds.data()), sizeOfLinesIdsVector * sizeof(int));
 
-    size_t sizeOflinkedStationIdsVector;
+    int sizeOflinkedStationIdsVector;
     if (!is.read(reinterpret_cast<char*>(&sizeOflinkedStationIdsVector), sizeof(sizeOflinkedStationIdsVector)))
         return false;
     linkedStationIds.resize(sizeOflinkedStationIdsVector);
