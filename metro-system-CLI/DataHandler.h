@@ -44,6 +44,7 @@ private:
     void writeString(std::ostream& os, const std::string& str) const;
     std::string readString(std::istream& is) const;
 public:
+    struct tm timeStruct = {};
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
     static std::unordered_map<int, vector<Ride*> > rides;
@@ -89,9 +90,9 @@ public:
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
     void stationManagement();
-    // void stationStatisticsInput();
-    // void displayStationStatisticsCLI(Station* station, int days);
-    // void displayStationStatisticsCLI(std::string stationName, std::string day);
+
+    void displayStationStatisticsCLI(Station* station, time_t specifictime, int choice);
+
     int valid_input(int l, int r);
     bool is_number(std::string& s);
     void displaySubscriptionPlans();
@@ -186,5 +187,6 @@ public:
     void manageWallet(User* user);
     void editStagesPrice(int index, int price);
     void fareManagementCLI();
+    time_t getDay();
 };
 

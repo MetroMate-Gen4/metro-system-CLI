@@ -39,6 +39,9 @@ public:
     void setUsedTicket(int usedTicket);
 
     Wallet &getWallet();
+    void addRide(Ride* ride);
+
+    vector<Ride*> getRides();
 
     //to save files
     void serialize(std::ostream& os) const;

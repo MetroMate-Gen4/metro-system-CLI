@@ -3,6 +3,8 @@
 #include <iomanip>  // For std::setw
 #include <fstream>// for save files
 #include<sstream>//for save files
+#include <ctime>
+
 
 std::unordered_map<int, User*> DataHandler::users;
 std::unordered_map<int, vector<Ride*> > DataHandler::rides; // key is the Id of user
@@ -718,19 +720,68 @@ void DataHandler::stationManagement() {
 
         std::cout << "enter your choice: ";
         timeChoice = valid_input(1, 5);
-        std::cout << '\n';
-
+        int datechoice = timeChoice;
         if (timeChoice == 1) {
-           // displayStationStatisticsCLI(stations[stationId], 1);
+            struct tm dayStruct = {};
+            cout << "\n\t\tEnter year: ";
+            timeChoice = valid_input(1900, 2024);
+            dayStruct.tm_year = timeChoice - 1900;
+            cout << "\n\t\tEnter month number: ";
+            timeChoice = valid_input(1, 12) - 1;
+            dayStruct.tm_mon = timeChoice;
+            cout << "\n\t\tEnter day: ";
+            timeChoice = valid_input(1, 31);
+            dayStruct.tm_mday = timeChoice;
+            dayStruct.tm_hour = 0;
+            dayStruct.tm_min = 0;
+            dayStruct.tm_sec = 1;
+            time_t specificDay = mktime(&dayStruct);
+            displayStationStatisticsCLI(stations[stationId], specificDay, datechoice);
         }
         else if (timeChoice == 2) {
-           // displayStationStatisticsCLI(stations[stationId], 7);
+            struct tm weekStruct = {};
+            cout << "\n\t\tEnter year: ";
+            timeChoice = valid_input(1900, 2024);
+            weekStruct.tm_year = timeChoice - 1900;
+            cout << "\n\t\tEnter month number: ";
+            timeChoice = valid_input(1, 12) - 1;
+            weekStruct.tm_mon = timeChoice;
+            cout << "\n\t\tEnter week number: ";
+            timeChoice = valid_input(1, 4);
+            weekStruct.tm_mday = 7 * timeChoice - 7;
+            weekStruct.tm_hour = 0;
+            weekStruct.tm_min = 0;
+            weekStruct.tm_sec = 1;
+            time_t specificWeek = mktime(&weekStruct);
+            displayStationStatisticsCLI(stations[stationId], specificWeek, datechoice);
         }
         else if (timeChoice == 3) {
-           // displayStationStatisticsCLI(stations[stationId], 30);
+            struct tm monthStruct = {};
+            cout << "\n\t\tEnter year: ";
+            timeChoice = valid_input(1900, 2024);
+            monthStruct.tm_year = timeChoice - 1900;
+            cout << "\n\t\tEnter month number: ";
+            timeChoice = valid_input(1, 12) - 1;
+            monthStruct.tm_mon = timeChoice;
+            monthStruct.tm_mday = 1;         
+            monthStruct.tm_hour = 0;
+            monthStruct.tm_min = 0;
+            monthStruct.tm_sec = 1;
+            time_t specificMonth = mktime(&monthStruct);
+            displayStationStatisticsCLI(stations[stationId], specificMonth, datechoice);
         }
         else if (timeChoice == 4) {
-           // displayStationStatisticsCLI(stations[stationId], 365);
+            struct tm yearStruct = {};
+            cout << "\n\t\tEnter year: ";
+            timeChoice = valid_input(1900, 2024);
+            yearStruct.tm_year = timeChoice - 1900;
+            yearStruct.tm_mon = 0;  
+            yearStruct.tm_mday = 1; 
+            yearStruct.tm_hour = 0;
+            yearStruct.tm_min = 0;
+            yearStruct.tm_sec = 1;
+            time_t specificYear = mktime(&yearStruct);
+            displayStationStatisticsCLI(stations[stationId], specificYear, datechoice);
         }
         else {
             return;
@@ -755,63 +806,97 @@ void DataHandler::stationManagement() {
     }
 }
 
-// void DataHandler::stationStatisticsInput() {
-//     Station* tempStation = new Station();
-//     std::string stationName;
-//     std::string day;
-//     int option;
-//     std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
-//         << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
-//         << "Enter a station name: ";
-//     std::cin >> stationName;
-//     std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
-//     std::cout << "Choose Option:\n\t\t\t";
-//     std::cin >> option;
-//     if (option == 1) {
-//         std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
-//             << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
-//         std::cin >> option;
-//         switch (option) {
-//         case 1:
-//             day = "Sunday";
-//             break;
-//         case 2:
-//             day = "Monday";
-//             break;
-//         case 3:
-//             day = "Tuesday";
-//             break;
-//         case 4:
-//             day = "Wednesday";
-//             break;
-//         case 5:
-//             day = "Thursday";
-//             break;
-//         case 6:
-//             day = "Friday";
-//             break;
-//         case 7:
-//             day = "Saturday";
-//             break;
-//         case 8:
-//             displayStationStatisticsCLI(tempStation, 1);
-//             return;
-//         }
-//     }
-//     displayStationStatisticsCLI(stationName, day);
-// }
 
-// void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
-//     // FIND STATION IN LINES USING GRAPH
-//     dayData data = station->getDayDataForPeriod(days);
-//     std::cout << "\t\tStation Name: " << station->getName()
-//         << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-//         << "\n\t\tTotal income: " << data.totalIncome
-//         << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
-// }
+bool isSameDay(time_t time1, time_t time2) {
+    struct tm* tm1 = localtime(&time1);
+    int day = tm1->tm_mday;
+    int month = tm1->tm_mon;
+    int year = tm1->tm_year;
+    struct tm* tm2 = localtime(&time2);
+    return year == tm2->tm_year &&
+        month == tm2->tm_mon &&
+        day == tm2->tm_mday;
+}
+
+bool isSameWeek(time_t time1, time_t time2) {
+    struct tm* tm1 = localtime(&time1);
+    int day = tm1->tm_yday;
+    int month = tm1->tm_mon;
+    int year = tm1->tm_year;
+    struct tm* tm2 = localtime(&time2);
+
+    int week1 = day / 7;
+    int week2 = tm2->tm_yday / 7;
+    return year == tm2->tm_year && week1 == week2;
+}
+
+bool isSameMonth(time_t time1, time_t time2) {
+    struct tm* tm1 = localtime(&time1);
+    int month = tm1->tm_mon;
+    int year = tm1->tm_year;
+    struct tm* tm2 = localtime(&time2);
+    return year == tm2->tm_year && month == tm2->tm_mon;
+}
+
+bool isSameYear(time_t time1, time_t time2) {
+    struct tm* tm1 = localtime(&time1);
+    int year = tm1->tm_year;
+    struct tm* tm2 = localtime(&time2);
+    return year == tm2->tm_year;
+}
+
+
+
+void DataHandler::displayStationStatisticsCLI(Station* station, time_t specifictime, int choice) {
+    int numPassengers = 0;
+    int numSoldTickets = 0;
+    float totalIncome = 0.0;
+
+    for (auto i : rides) {
+        for (int j = 0; j < i.second.size(); j++) {
+            Ride ride = *i.second[j];
+            time_t startingTime = ride.getStartingTime();
+            if (choice == 1) {
+                if (isSameDay(specifictime, startingTime) && ride.getStartingStation() == *station) {
+                    numPassengers++;
+                    if (ride.getCost() > 0)
+                        numSoldTickets++;
+                    totalIncome += ride.getCost();
+                }
+            }
+            else if (choice == 2) {
+                if (isSameWeek(specifictime, startingTime) && ride.getStartingStation() == *station) {
+                    numPassengers++;
+                    if (ride.getCost() > 0)
+                        numSoldTickets++;
+                    totalIncome += ride.getCost();
+                }
+            }
+            else if (choice == 3) {
+                if (isSameMonth(specifictime, startingTime) && ride.getStartingStation() == *station) {
+                    numPassengers++;
+                    if (ride.getCost() > 0)
+                        numSoldTickets++;
+                    totalIncome += ride.getCost();
+                }
+            }
+            else if (choice == 4) {
+                if (isSameYear(specifictime, startingTime)) {
+                    numPassengers++;
+                    if (ride.getCost() > 0)
+                        numSoldTickets++;
+                    totalIncome += ride.getCost();
+                }
+            }
+        }
+    }
+    std::cout << "\t\tStation Name: " << station->getName()
+        << "\n\t\tNumber of sold tickets: " << numSoldTickets
+        << "\n\t\tTotal income: " << totalIncome
+        << "\n\t\tNumber of passengers: " << numPassengers << "\n\n";
+}
 
 //void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
-//    // FIND STATION IN LINES USING GRAPH
 //    Station* station = new Station(); // Comment this line out after implementing graph search
 //    dayData data = station->getStationDataDay(day);
 //    std::cout << "\t\t\tStation Name: " << station->getName()
@@ -2078,13 +2163,13 @@ void DataHandler::fareManagementCLI() {
         std::string choice;
         std::string price;
         std::cout << YELLOW << "\t\t+ ----------------------------- +\n";
-        std::cout << "\t\t|" << GREEN << "1. Stage #1\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "1. Stage #1\t" << stages[1] << "\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "2. Stage #2\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "2. Stage #2\t" << stages[2] << "\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "3. Stage #3\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "3. Stage #3\t" << stages[3] << "\t\t|\n";
         std::cout << "\t\t|                               |\n";
-        std::cout << "\t\t|" << GREEN << "4. Stage #4\t\t\t|\n";
+        std::cout << "\t\t|" << GREEN << "4. Stage #4\t" << stages[4] << "\t\t|\n";
         std::cout << YELLOW << "\t\t+ ----------------------------- +\n\n\n" << RESET;
         std::cout << GREEN << "\t\tSelect a stage to edit : " << RESET;
         choice = this->choice();
@@ -2135,3 +2220,51 @@ void DataHandler::editStagesPrice(int index, int price) {
 //    newRide.setEndingTime(9);
 //    users[newUser->getId()]->addRide(newRide);
 //}
+
+
+//void DataHandler::stationStatisticsInput() {
+//    Station* tempStation = new Station();
+//    std::string stationName;
+//    std::string day;
+//    int option;
+//    std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
+//        << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
+//        << "Enter a station name: ";
+//    std::cin >> stationName;
+//    std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
+//    std::cout << "Choose Option:\n\t\t\t";
+//    std::cin >> option;
+//    if (option == 1) {
+//        std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
+//            << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Specific Day\n";
+//        std::cin >> option;
+//        switch (option) {
+//        case 1:
+//            day = "Sunday";
+//            break;
+//        case 2:
+//            day = "Monday";
+//            break;
+//        case 3:
+//            day = "Tuesday";
+//            break;
+//        case 4:
+//            day = "Wednesday";
+//            break;
+//        case 5:
+//            day = "Thursday";
+//            break;
+//        case 6:
+//            day = "Friday";
+//            break;
+//        case 7:
+//            day = "Saturday";
+//            break;
+//        case 8:
+//            displayStationStatisticsCLI(tempStation, 1);
+//            return;
+//        }
+//    }
+//    displayStationStatisticsCLI(stationName, day);
+//}
+
