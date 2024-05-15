@@ -215,7 +215,7 @@ void DataHandler::mainCLI() {
                     }
                     else if (choice == "2") {//2)    Metro Management
                         system("cls");
-
+                        enterMetroManagementScene();
                     }
                     else if (choice == "3") {//3)    Subscription Plan Management
                         system("cls");
@@ -1520,7 +1520,7 @@ void DataHandler::enterCheckInOutScene(User* user)
             }
 
             int ticket = user->getUsedTicket();
-            int numberOfStations = getShortestPath(user->getCheckedInStationId(), checkedOutStationId).size();
+            int numberOfStations = getShortestPath(getPaths(user->getCheckedInStationId(), checkedOutStationId)).size();
             int neededStage = stationsToStage(numberOfStations);
 
             if (ticket == -1) {
@@ -1602,19 +1602,7 @@ void DataHandler::enterCheckInOutScene(User* user)
         }
         else if (choice == "4") {
             system("cls");
-
-            cout << "\n\n";
-
-            // Print the table header
-            cout << beginning << "--------------------------------------------\n";
-            cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
-            cout << beginning << "--------------------------------------------\n";
-
-            for (auto i : usedStationNames) {
-                cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
-            }
-
-            cout << "\n\n";
+            showStationNamesAndIds();
         }
         else if (choice == "5") {
             break;
@@ -1642,16 +1630,16 @@ void DataHandler::initializeGraph()
     addStation("Kobri El-Qobba");
     addStation("Manshiet El-Sadr");
 
-    linkTwoStations(0, 1);
-    linkTwoStations(1, 2);
-    linkTwoStations(2, 3);
-    linkTwoStations(3, 4);
-    linkTwoStations(4, 5);
-    linkTwoStations(5, 6);
-    linkTwoStations(6, 7);
-    linkTwoStations(7, 8);
-    linkTwoStations(8, 9);
-    linkTwoStations(9, 10);
+    createStationLink(0, 1);
+    createStationLink(1, 2);
+    createStationLink(2, 3);
+    createStationLink(3, 4);
+    createStationLink(4, 5);
+    createStationLink(5, 6);
+    createStationLink(6, 7);
+    createStationLink(7, 8);
+    createStationLink(8, 9);
+    createStationLink(9, 10);
 
 }
 
@@ -1710,6 +1698,247 @@ int DataHandler::stationsToStage(int numOfStations)
     }
 }
 
+void DataHandler::showStationNamesAndIds()
+{
+    string beginning = "          ";
+
+    cout << "\n\n";
+
+    // Print the table header
+    cout << beginning << "--------------------------------------------\n";
+    cout << beginning << left << setw(25) << "Name" << " | " << setw(10) << "ID" << "\n";
+    cout << beginning << "--------------------------------------------\n";
+
+    for (auto i : usedStationNames) {
+        cout << beginning << setw(25) << i.first << " | " << setw(10) << i.second << "\n";
+    }
+
+    cout << "\n\n";
+}
+
+void DataHandler::enterMetroManagementScene()
+{
+    // TODO take care of styling.
+    string beginning = "          ";
+    while (1) {
+        cout << beginning << "Metro Management Scene\n\n";
+        cout << beginning << "\t1) Add Station\n";
+        cout << beginning << "\t2) Update Station\n";
+        cout << beginning << "\t3) Add Station Link\n";
+        cout << beginning << "\t4) Remove Station Link\n";
+        cout << beginning << "\t5) Remove Station and related links\n";
+        cout << beginning << "\t6) List Stations and linkedStations\n";
+        cout << beginning << "\t7) List Stations names and ids\n";
+        cout << beginning << "\t8) Return to main menu\n";
+
+        string choice = this->choice();
+
+        if (choice == "1") {
+            system("cls");
+            string stationName;
+
+            cout << beginning << "Enter station name: ";
+
+            cin.ignore();
+            getline(cin, stationName);
+
+            if (usedStationNames.find(stationName) != usedStationNames.end()) {
+                cout << beginning << RED << "This station name is already used.\n\n" << RESET;
+                continue;
+            }
+
+            addStation(stationName);
+            cout << beginning << GREEN << stationName << " Station added successfully.\n\n" << RESET;
+        }
+        else if (choice == "2") {
+            system("cls");
+            string stationIdInput;
+            int stationId;
+            string newStationName;
+
+            cout << beginning << "Enter station id: ";
+
+            try {
+                cin >> stationIdInput;
+                stationId = stoi(stationIdInput);
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter a number that represents station id.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId) == stations.end()) {
+                cout << beginning << RED << "This station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            cout << beginning << "Enter new station name: ";
+
+            cin.ignore();
+            getline(cin, newStationName);
+
+            if (usedStationNames.find(newStationName) != usedStationNames.end()) {
+                cout << beginning << RED << "This station name is already used.\n\n" << RESET;
+                continue;
+            }
+
+            usedStationNames.erase(stations[stationId]->getName());
+            usedStationNames[newStationName] = stationId;
+            stations[stationId]->setName(newStationName);
+
+            cout << beginning << GREEN << "Updating Station " << stationId << "'s name to '" << newStationName << "' has been done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "3") {
+            system("cls");
+            string stationId1Input;
+            int stationId1;
+            string stationId2Input;
+            int stationId2;
+
+
+            try {
+                cout << beginning << "Enter station id 1: ";
+                cin >> stationId1Input;
+                stationId1 = stoi(stationId1Input);
+
+                cout << beginning << "Enter station id 2: ";
+                cin >> stationId2Input;
+                stationId2 = stoi(stationId2Input);
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter numbers that represents station ids.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId1) == stations.end()) {
+                cout << beginning << RED << stationId1 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId2) == stations.end()) {
+                cout << beginning << RED << stationId2 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+            
+            const vector<int>& linkedStations1 = stations[stationId1]->getLinkedStationIds();
+
+            if (find(linkedStations1.begin(), linkedStations1.end(), stationId2) != linkedStations1.end()) {
+                cout << beginning << RED << "Those two stations are already linked.\n\n" << RESET;
+                continue;
+            }
+
+            createStationLink(stationId1, stationId2);
+
+            cout << beginning << GREEN << "Linking done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "4") {
+            system("cls");
+            string stationId1Input;
+            int stationId1;
+            string stationId2Input;
+            int stationId2;
+
+
+            try {
+                cout << beginning << "Enter station id 1: ";
+                cin >> stationId1Input;
+                stationId1 = stoi(stationId1Input);
+
+                cout << beginning << "Enter station id 2: ";
+                cin >> stationId2Input;
+                stationId2 = stoi(stationId2Input);
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter numbers that represents station ids.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId1) == stations.end()) {
+                cout << beginning << RED << stationId1 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId2) == stations.end()) {
+                cout << beginning << RED << stationId2 << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            vector<int>& linkedStations1 = stations[stationId1]->getLinkedStationIds();
+            vector<int>& linkedStations2 = stations[stationId2]->getLinkedStationIds();
+
+            if (find(linkedStations1.begin(), linkedStations1.end(), stationId2) == linkedStations1.end()) {
+                cout << beginning << RED << "No link between this two stations.\n\n" << RESET;
+                continue;
+            }
+
+            linkedStations1.erase(find(linkedStations1.begin(), linkedStations1.end(), stationId2));
+            linkedStations2.erase(find(linkedStations2.begin(), linkedStations2.end(), stationId1));
+
+            cout << beginning << GREEN << "Unlinking done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "5") {
+            system("cls");
+            string stationIdInput;
+            int stationId;
+
+
+            try {
+                cout << beginning << "Enter station id: ";
+                cin >> stationIdInput;
+                stationId = stoi(stationIdInput);
+
+            }
+            catch (...) {
+                cout << beginning << RED << "Invalid input, you should enter numbers that represents station ids.\n\n" << RESET;
+                continue;
+            }
+
+            if (stations.find(stationId) == stations.end()) {
+                cout << beginning << RED << stationId << " station doesn't exist.\n\n" << RESET;
+                continue;
+            }
+
+            vector<int>& linkedStations = stations[stationId]->getLinkedStationIds();
+
+            for (int i = 0; i < linkedStations.size(); i++) {
+                vector<int>& temp = stations[linkedStations[i]]->getLinkedStationIds();
+                temp.erase(find(temp.begin(), temp.end(), stationId));
+            }
+
+            stations.erase(stationId);
+
+            cout << beginning << GREEN << "Deleting station done successfully." << "\n\n" << RESET;
+        }
+        else if (choice == "6") {
+            system("cls");
+
+            for (auto station : stations) {
+                cout << beginning << station.first << ": ";
+
+                const vector<int>& linkedStations = station.second->getLinkedStationIds();
+
+                for (int i = 0; i < linkedStations.size(); i++) {
+                    cout << linkedStations[i] << "  ";
+                }
+
+                cout << "\n\n";
+            }
+
+        }
+        else if (choice == "7") {
+            system("cls");
+            showStationNamesAndIds();
+        }
+        else if (choice == "8") {
+            break;
+        }
+        else {
+            system("cls");
+            cout << RED << "Sorry, this option is not supported\nplease try again\n" << RESET;
+        }
+    }
+}
+
 void DataHandler::addStation(std::string name)
 {
     if (usedStationNames.find(name) != usedStationNames.end())
@@ -1735,7 +1964,7 @@ Station* DataHandler::getStationById(int id)
     return stations[id];
 }
 
-void DataHandler::linkTwoStations(int stationId1, int stationId2)
+void DataHandler::createStationLink(int stationId1, int stationId2)
 {
     if (stations.find(stationId1) == stations.end())
         throw "Error linkTwoStations: Id in stationId1 parameter doesn't exist in the graph.";
@@ -1788,87 +2017,6 @@ void DataHandler::_getPaths(int currentStation, int destination, unordered_set<i
     // Remove station from path.
     currentPath.erase(currentPath.end() - 1);
     visited.erase(currentStation);
-}
-
-// Useful resource to understand how this method is implemented: https://www.youtube.com/watch?v=T_m27bhVQQQ
-vector<int> DataHandler::getShortestPath(int source, int destination)
-{
-    if (stations.find(source) == stations.end())
-        throw "Error getShortestPath: Id in source parameter doesn't exist in the graph.";
-    if (stations.find(destination) == stations.end())
-        throw "Error getShortestPath: Id in destination parameter doesn't exist in the graph.";
-
-    std::queue<FromToCost*> que;
-    unordered_map<int, std::pair<int, int>> pathCost;
-
-    addEdgesFromSource(source, que);
-    pathCost[source] = std::make_pair(source, 0);
-
-    /// construct pathCost structure
-    while (!que.empty() && pathCost.size() < stations.size()) {
-        auto procItem = que.front();
-        que.pop();
-        if (pathCost.find(procItem->to) == pathCost.end()) {
-
-            pathCost[procItem->to] = std::make_pair(procItem->from, pathCost[procItem->from].second + 1);
-
-            std::vector<int> links = stations[procItem->to]->getLinkedStationIds();
-
-            for (int i = 0; i < links.size(); i++) {
-                if (pathCost.find(links[i]) == pathCost.end()) {
-                    auto temp = new FromToCost();
-                    temp->from = procItem->to;
-                    temp->to = links[i];
-                    temp->cost = pathCost[procItem->to].second;
-                    que.push(temp);
-                }
-            }
-        }
-        delete procItem;
-    }
-
-    /// free remaining elements in `que` from memory.
-    while (!que.empty()) {
-        auto procItem = que.front();
-        que.pop();
-        delete procItem;
-    }
-
-    return generateShortestPath(source, destination, pathCost);
-}
-
-void DataHandler::addEdgesFromSource(int source, std::queue<FromToCost*>& que)
-{
-    vector<int> links = this->stations[source]->getLinkedStationIds();
-
-    FromToCost* temp;
-
-    for (int i = 0; i < links.size(); i++) {
-        temp = new FromToCost();
-        temp->from = source;
-        temp->to = links[i];
-        temp->cost = 1;
-        que.push(temp);
-    }
-}
-
-vector<int> DataHandler::generateShortestPath(int source, int destination, unordered_map<int, std::pair<int, int> >& pathCost)
-{
-    if (pathCost.find(destination) == pathCost.end()) {
-        return {};
-    }
-
-    vector<int> shortestPath;
-
-    for (int i = destination; i != source; i = pathCost[i].first) {
-        shortestPath.push_back(i);
-    }
-
-    shortestPath.push_back(source);
-
-    reverse(shortestPath.begin(), shortestPath.end());
-
-    return shortestPath;
 }
 
 void DataHandler::displayWallet(User* user)

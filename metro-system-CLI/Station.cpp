@@ -115,7 +115,7 @@ void Station::linkToStation(int id)
     linkedStationIds.push_back(id);
 }
 
-std::vector<int> Station::getLinkedStationIds()
+std::vector<int>& Station::getLinkedStationIds()
 {
     return linkedStationIds;
 }
