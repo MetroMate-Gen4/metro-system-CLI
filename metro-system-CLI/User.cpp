@@ -123,5 +123,4 @@ bool User::deserialize(std::istream& is) {
     name = readString(is);
     idCount = id;
     return true;
-
 }

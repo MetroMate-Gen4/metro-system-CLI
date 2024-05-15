@@ -117,9 +117,8 @@ void DataHandler::clearUndoStackUser() {
 }
 
 void DataHandler::mainCLI() {
-    addUser(new User("arsany@gmal.com", "123", "arsany", 3030, 20));
-    addUser(new User("ib.com", "ib", "IB", 1, 20));
-    initializeGraph();
+    //addUser(new User("ib.com", "ib", "IB", 1, 20));
+    //initializeGraph();
     stageTemporaryData();
     addData();
     while (true) {
@@ -839,6 +838,7 @@ bool isSameYear(time_t time1, time_t time2) {
 }
 
 
+
 void DataHandler::displayStationStatisticsCLI(Station* station, time_t specifictime, int choice) {
     int numPassengers = 0;
     int numSoldTickets = 0;
@@ -1087,7 +1087,72 @@ void DataHandler::SubscriptionPlansTemporaryData()
     subscriptionPlans[1].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 }
 
+//files
+void DataHandler::writeString(std::ostream& os, const std::string& str) const {
+    size_t len = str.size();
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    os.write(str.data(), len);
+}
+
+std::string DataHandler::readString(std::istream& is) const {
+    size_t len;
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    std::string str(len, '\0');
+    is.read(&str[0], len);
+    return str;
+}
+
+
+
+void DataHandler::serialize(std::ostream& os) const {
+    size_t sizeOfstagesVector = stages.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfstagesVector), sizeof(sizeOfstagesVector));
+    os.write(reinterpret_cast<const char*>(stages.data()), sizeOfstagesVector * sizeof(int));
+
+    size_t sizeOfusedStationNamesMap = usedStationNames.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfusedStationNamesMap), sizeof(sizeOfusedStationNamesMap));
+    for (const auto& pair : usedStationNames) {
+        os.write(reinterpret_cast<const char*>(&pair.second), sizeof(int));
+        writeString(os, pair.first);
+    }
+}
+
+bool DataHandler::deserialize(std::istream& is) {
+
+    size_t sizeOfstagesVector;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfstagesVector), sizeof(sizeOfstagesVector)))
+        return false;
+    stages.resize(sizeOfstagesVector);
+    is.read(reinterpret_cast<char*>(stages.data()), sizeOfstagesVector * sizeof(int));
+
+
+    size_t sizeOfusedStationNamesMap;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfusedStationNamesMap), sizeof(sizeOfusedStationNamesMap)))
+        return false;
+    usedStationNames.clear();
+    for (size_t i = 0; i < sizeOfusedStationNamesMap; ++i) {
+        int value;
+        std::string stationName;
+        if (!is.read(reinterpret_cast<char*>(&value), sizeof(int))) // Read value
+            return false;
+        stationName = readString(is); // Read station name
+        usedStationNames[stationName] = value;
+    }
+    return true;
+}
+
 void DataHandler::writeDataFiles() {
+    std::ofstream stagesUsedStationNamesFile("data_files\\stages_usedStationNames_data.bin", std::ios::binary);
+    if (stagesUsedStationNamesFile.is_open()) {
+        this->serialize(stagesUsedStationNamesFile);
+        stagesUsedStationNamesFile.close();
+
+        std::cout << "stages and usedStationNames data saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open stages and usedStationNames file for writing." << std::endl;
+    }
+
     std::ofstream usersFile("data_files\\users_data.bin", std::ios::binary);
     if (usersFile.is_open()) {
         for (auto it = users.begin(); it != users.end(); it++) {
@@ -1095,10 +1160,23 @@ void DataHandler::writeDataFiles() {
         }
         usersFile.close();
 
-        std::cout << "Objects saved to file." << std::endl;
+        std::cout << "Users saved to file." << std::endl;
     }
     else {
-        std::cerr << "Failed to open file for writing." << std::endl;
+        std::cerr << "Failed to open Users file for writing." << std::endl;
+    }
+
+    std::ofstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        for (auto it = stations.begin(); it != stations.end(); it++) {
+            it->second->serialize(stationsFile);
+        }
+        stationsFile.close();
+
+        std::cout << "Stations saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open Stations file for writing." << std::endl;
     }
 }
 
@@ -1114,7 +1192,32 @@ void DataHandler::readDataFiles() {
         usersFile.close();
     }
     else {
-        std::cerr << "Failed to open file for reading." << std::endl;
+        std::cerr << "Failed to open Users file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        while (!stationsFile.eof()) {
+            Station* station = new Station;
+            if (!station->deserialize(stationsFile))
+                break;
+            stations[station->getId()] = station;
+        }
+        stationsFile.close();
+    }
+    else {
+        std::cerr << "Failed to open Stations file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stagesUsedStationNamesFile("data_files\\stages_usedStationNames_data.bin", std::ios::binary);
+    if (stagesUsedStationNamesFile.is_open()) {
+        this->deserialize(stagesUsedStationNamesFile);
+        stagesUsedStationNamesFile.close();
+    }
+    else {
+        std::cerr << "Failed to open stages and usedStationNames file for reading." << std::endl;
         return;
     }
 }
