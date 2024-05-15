@@ -20,6 +20,11 @@ void SubscriptionPlan::ModifyPlanDuration(int planIndex, int month)
 	plans[planIndex].numberOfMonths = month;
 }
 
+int SubscriptionPlan::getStage(int planIndex, int stageIndex)
+{
+	return plans[planIndex].stages[stageIndex].getMaxNumberOfStation();
+}
+
 float SubscriptionPlan::getPlanPrice(int planIndex, int stageIndex)
 {
 	return plans[planIndex].stages[stageIndex].getPrice();

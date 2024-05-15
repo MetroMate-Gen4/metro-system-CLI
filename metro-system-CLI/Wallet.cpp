@@ -44,6 +44,6 @@ float Wallet::getMoney()
 
 bool Wallet::isValid(float price)
 {
-    if (price > money)return false;;
+    if (price > money)return false;
     return true;
 }

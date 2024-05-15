@@ -1286,7 +1286,7 @@ void DataHandler::enterCheckInOutScene(User* user)
                 else {
                     user->setCheckedInStationId(checkedInStationId);
                     user->setUsedTicket(-1);
-                    checkIn(getStationById(checkedInStationId - 1), user,0.0, checkedInStationIdInput);
+                    checkIn(getStationById(checkedInStationId - 1), user,0.0, choice);
                 }
             }
             else if (choice == "2") {
@@ -1319,7 +1319,7 @@ void DataHandler::enterCheckInOutScene(User* user)
                 user->setCheckedInStationId(checkedInStationId);
                 if (user->getWallet().getMoney() >= stages[stoi(stage)])
                 {
-                    checkIn(getStationById(checkedInStationId - 1), user, stages[stoi(stage)], checkedInStationIdInput);
+                    checkIn(getStationById(checkedInStationId - 1), user, stages[stoi(stage)], choice);
 
                 }
                 else
@@ -1342,45 +1342,65 @@ void DataHandler::enterCheckInOutScene(User* user)
         }
         else if (choice == "2") {
             system("cls");
+            while (true)
+            {
+                if (user->getCheckedInStationId() == -1) {
+                    cout << RED << "You didn't check-in to check-out.\n" << RESET;
+                    continue;
+                }
 
-            if (user->getCheckedInStationId() == -1) {
-                cout << RED << "You didn't check-in to check-out.\n" << RESET;
-                continue;
+                string checkedOutStationIdInput;
+                int checkedOutStationId;
+
+                try {
+                    cout << beginning << "Enter check-out station id: ";
+                    cin >> checkedOutStationIdInput;
+                    checkedOutStationId = stoi(checkedOutStationIdInput);
+                }
+                catch (...) {
+                    cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
+                    continue;
+                }
+
+                if (stations.find(checkedOutStationId) == stations.end()) {
+                    cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
+                    continue;
+                }
+
+                int ticket = user->getUsedTicket();
+                int numberOfStations = getShortestPath(user->getCheckedInStationId(), checkedOutStationId).size();
+                int neededStage = stationsToStage(numberOfStations);
+
+                if (ticket == -1) {
+                    if (user->getSubscription().getStageNumber() >= numberOfStations)
+                    {
+                        checkOut(getStationById(checkedOutStationId - 1), numberOfStations, user);
+                        break;
+                    }
+                    else
+                    {
+                        cout << RED << "\n\n|*Your Subscription doesn't allow you to check-out from this station, check-out in a more near place*|\n\n" << RESET;
+                        continue;
+                    }
+                    
+                    // add condition to check subscription stage. TODO
+                }
+                else if (ticket < neededStage) {
+                    cout << RED << "\n\nYour ticket doesn't allow you to check-out from this station, check-out in a more near place.\n\n" << RESET;
+                    continue;
+                }
+
+                else
+                {
+                    checkOut(getStationById(checkedOutStationId - 1), numberOfStations, user);
+
+                    break;
+                }
+
+                user->setCheckedInStationId(-1);
+
+                // user->addRide(Ride()) add ride to logs later, Ride needs refactoring. TODO
             }
-
-            string checkedOutStationIdInput;
-            int checkedOutStationId;
-
-            try {
-                cout << beginning << "Enter check-out station id: ";
-                cin >> checkedOutStationIdInput;
-                checkedOutStationId = stoi(checkedOutStationIdInput);
-            }
-            catch (...) {
-                cout << RED << "\n\nInvalid input, You should enter an integer number that represent station id.\n\n" << RESET;
-                continue;
-            }
-
-            if (stations.find(checkedOutStationId) == stations.end()) {
-                cout << RED << "\n\nThere is no station with this id, review the list of station names and ids by choosing option 4.\n\n" << RESET;
-                continue;
-            }
-
-            int ticket = user->getUsedTicket();
-            int numberOfStations = getShortestPath(user->getCheckedInStationId(), checkedOutStationId).size();
-            int neededStage = stationsToStage(numberOfStations);
-
-            if (ticket == -1) {
-                // add condition to check subscription stage. TODO
-            }
-            else if (ticket < neededStage) {
-                cout << RED << "\n\nYour ticket doesn't allow you to check-out from this station, check-out in a more near place.\n\n" << RESET;
-                continue;
-            }
-
-            user->setCheckedInStationId(-1);
-            checkOut(getStationById(checkedOutStationId - 1), numberOfStations, user);
-            // user->addRide(Ride()) add ride to logs later, Ride needs refactoring. TODO
         }
         else if (choice == "3") {
             system("cls");
@@ -1894,7 +1914,7 @@ void DataHandler::checkOut(Station* endingStation, int StationsNO, User* user)
 {
     time_t endingTime = time(nullptr);
 
-    endingStation += 60 * 3 * StationsNO;
+    endingTime += 60 * 3 * StationsNO;
 
     Ride* ride = new Ride(*endingStation, endingTime);
 

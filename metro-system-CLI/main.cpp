@@ -27,7 +27,11 @@ int main() {
 	//d.displayRidesCLI(u);
 	//d.displayRidesCLI(u2);
 	//d.displayAllRidesCLI();
+
 	DataHandler d;
+
+	d.SubscriptionPlansTemporaryData();
 	d.readDataFiles();
 	d.mainCLI();
+
 }
