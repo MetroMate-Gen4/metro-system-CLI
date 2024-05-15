@@ -47,3 +47,13 @@ bool Wallet::isValid(float price)
     if (price > money)return false;;
     return true;
 }
+
+void Wallet::serialize(std::ostream& os) const {
+    os.write(reinterpret_cast<const char*>(&money), sizeof(money));
+}
+
+bool Wallet::deserialize(std::istream& is) {
+    if (!is.read(reinterpret_cast<char*>(&money), sizeof(money)))
+        return false;
+    return true;
+}

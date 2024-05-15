@@ -17,6 +17,10 @@ class Subscription
     //
     //should put start date and period for subscription
     //
+
+    //to save files
+    void writeString(std::ostream& os, const std::string& str) const;
+    std::string readString(std::istream& is) const;
 public:
     Subscription(SubscriptionPlan& subscriptionPlan, int planIndex, int stageIndex);
     Subscription();
@@ -36,5 +40,7 @@ public:
     int getStageNumber();
     bool isValid();
 
-
+    //to save files
+    void serialize(std::ostream& os) const;
+    bool deserialize(std::istream& is);
 };

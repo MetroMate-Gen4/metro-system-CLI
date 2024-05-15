@@ -13,5 +13,8 @@ public:
 	void checkIn(Stage &stage);
 	float getMoney();
 	bool isValid(float price);
+	//to save files
+	void serialize(std::ostream& os) const;
+	bool deserialize(std::istream& is);
 };
 
