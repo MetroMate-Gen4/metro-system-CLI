@@ -41,6 +41,9 @@ private:
     /// <param name="currentPath">Used to store used path that can potentially be a path from currentStation to destination</param>
     /// <param name="paths">Used to store possible paths from currentStation to destination</param>
     void _getPaths(int currentStation, int destination, unordered_set<int>& visited, vector<int>& currentPath, vector<vector<int>>& paths);
+    //to save files
+    void writeString(std::ostream& os, const std::string& str) const;
+    std::string readString(std::istream& is) const;
 public:
     Admin* admin = new Admin("admin", "admin","Admin",1,20);
     static std::unordered_map<int, User*>users;
@@ -87,9 +90,9 @@ public:
     void displayRidesCLI(User* user);
     void displayAllRidesCLI();
     void stationManagement();
-    void stationStatisticsInput();
-    void displayStationStatisticsCLI(Station* station, int days);
-    void displayStationStatisticsCLI(std::string stationName, std::string day);
+    // void stationStatisticsInput();
+    // void displayStationStatisticsCLI(Station* station, int days);
+    // void displayStationStatisticsCLI(std::string stationName, std::string day);
     int valid_input(int l, int r);
     bool is_number(std::string& s);
     void displaySubscriptionPlans();
@@ -98,6 +101,9 @@ public:
     void manageSubscription(User* user);
     static void stageTemporaryData();
     static void SubscriptionPlansTemporaryData();
+    //files
+    void serialize(std::ostream& os) const;
+    bool deserialize(std::istream& is);
     void writeDataFiles();
     void readDataFiles();
     void Exit();

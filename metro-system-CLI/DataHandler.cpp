@@ -115,9 +115,8 @@ void DataHandler::clearUndoStackUser() {
 }
 
 void DataHandler::mainCLI() {
-    addUser(new User("arsany@gmal.com", "123", "arsany", 3030, 20));
-    addUser(new User("ib.com", "ib", "IB", 1, 20));
-    initializeGraph();
+    //addUser(new User("ib.com", "ib", "IB", 1, 20));
+    //initializeGraph();
     stageTemporaryData();
     addData();
     while (true) {
@@ -714,16 +713,16 @@ void DataHandler::stationManagement() {
         std::cout << '\n';
 
         if (timeChoice == 1) {
-            displayStationStatisticsCLI(stations[stationId], 1);
+           // displayStationStatisticsCLI(stations[stationId], 1);
         }
         else if (timeChoice == 2) {
-            displayStationStatisticsCLI(stations[stationId], 7);
+           // displayStationStatisticsCLI(stations[stationId], 7);
         }
         else if (timeChoice == 3) {
-            displayStationStatisticsCLI(stations[stationId], 30);
+           // displayStationStatisticsCLI(stations[stationId], 30);
         }
         else if (timeChoice == 4) {
-            displayStationStatisticsCLI(stations[stationId], 365);
+           // displayStationStatisticsCLI(stations[stationId], 365);
         }
         else {
             return;
@@ -748,70 +747,70 @@ void DataHandler::stationManagement() {
     }
 }
 
-void DataHandler::stationStatisticsInput() {
-    Station* tempStation = new Station();
-    std::string stationName;
-    std::string day;
-    int option;
-    std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
-        << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
-        << "Enter a station name: ";
-    std::cin >> stationName;
-    std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
-    std::cout << "Choose Option:\n\t\t\t";
-    std::cin >> option;
-    if (option == 1) {
-        std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
-            << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
-        std::cin >> option;
-        switch (option) {
-        case 1:
-            day = "Sunday";
-            break;
-        case 2:
-            day = "Monday";
-            break;
-        case 3:
-            day = "Tuesday";
-            break;
-        case 4:
-            day = "Wednesday";
-            break;
-        case 5:
-            day = "Thursday";
-            break;
-        case 6:
-            day = "Friday";
-            break;
-        case 7:
-            day = "Saturday";
-            break;
-        case 8:
-            displayStationStatisticsCLI(tempStation, 1);
-            return;
-        }
-    }
-    displayStationStatisticsCLI(stationName, day);
-}
+// void DataHandler::stationStatisticsInput() {
+//     Station* tempStation = new Station();
+//     std::string stationName;
+//     std::string day;
+//     int option;
+//     std::cout << "\t\t\t\t=== Station Management ===\n\t\t\t"
+//         << "HOW TO USE: Enter a station name to access its details such as\n\n\t\t\t"
+//         << "Enter a station name: ";
+//     std::cin >> stationName;
+//     std::cout << "\t\t\tShow statistics per:\n\t\t\t1. Day\n\t\t\t2. Week\n\t\t\t3. Month\n\t\t\t4. Year\n\t\t\t";
+//     std::cout << "Choose Option:\n\t\t\t";
+//     std::cin >> option;
+//     if (option == 1) {
+//         std::cout << "\t\t\t1. Sunday\n\t\t\t2. Monday\n\t\t\t3. Tuesday\n\t\t\t4. Wednesday\n\t\t\t5. Thursday"
+//             << "\n\t\t\t6.Friday\n\t\t\t7.Saturday\n\t\t\t8. Any\n";
+//         std::cin >> option;
+//         switch (option) {
+//         case 1:
+//             day = "Sunday";
+//             break;
+//         case 2:
+//             day = "Monday";
+//             break;
+//         case 3:
+//             day = "Tuesday";
+//             break;
+//         case 4:
+//             day = "Wednesday";
+//             break;
+//         case 5:
+//             day = "Thursday";
+//             break;
+//         case 6:
+//             day = "Friday";
+//             break;
+//         case 7:
+//             day = "Saturday";
+//             break;
+//         case 8:
+//             displayStationStatisticsCLI(tempStation, 1);
+//             return;
+//         }
+//     }
+//     displayStationStatisticsCLI(stationName, day);
+// }
 
-void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
-    // FIND STATION IN LINES USING GRAPH
-    dayData data = station->getDayDataForPeriod(days);
-    std::cout << "\t\tStation Name: " << station->getName()
-        << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\tTotal income: " << data.totalIncome
-        << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
-}
+// void DataHandler::displayStationStatisticsCLI(Station* station, int days) {
+//     // FIND STATION IN LINES USING GRAPH
+//     dayData data = station->getDayDataForPeriod(days);
+//     std::cout << "\t\tStation Name: " << station->getName()
+//         << "\n\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//         << "\n\t\tTotal income: " << data.totalIncome
+//         << "\n\t\tNumber of passengers: " << data.numberOfPassenger << "\n\n";
+// }
 
-void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
-    // FIND STATION IN LINES USING GRAPH
-    Station* station = new Station(); // Comment this line out after implementing graph search
-    dayData data = station->getStationDataDay(day);
-    std::cout << "\t\t\tStation Name: " << station->getName()
-        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
-        << "\n\t\t\tTotal income: " << data.totalIncome
-        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
-}
+//void DataHandler::displayStationStatisticsCLI(std::string stationName, std::string day) {
+//    // FIND STATION IN LINES USING GRAPH
+//    Station* station = new Station(); // Comment this line out after implementing graph search
+//    dayData data = station->getStationDataDay(day);
+//    std::cout << "\t\t\tStation Name: " << station->getName()
+//        << "\n\t\t\tNumber of sold tickets: " << data.numberOfSoldTickets
+//        << "\n\t\t\tTotal income: " << data.totalIncome
+//        << "\n\t\t\tNumber of passengers: " << data.numberOfPassenger << "\n";
+//}
 
 int DataHandler::valid_input(int l, int r)
 {
@@ -1003,7 +1002,72 @@ void DataHandler::SubscriptionPlansTemporaryData()
     subscriptionPlans[1].AddPlan(12, 730, 1500, 2500, 3500, 4500);
 }
 
+//files
+void DataHandler::writeString(std::ostream& os, const std::string& str) const {
+    size_t len = str.size();
+    os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    os.write(str.data(), len);
+}
+
+std::string DataHandler::readString(std::istream& is) const {
+    size_t len;
+    is.read(reinterpret_cast<char*>(&len), sizeof(len));
+    std::string str(len, '\0');
+    is.read(&str[0], len);
+    return str;
+}
+
+
+
+void DataHandler::serialize(std::ostream& os) const {
+    size_t sizeOfstagesVector = stages.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfstagesVector), sizeof(sizeOfstagesVector));
+    os.write(reinterpret_cast<const char*>(stages.data()), sizeOfstagesVector * sizeof(int));
+
+    size_t sizeOfusedStationNamesMap = usedStationNames.size();
+    os.write(reinterpret_cast<const char*>(&sizeOfusedStationNamesMap), sizeof(sizeOfusedStationNamesMap));
+    for (const auto& pair : usedStationNames) {
+        os.write(reinterpret_cast<const char*>(&pair.second), sizeof(int));
+        writeString(os, pair.first);
+    }
+}
+
+bool DataHandler::deserialize(std::istream& is) {
+
+    size_t sizeOfstagesVector;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfstagesVector), sizeof(sizeOfstagesVector)))
+        return false;
+    stages.resize(sizeOfstagesVector);
+    is.read(reinterpret_cast<char*>(stages.data()), sizeOfstagesVector * sizeof(int));
+
+
+    size_t sizeOfusedStationNamesMap;
+    if (!is.read(reinterpret_cast<char*>(&sizeOfusedStationNamesMap), sizeof(sizeOfusedStationNamesMap)))
+        return false;
+    usedStationNames.clear();
+    for (size_t i = 0; i < sizeOfusedStationNamesMap; ++i) {
+        int value;
+        std::string stationName;
+        if (!is.read(reinterpret_cast<char*>(&value), sizeof(int))) // Read value
+            return false;
+        stationName = readString(is); // Read station name
+        usedStationNames[stationName] = value;
+    }
+    return true;
+}
+
 void DataHandler::writeDataFiles() {
+    std::ofstream stagesUsedStationNamesFile("data_files\\stages_usedStationNames_data.bin", std::ios::binary);
+    if (stagesUsedStationNamesFile.is_open()) {
+        this->serialize(stagesUsedStationNamesFile);
+        stagesUsedStationNamesFile.close();
+
+        std::cout << "stages and usedStationNames data saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open stages and usedStationNames file for writing." << std::endl;
+    }
+
     std::ofstream usersFile("data_files\\users_data.bin", std::ios::binary);
     if (usersFile.is_open()) {
         for (auto it = users.begin(); it != users.end(); it++) {
@@ -1011,10 +1075,23 @@ void DataHandler::writeDataFiles() {
         }
         usersFile.close();
 
-        std::cout << "Objects saved to file." << std::endl;
+        std::cout << "Users saved to file." << std::endl;
     }
     else {
-        std::cerr << "Failed to open file for writing." << std::endl;
+        std::cerr << "Failed to open Users file for writing." << std::endl;
+    }
+
+    std::ofstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        for (auto it = stations.begin(); it != stations.end(); it++) {
+            it->second->serialize(stationsFile);
+        }
+        stationsFile.close();
+
+        std::cout << "Stations saved to file." << std::endl;
+    }
+    else {
+        std::cerr << "Failed to open Stations file for writing." << std::endl;
     }
 }
 
@@ -1030,7 +1107,32 @@ void DataHandler::readDataFiles() {
         usersFile.close();
     }
     else {
-        std::cerr << "Failed to open file for reading." << std::endl;
+        std::cerr << "Failed to open Users file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stationsFile("data_files\\stations_data.bin", std::ios::binary);
+    if (stationsFile.is_open()) {
+        while (!stationsFile.eof()) {
+            Station* station = new Station;
+            if (!station->deserialize(stationsFile))
+                break;
+            stations[station->getId()] = station;
+        }
+        stationsFile.close();
+    }
+    else {
+        std::cerr << "Failed to open Stations file for reading." << std::endl;
+        return;
+    }
+
+    std::ifstream stagesUsedStationNamesFile("data_files\\stages_usedStationNames_data.bin", std::ios::binary);
+    if (stagesUsedStationNamesFile.is_open()) {
+        this->deserialize(stagesUsedStationNamesFile);
+        stagesUsedStationNamesFile.close();
+    }
+    else {
+        std::cerr << "Failed to open stages and usedStationNames file for reading." << std::endl;
         return;
     }
 }
